@@ -42,7 +42,7 @@ public abstract class  Dipendente implements Cloneable {
 	}
 	
 	public String toString() {
-		return getClass().getName()+"[nome="+nome+",cognome="+cognome+",eta="+eta+"codiceDipendente="+codiceDipendente+",pagato="+pagato+",impegnato="+impegnato+"]";
+		return getClass().getName()+"[nome="+nome+",cognome="+cognome+",eta="+eta+",codiceDipendente="+codiceDipendente+",pagato="+pagato+",impegnato="+impegnato+"]";
 	}
 	
 	public boolean equals(Object o) {
