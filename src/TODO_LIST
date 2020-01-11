@@ -1,3 +1,4 @@
 TODO INTERFACCIA GRAFICA
 TODO:
--implementare un modo di generazione codice dei dipendenti con un prefisso(01 impiegati, 02 operai etc.)
+-implementare un modo di generazione codice dei dipendenti con un prefisso(01 impiegati, 02 operai etc.) e cambiare tutte le equals
+-fare un javadoc quantomeno decente

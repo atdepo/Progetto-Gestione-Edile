@@ -6,24 +6,20 @@ package dipendenti;
  *Il <b>codiceDipendente</b> di un Impiegato inizia con <b>01</b>
  */
 public class Impiegato extends Dipendente{
-	private int stipendio;
+	private int ore_lavorate;
+	
 	public Impiegato(String nome, String cognome, int eta) {
 		super(nome, cognome, eta);
 		
 		//this.setCodiceDipendente();
 		
 	}
+	public int getOreLavorate() {
+		return ore_lavorate;
+	}
 
-	public int getStipendio() {
-		return stipendio;
-	}
-	
-	public void changeStipendio(int stipendio) {
-		this.stipendio=stipendio;
-	}
-	
 	public String toString() {
-		return super.toString()+"[stipendio= "+stipendio+"]";
+		return super.toString()+"[ore_lavorate= "+ore_lavorate+"]";
 	}
 	
 	
@@ -31,7 +27,7 @@ public class Impiegato extends Dipendente{
 		if(!super.equals(o))
 			return false;
 		Impiegato imp=(Impiegato)o;
-		return imp.getStipendio()==stipendio;
+		return imp.getOreLavorate()==ore_lavorate;
 	}
 	
 	public Impiegato clone() {

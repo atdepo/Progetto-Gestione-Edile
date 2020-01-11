@@ -9,6 +9,7 @@ public class Tester {
 		Impiegato clone= i.clone();
 		System.out.println(i);
 		System.out.println(clone);
+		
 	}
 	
 	

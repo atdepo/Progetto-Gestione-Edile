@@ -11,7 +11,7 @@ public abstract class Dipendente implements Cloneable {
 
 	
 	private String nome,cognome;
-	private int eta;
+	private int eta,stipendio;
 	private String codiceDipendente; 
 	private boolean pagato,impegnato;
 	
@@ -27,7 +27,6 @@ public abstract class Dipendente implements Cloneable {
 		this.nome=nome;
 		this.cognome=cognome;
 		this.eta=eta;
-		this.codiceDipendente="";
 		pagato=false;
 		impegnato=false;
 	}
@@ -55,11 +54,13 @@ public abstract class Dipendente implements Cloneable {
 	public boolean isImpegnato() {
 		return impegnato;
 	}
+	
 	/**
-	 * In base alla mansione e al 
-	 * @return
+	 * In base alla mansione viene creato questo codice che univocamente identifica un dipendente
+	 * @return codiceDipendente univoco per mansione
 	 */
 	public abstract String generateCodice();
+	
 	/**
 	 * Il codice del dipendente identifica la sua mansione e di conseguenza la sua retribuzione
 	 * @param codice
