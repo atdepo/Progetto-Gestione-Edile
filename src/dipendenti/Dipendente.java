@@ -1,18 +1,33 @@
-package risorseumane;
-
-public abstract class  Dipendente implements Cloneable {
+package dipendenti;
+/**
+ * 
+ * Questa classe cattura il concetto astratto di un Dipendente.
+ * Ogni dipendente possiede uno schema di retribuzione differente quindi non viene gestita in questa astrazione 
+ * la sua retribuzione
+ * 
+ *
+ */
+public abstract class Dipendente implements Cloneable {
 
 	
 	private String nome,cognome;
 	private int eta;
-	private long codiceDipendente; 
+	private String codiceDipendente; 
 	private boolean pagato,impegnato;
 	
-	public Dipendente(String nome,String cognome,int eta,long codiceDip) {
+	/**
+	 * Costruttore di un Dipendente
+	 * 
+	 * @param nome Nome del dipendente
+	 * @param cognome Cognome del dipendente 
+	 * @param eta eta del dipendente
+	 * @param codiceDip codice identificativo del dipendente
+	 */
+	public Dipendente(String nome,String cognome,int eta) {
 		this.nome=nome;
 		this.cognome=cognome;
 		this.eta=eta;
-		this.codiceDipendente=codiceDip;
+		this.codiceDipendente="";
 		pagato=false;
 		impegnato=false;
 	}
@@ -29,7 +44,7 @@ public abstract class  Dipendente implements Cloneable {
 		return eta;
 	}
 	
-	public long getCodiceDipendente() {
+	public String getCodiceDipendente() {
 		return codiceDipendente;
 	}
 	
@@ -39,6 +54,18 @@ public abstract class  Dipendente implements Cloneable {
 	
 	public boolean isImpegnato() {
 		return impegnato;
+	}
+	/**
+	 * In base alla mansione e al 
+	 * @return
+	 */
+	public abstract String generateCodice();
+	/**
+	 * Il codice del dipendente identifica la sua mansione e di conseguenza la sua retribuzione
+	 * @param codice
+	 */
+	public void setCodiceDipendente(String codice) {
+		codiceDipendente= codice;
 	}
 	
 	public String toString() {
@@ -51,7 +78,7 @@ public abstract class  Dipendente implements Cloneable {
 		Dipendente dip=(Dipendente)o;
 		return dip.isImpegnato()==impegnato && dip.isPagato()==pagato && dip.getNome().equals(nome) && 
 				dip.getCognome().equals(cognome) && 
-				dip.eta==eta && dip.codiceDipendente==codiceDipendente;		
+				dip.eta==eta && dip.codiceDipendente.equals(codiceDipendente);		
 	}
 	
 	public Dipendente clone() {
