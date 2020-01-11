@@ -58,6 +58,8 @@ public abstract class  Dipendente {
 		} catch (CloneNotSupportedException e) {
 			return null;
 		}
+		
+		//sf
 	}
 	
 
