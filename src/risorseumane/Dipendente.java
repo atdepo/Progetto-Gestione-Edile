@@ -1,8 +1,7 @@
 package risorseumane;
 
-public abstract class  Dipendente {
+public abstract class  Dipendente implements Cloneable {
 
-	private static final int STIPENDIO_IMPIEGATO=1250;
 	
 	private String nome,cognome;
 	private int eta;
@@ -14,7 +13,8 @@ public abstract class  Dipendente {
 		this.cognome=cognome;
 		this.eta=eta;
 		this.codiceDipendente=codiceDip;
-		
+		pagato=false;
+		impegnato=false;
 	}
 	
 	public String getNome() {
@@ -42,7 +42,7 @@ public abstract class  Dipendente {
 	}
 	
 	public String toString() {
-		return getClass().getName()+"[nome="+nome+",cognome="+cognome+",eta="+eta+"codiceDipendente="+codiceDipendente+",pagato="+pagato+",impegnato"+impegnato+"]";
+		return getClass().getName()+"[nome="+nome+",cognome="+cognome+",eta="+eta+"codiceDipendente="+codiceDipendente+",pagato="+pagato+",impegnato="+impegnato+"]";
 	}
 	
 	public boolean equals(Object o) {
@@ -60,8 +60,7 @@ public abstract class  Dipendente {
 		} catch (CloneNotSupportedException e) {
 			return null;
 		}
-		
-		//sf
+	
 	}
 
 }
