@@ -2,6 +2,8 @@ package risorseumane;
 
 public abstract class  Dipendente {
 
+	private static final int STIPENDIO_IMPIEGATO=1250;
+	
 	private String nome,cognome;
 	private int eta;
 	private long codiceDipendente; 
@@ -59,10 +61,5 @@ public abstract class  Dipendente {
 			return null;
 		}
 	}
-	
 
-	
-	
-	
-	
 }
