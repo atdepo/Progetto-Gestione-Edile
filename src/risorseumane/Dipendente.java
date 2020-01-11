@@ -1,3 +1,4 @@
+package risorseumane;
 
 public abstract class  Dipendente {
 
@@ -46,21 +47,20 @@ public abstract class  Dipendente {
 		if(o==null||o.getClass()!=getClass())
 			return false;
 		Dipendente dip=(Dipendente)o;
-		return dip.isImpegnato()==impegnato && dip.isPagato()==pagato && dip.getNome().equals(nome) && dip.getCognome().equals(cognome) && 
+		return dip.isImpegnato()==impegnato && dip.isPagato()==pagato && dip.getNome().equals(nome) && 
+				dip.getCognome().equals(cognome) && 
 				dip.eta==eta && dip.codiceDipendente==codiceDipendente;		
 	}
 	
+	public Dipendente clone() {
+		try {
+			return (Dipendente)super.clone();
+		} catch (CloneNotSupportedException e) {
+			return null;
+		}
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
