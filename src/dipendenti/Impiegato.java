@@ -10,12 +10,14 @@ public class Impiegato extends Dipendente{
 	
 	public Impiegato(String nome, String cognome, int eta,String matricola) {
 		super(nome, cognome, eta);
+		setCodiceDipendente(generateCodice(matricola));
 		giorni_lavorati=5;
 		
 	}
 	
 	public Impiegato(String nome, String cognome, int eta,String matricola,int giorni) {
 		super(nome, cognome, eta);
+		setCodiceDipendente(generateCodice(matricola));
 		if(giorni>7)
 			throw new IllegalArgumentException();
 		giorni_lavorati=giorni;
@@ -35,7 +37,7 @@ public class Impiegato extends Dipendente{
 		if(!super.equals(o))
 			return false;
 		Impiegato imp=(Impiegato)o;
-		return imp.getGiorniLavorati()==giorni_lavorati;
+		return imp.giorni_lavorati==giorni_lavorati;
 	}
 	
 	public Impiegato clone() {
@@ -43,8 +45,8 @@ public class Impiegato extends Dipendente{
 	}
 
 	
-	public String generateCodice() {
-		return null;
+	public String generateCodice(String matricola) {
+		return "01"+matricola;
 	}
 	
 	

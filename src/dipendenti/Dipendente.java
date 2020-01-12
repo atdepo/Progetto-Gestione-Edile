@@ -1,18 +1,17 @@
 package dipendenti;
+
 /**
- * 
  * Questa classe cattura il concetto astratto di un Dipendente.
  * Ogni dipendente possiede uno schema di retribuzione differente quindi non viene gestita in questa astrazione 
  * la sua retribuzione
- * 
- *
+
  */
 public abstract class Dipendente implements Cloneable {
-
 	
-	private String nome,cognome;
-	private int eta,stipendio;
-	private String codiceDipendente; 
+	
+	private String nome,cognome,codiceDipendente;
+	private int eta;
+	private double stipendio; 
 	private boolean pagato,impegnato;
 	
 	/**
@@ -59,7 +58,7 @@ public abstract class Dipendente implements Cloneable {
 	 * In base alla mansione viene creato questo codice che univocamente identifica un dipendente
 	 * @return codiceDipendente univoco per mansione
 	 */
-	protected abstract String generateCodice();
+	protected abstract String generateCodice(String matricola);
 	
 	/**
 	 * Il codice del dipendente identifica la sua mansione e di conseguenza la sua retribuzione

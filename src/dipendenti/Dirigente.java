@@ -9,12 +9,26 @@ public class Dirigente extends Dipendente implements Responsabile{
 
 	public Dirigente(String nome, String cognome, int eta,String matricola) {
 		super(nome, cognome, eta);
-		 
+		setCodiceDipendente(generateCodice(matricola));
+
 	}
 
-	public String generateCodice() {
-		return null;
+	public String generateCodice(String matricola) {
+		return "04"+matricola;
+		}
+	
+	public String toString() {
+		return super.toString();
 	}
 	
-
+	public boolean equals(Object o) {
+		if(!super.equals(o))
+			return false;
+		return true;
+	}
+	
+	public Dirigente clone() {
+		return (Dirigente)super.clone();
+		
+	}
 }

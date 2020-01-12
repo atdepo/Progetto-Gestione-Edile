@@ -8,15 +8,34 @@ package dipendenti;
  * Il codiceDipendente del Quadro inizia con <b>03 </b>
  */
 public class Quadro extends Dipendente implements Responsabile{
-
+	boolean isResponsabile;
+	boolean isCaposquadra;
+	
 	public Quadro(String nome, String cognome, int eta,String matricola) {
 		super(nome, cognome, eta);
-		
+		setCodiceDipendente(generateCodice(matricola));
+		isResponsabile=false;
+		isCaposquadra=false;
 	}
 
-	public String generateCodice() {
-		
-		return null;
+	public String generateCodice(String matricola) {
+		return "03"+matricola;
+	}
+	
+	public String toString() {
+		return super.toString()+"[isResponsabile="+isResponsabile+",isCaposquadra="+isCaposquadra+"]";
 	}
 
+	public boolean equals(Object o) {
+		if(!super.equals(o))
+			return false;
+		Quadro q=(Quadro)o;
+		return q.isCaposquadra==isCaposquadra&&q.isResponsabile==isResponsabile;
+	}
+	
+	public Quadro clone() {
+		return (Quadro)super.clone();
+		
+	}
+	
 }
