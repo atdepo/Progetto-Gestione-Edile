@@ -59,13 +59,13 @@ public abstract class Dipendente implements Cloneable {
 	 * In base alla mansione viene creato questo codice che univocamente identifica un dipendente
 	 * @return codiceDipendente univoco per mansione
 	 */
-	public abstract String generateCodice();
+	protected abstract String generateCodice();
 	
 	/**
 	 * Il codice del dipendente identifica la sua mansione e di conseguenza la sua retribuzione
 	 * @param codice
 	 */
-	public void setCodiceDipendente(String codice) {
+	protected void setCodiceDipendente(String codice) {
 		codiceDipendente= codice;
 	}
 	

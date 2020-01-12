@@ -2,3 +2,5 @@ TODO INTERFACCIA GRAFICA
 TODO:
 -implementare un modo di generazione codice dei dipendenti con un prefisso(01 impiegati, 02 operai etc.) e cambiare tutte le equals
 -fare un javadoc quantomeno decente
+-implementare la promozione dei dipendenti(per ora solo quadro -> dirigente)
+-implemnetare quando si licenzia un dipendente la buona uscita differente per ogni tipo di impiegato
