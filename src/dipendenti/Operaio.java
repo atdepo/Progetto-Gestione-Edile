@@ -7,13 +7,27 @@ package dipendenti;
  */
 public class Operaio extends Dipendente {
 	private int ore_lavorate; 
-	
+	/**
+	 * Costruttore standard di Operaio in cui viene stabilito un numero di ore di default
+	 * @param nome il nome dell'operaio
+	 * @param cognome il cognome dell'operaio
+	 * @param eta l'età dell'operaio
+	 * @param matricola la matricola dell'operaio che comporrà parte del suo codiceDipendente
+	 */
 	public Operaio(String nome, String cognome, int eta,String matricola) {
 		super(nome, cognome, eta);
 		setCodiceDipendente(generateCodice(matricola));
 		ore_lavorate=40;
 	}
-
+	/**
+	 * Costruttore standard di Operaio in cui viene stabilito il numero di ore. Se il numero di ore è maggiore di 70
+	 * viene lanciata una IllegalArgumentException()
+	 * @param nome il nome dell'operaio
+	 * @param cognome il cognome dell'operaio
+	 * @param eta l'età dell'operaio
+	 * @param matricola la matricola dell'operaio che comporrà parte del suo codiceDipendente
+	 * @param ore le ore settimanali da lavorare
+	 */
 	public Operaio(String nome, String cognome, int eta,String matricola,int ore) {
 		super(nome, cognome, eta);
 		setCodiceDipendente(generateCodice(matricola));

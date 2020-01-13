@@ -7,8 +7,17 @@ package dipendenti;
 
  */
 public abstract class Dipendente implements Cloneable {
-	
-	
+	//questa è una responsabilità che deve avere la classe dipendente?
+	protected static final double STIPENDIO_IMPIEGATO=1500.0D;
+	protected static final double STIPENDIO_OPERAIO=1450.0D;
+	protected static final double STIPENDIO_QUADRO=1780.0D;	
+	protected static final double STIPENDIO_DIRIGENTE=2750.0D;
+	//DA DEFINIRE
+	protected static final double BONUS_IMPIEGATO=4.0D;
+	protected static final double BONUS_OPERAIO=4.0D;
+	protected static final double STRAORDINARIO_IMPIEGATO=4.0D;
+	protected static final double STRAORDINARIO_OPERAIO=4.0D;
+
 	private String nome,cognome,codiceDipendente;
 	private int eta;
 	private double stipendio; 
@@ -56,6 +65,7 @@ public abstract class Dipendente implements Cloneable {
 	
 	/**
 	 * In base alla mansione viene creato questo codice che univocamente identifica un dipendente
+	 * @param matricola la matricola del dipendente
 	 * @return codiceDipendente univoco per mansione
 	 */
 	protected abstract String generateCodice(String matricola);

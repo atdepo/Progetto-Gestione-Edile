@@ -1,8 +1,20 @@
 TODO INTERFACCIA GRAFICA
+
 TODO:
 -implementare un modo di generazione codice dei dipendenti con un prefisso(01 impiegati, 02 operai etc.) ----------fatto
+
 -fare un javadoc quantomeno decente--------------------------------------------------------------------------------ci stiamo provando
--implementare costanti di retribuzione
+
+-toString equals e clone per i dipendenti--------------------------------------------------------------------------fatto
+
+-implementare costanti di retribuzione-----------------------------------------------------------------------------fatto
+
+-implementare se possibile retribuzioni in base al mese
+
 -implementare la promozione dei dipendenti(per ora solo quadro -> dirigente)
+
 -implemnetare quando si licenzia un dipendente la buona uscita differente per ogni tipo di impiegato
+
 -implementare un metodo statico per controllare se un dipendente è di un certo tipo
+
+

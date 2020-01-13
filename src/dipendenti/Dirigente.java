@@ -7,24 +7,30 @@ package dipendenti;
  */
 public class Dirigente extends Dipendente implements Responsabile{
 
+	private int numero_operai;
+	
 	public Dirigente(String nome, String cognome, int eta,String matricola) {
 		super(nome, cognome, eta);
 		setCodiceDipendente(generateCodice(matricola));
-
+		numero_operai=0;
 	}
 
+	public int getNumeroOperai() {
+		return numero_operai;
+	}
 	public String generateCodice(String matricola) {
 		return "04"+matricola;
 		}
 	
 	public String toString() {
-		return super.toString();
+		return super.toString()+"[numero_operai= "+numero_operai+"]";
 	}
 	
 	public boolean equals(Object o) {
 		if(!super.equals(o))
 			return false;
-		return true;
+		Dirigente d=(Dirigente)o;
+		return d.getNumeroOperai()==numero_operai;
 	}
 	
 	public Dirigente clone() {
