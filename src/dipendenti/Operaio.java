@@ -1,6 +1,7 @@
 package dipendenti;
 /**
  * Questa classe catura il concetto di un <b>Operaio</b>.
+ * Un operaio possiede una particolare specializzazione che individua il tipo di lavoro effettuato
  * Un operaio viene pagato in base al numero di ore in cui ha lavorato. 
  * Se un operaio effettua delle ore di lavoro straordinarie, queste gli verranno pagate con una retribuzione maggiorata.
  * Il codiceDipendente di un operaio inizia con <b>02</b>
