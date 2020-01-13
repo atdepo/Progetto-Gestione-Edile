@@ -9,7 +9,6 @@ import dipendenti.Quadro;
 /**
  * Questa classe cattura il concetto astratto di una Squadra che lavora nel cantiere.
  * Ogni Squadra possiede un capo squadra e un numero di operai che non devono essere impegnati in altri cantieri
- * @author TheDMG8
  *
  */
 public class Squadra {
@@ -36,16 +35,15 @@ public class Squadra {
 	/**
 	 * Metodo per aggiungere un operaio alla lista degli operaio impegnati nella squadra.
 	 * l'operaio inoltre non deve essere assegnato ad alcun altro lavoro
-	 * @param ope
+	 * @param operaio
 	 */
-	public void aggiungiOperaio(Operaio ope) {
-		Dipendente dip=(Dipendente)ope;
+	public void aggiungiOperaio(Operaio operaio) {
+		Dipendente dip=(Dipendente)operaio;
 		if(!dip.isImpegnato()) {
-			operai.add(ope);
+			operai.add(operaio);
 		}
 		else 
 			throw new IllegalArgumentException();
-		
 	}
 	
 }

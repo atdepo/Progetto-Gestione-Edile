@@ -1,11 +1,9 @@
-package materiali;
+package approvviggionamento;
+
 /**
- * 
  * Questa classe cattura il concetto delle caratteristiche di un prodotto.
- * Un prodotto può anche non possedere tutte le caratteristiche
- * 
- * 
- * 
+ * Un prodotto può anche non possedere tutte le caratteristiche, in tale caso le altre 
+ * caratteristiche verranno impostate con valori nulli di default;
  */
 public class Caratteristiche {
 
@@ -104,8 +102,29 @@ public class Caratteristiche {
 		this.anniGaranzia=anniGaranzia;
 	}
 	
+	public String getNome() {
+		return nomeProdotto;
+	}
 	
-	
-	
+	public String getCaratteristicheProdotto() {
+		String toReturn="[nome prodotto="+nomeProdotto+"\n";
+		if(!materialeDiCostruzione.isEmpty())
+			toReturn+="materiale="+materialeDiCostruzione+"\n";
+		if(!casaProduttrice.isEmpty())
+			toReturn+="casa produttrice="+casaProduttrice+"\n";
+		if(peso!=0.0D)
+			toReturn+="peso="+peso+"kg\n";
+		if(lunghezza!=0.0D)
+			toReturn+="lunghezza="+lunghezza+"cm\n";
+		if(larghezza!=0.0D)
+			toReturn+="larghezza"+larghezza+"cm\n";
+		if(altezza!=0.0D)
+			toReturn+="altezza="+altezza+"cm\n";
+		if(consumoEnergetico!=0)
+			toReturn+="consumo="+consumoEnergetico+"W\n";
+		if(anniGaranzia!=0)
+			toReturn+="anni di garanzia="+anniGaranzia+"\n";
+		return toReturn;
+	}
 	
 }
