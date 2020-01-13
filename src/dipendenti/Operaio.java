@@ -7,7 +7,8 @@ package dipendenti;
  */
 public class Operaio extends Dipendente {
 	private int ore_lavorate; 
-	private enum lavoro {sad};
+	private enum lavoro {MURATORE,ELETTRICISTA,IDRAULICO,PIASTRELLISTA};
+	private lavoro specializzazione;
 	/**
 	 * Costruttore standard di Operaio in cui viene stabilito un numero di ore di default
 	 * @param nome il nome dell'operaio
@@ -15,9 +16,10 @@ public class Operaio extends Dipendente {
 	 * @param eta l'età dell'operaio
 	 * @param matricola la matricola dell'operaio che comporrà parte del suo codiceDipendente
 	 */
-	public Operaio(String nome, String cognome, int eta,String matricola) {
+	public Operaio(String nome, String cognome, int eta,String matricola,lavoro specializzazione) {
 		super(nome, cognome, eta);
 		setCodiceDipendente(generateCodice(matricola));
+		this.specializzazione=specializzazione;
 		ore_lavorate=40;
 	}
 	/**
@@ -29,9 +31,10 @@ public class Operaio extends Dipendente {
 	 * @param matricola la matricola dell'operaio che comporrà parte del suo codiceDipendente
 	 * @param ore le ore settimanali da lavorare
 	 */
-	public Operaio(String nome, String cognome, int eta,String matricola,int ore) {
+	public Operaio(String nome, String cognome, int eta,String matricola,lavoro specializzazione,int ore) {
 		super(nome, cognome, eta);
 		setCodiceDipendente(generateCodice(matricola));
+		this.specializzazione=specializzazione;
 		if(ore_lavorate>70)
 			throw new IllegalArgumentException();
 		ore_lavorate=ore;
