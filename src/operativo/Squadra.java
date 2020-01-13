@@ -8,14 +8,16 @@ import dipendenti.Quadro;
 
 /**
  * Questa classe cattura il concetto astratto di una Squadra che lavora nel cantiere.
- * Ogni Squadra possiede un capo squadra e un numero di operai che non devono essere impegnati in altri cantieri
+ * Ogni Squadra è specializzata in un tipo di lavoro 
+ * possiede un capo squadra  
+ * un numero di operai specializzati che non devono essere impegnati in altri cantieri
  *
  */
 public class Squadra {
 	
 	private Quadro capoSquadra;
 	private ArrayList<Operaio> operai;
-	
+	private String tipoSquadra;
 	
 	/**
 	 * Costruttore di una Squadra
