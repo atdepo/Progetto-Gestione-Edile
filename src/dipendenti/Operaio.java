@@ -7,6 +7,7 @@ package dipendenti;
  */
 public class Operaio extends Dipendente {
 	private int ore_lavorate; 
+	private enum lavoro {sad};
 	/**
 	 * Costruttore standard di Operaio in cui viene stabilito un numero di ore di default
 	 * @param nome il nome dell'operaio
