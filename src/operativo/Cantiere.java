@@ -20,7 +20,13 @@ public class Cantiere {
 	
 	private Geolocalizzazione posizioneCantiere;
 	private double estenzione;
-	
+	/**
+	 * Costruttore Cantiere
+	 * @param val
+	 * @param langitudine
+	 * @param longitudine
+	 * @param est
+	 */
 	public Cantiere(double val,double langitudine,double longitudine,double est) {
 		this.valore=val;
 		this.posizioneCantiere=new Geolocalizzazione(langitudine, longitudine);
@@ -50,7 +56,12 @@ public class Cantiere {
 		return estenzione;
 	}
 
-	
+	/**
+	 * Metodo per aggiungere un Responsabile alla gestione della squadra.
+	 * il responsabile inoltre non deve essere abilitato ad esserlo in base al valore del cantiere
+	 * @param operaio 
+	 * @param resp
+	 */
 	public void assegnaResponsabile(Responsabile resp) {
 		if(valore>500000) {
 			if(resp instanceof Dirigente)
@@ -62,7 +73,11 @@ public class Cantiere {
 			responsabile=resp;
 		}
 	}
-	
+	/**
+	 * Metodo per aggiungere squadre alla lista delle squadre impegnate nel cantiere.
+	 * @param operaio 
+	 * @param sq
+	 */
 	public void assegnaSquadra(Squadra sq) {
 		if(sq.getOperai().size()>0) {
 			Squadre.add(sq);
