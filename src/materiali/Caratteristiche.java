@@ -1,5 +1,12 @@
 package materiali;
-
+/**
+ * 
+ * Questa classe cattura il concetto delle caratteristiche di un prodotto.
+ * Un prodotto può anche non possedere tutte le caratteristiche
+ * 
+ * 
+ * 
+ */
 public class Caratteristiche {
 
 	private String nomeProdotto;
