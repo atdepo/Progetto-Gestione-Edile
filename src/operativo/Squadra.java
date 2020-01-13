@@ -15,6 +15,8 @@ public class Squadra {
 	
 	private Quadro capoSquadra;
 	private ArrayList<Operaio> operai;
+	
+	
 	/**
 	 * Costruttore di una Squadra
 	 * @param capoSquadra
@@ -45,5 +47,6 @@ public class Squadra {
 		else 
 			throw new IllegalArgumentException();
 	}
+	
 	
 }

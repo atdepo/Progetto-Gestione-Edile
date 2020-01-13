@@ -1,10 +1,9 @@
 package dipendenti;
 
 /**
- * Questa classe cattura il concetto astratto di un Dipendente.
+ * Questa classe cattura il concetto di un Dipendente.
  * Ogni dipendente possiede uno schema di retribuzione differente quindi non viene gestita in questa astrazione 
  * la sua retribuzione
-
  */
 public abstract class Dipendente implements Cloneable {
 	//questa è una responsabilità che deve avere la classe dipendente?
