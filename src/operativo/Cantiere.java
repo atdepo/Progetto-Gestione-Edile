@@ -32,8 +32,6 @@ public class Cantiere {
 		this.posizioneCantiere=new Geolocalizzazione(langitudine, longitudine);
 		this.estenzione=est;
 		Squadre=new ArrayList<Squadra>();
-		
-	
 	}
 	
 	public Responsabile getResponsabile() {
@@ -62,41 +60,52 @@ public class Cantiere {
 	 * @param operaio 
 	 * @param resp
 	 */
-	public void assegnaResponsabile(Responsabile resp) {
+	public void assegnaResponsabile(Responsabile responsabile) {
+		
 		if(valore>500000) {
-			if(resp instanceof Dirigente)
-				responsabile=resp;
+			if(responsabile.isDirigente())
+				this.responsabile=responsabile;
 			else
 				throw new IllegalArgumentException();
 		}
 		else {
-			responsabile=resp;
+			this.responsabile=responsabile;
 		}
 	}
+	
 	/**
 	 * Metodo per aggiungere squadre alla lista delle squadre impegnate nel cantiere.
 	 * @param operaio 
-	 * @param sq
+	 * @param squadra
 	 */
-	public void assegnaSquadra(Squadra sq) {
-		if(sq.getOperai().size()>0) {
-			Squadre.add(sq);
+	public void assegnaSquadra(Squadra squadra) {
+		if(squadra.getOperai().size()>0) {
+			Squadre.add(squadra);
 		}
 		else
 			throw new IllegalArgumentException();
 	}
-	
-	private class Geolocalizzazione{
+	/**
+	 * 
+	 *Questa classe cattura l'astrazione di una coordinata geografica dove è situato il cantiere
+	 *@param latitudine la latitudine del punto
+	 *@param longitudine la longitudine del punto
+	 */
+	public class Geolocalizzazione{
 		private double longitudine;
 		private double latitudine;
 		
-		public Geolocalizzazione(double lat,double lon) {
-			this.latitudine=lat;
-			this.longitudine=lon;
+		public Geolocalizzazione(double latitudine,double longitudine) {
+			this.latitudine=latitudine;
+			this.longitudine=longitudine;
 		}
 		
-		public double getlongitudine() {return longitudine;}
-		public double getlatitudine() {return latitudine;}
+		public double getlongitudine() {
+			return longitudine;
+		}
+		public double getlatitudine() {
+			return latitudine;
+		}
 	}
 
 

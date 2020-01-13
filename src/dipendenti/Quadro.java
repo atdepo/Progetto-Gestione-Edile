@@ -35,7 +35,10 @@ public class Quadro extends Dipendente implements Responsabile{
 	
 	public Quadro clone() {
 		return (Quadro)super.clone();
-		
+	}
+
+	public boolean isDirigente() {
+		return false;		
 	}
 	
 }
