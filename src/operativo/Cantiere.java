@@ -9,7 +9,7 @@ import dipendenti.Responsabile;
  * Ogni Cantiere possiede un Resposabile che gestisce il cantiere 
  * delle Squadre e un valore di cantiere
  * ha attributi che definiscono l'estenzione in m^2 del cantiere e la posizione geografica
- * @author 732438
+ * 
  *
  */
 public class Cantiere {
@@ -56,7 +56,8 @@ public class Cantiere {
 				responsabile=resp;
 			else
 				throw new IllegalArgumentException();
-		}else {
+		}
+		else {
 			responsabile=resp;
 		}
 	}
