@@ -17,7 +17,6 @@ public class Squadra {
 	
 	private Quadro capoSquadra;
 	private ArrayList<Operaio> operai;
-	private String tipoSquadra;
 	
 	/**
 	 * Costruttore di una Squadra
