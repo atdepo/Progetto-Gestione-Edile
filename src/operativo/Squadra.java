@@ -16,6 +16,8 @@ public class Squadra {
 	
 	private Quadro capoSquadra;
 	private ArrayList<Operaio> operai;
+	
+	
 	/**
 	 * Costruttore di una Squadra
 	 * @param capoSquadra
