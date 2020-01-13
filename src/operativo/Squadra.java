@@ -9,7 +9,6 @@ import dipendenti.Quadro;
 /**
  * Questa classe cattura il concetto astratto di una Squadra che lavora nel cantiere.
  * Ogni Squadra possiede un capo squadra e un numero di operai che non devono essere impegnati in altri cantieri
- * @author TheDMG8
  *
  */
 public class Squadra {
