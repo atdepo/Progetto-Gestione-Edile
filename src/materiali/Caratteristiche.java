@@ -84,6 +84,19 @@ public class Caratteristiche {
 		this.anniGaranzia=anniGaranzia;
 	}
 	
+	public Caratteristiche(String nome,String materiale,String casaProduttrice,double peso,double lunghezza,double larghezza,double altezza,int consumo,int anniGaranzia) {
+		
+		nomeProdotto=nome;
+		this.casaProduttrice=casaProduttrice;
+		materialeDiCostruzione=materiale;
+		this.peso=peso;
+		this.lunghezza=lunghezza;
+		this.larghezza=larghezza;
+		this.altezza=altezza;
+		consumoEnergetico=consumo;
+		this.anniGaranzia=anniGaranzia;
+	}
+	
 	
 	
 	
