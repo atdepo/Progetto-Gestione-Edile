@@ -1,5 +1,4 @@
 package dipendenti;
 
-public interface Responsabile {
-	public boolean isDirigente();
+public interface Responsabile{
 }

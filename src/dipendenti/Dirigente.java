@@ -21,10 +21,7 @@ public class Dirigente extends Dipendente implements Responsabile{
 	public String generateCodice(String matricola) {
 		return "04"+matricola;
 		}
-	
-	public boolean isDirigente() {
-		return true;		
-	}
+
 	
 	public String toString() {
 		return super.toString()+"[numero_operai= "+numero_operai+"]";

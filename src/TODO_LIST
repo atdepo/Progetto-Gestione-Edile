@@ -9,6 +9,12 @@ TODO:
 
 -implementare costanti di retribuzione-----------------------------------------------------------------------------fatto
 
+-(forse)implementare un metodo di sottrazione percentuale da un lotto grande di prodotti di un fornitore 
+
+-all'interno dell'impresa edile deve essere presente un magazzino contenente materiale protettivo per gli operai---solo gli operai per ora
+
+-implementare un modo per comprare dei mezzi da un fornitore--------------------------------------------------------fatto 
+
 -implementare servizi dei fornitori
 
 -implementare se possibile retribuzioni in base al mese
@@ -19,6 +25,8 @@ TODO:
 
 -implemnetare quando si licenzia un dipendente la buona uscita differente per ogni tipo di impiegato
 
--implementare un metodo statico per controllare se un dipendente è di un certo tipo
+-implementare un metodo statico per controllare se un dipendente è di un certo tipo---------------------------------fatto
+
+-se teniamo un pò di tempo da perdere i tester ci facciamo un interfaccia grafica
 
 

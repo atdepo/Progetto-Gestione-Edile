@@ -2,7 +2,8 @@ package operativo;
 
 import java.util.ArrayList;
 
-import dipendenti.Dirigente;
+import approvviggionamento.Prodotto;
+import dipendenti.Dipendente;
 import dipendenti.Responsabile;
 /**
  * Questa classe cattura il concetto  di un Cantiere.
@@ -14,25 +15,56 @@ import dipendenti.Responsabile;
  */
 public class Cantiere {
 	private Responsabile responsabile;
-	
-	private double valore;
 	private ArrayList<Squadra> Squadre;
-	
+	private ArrayList<Prodotto> listaMaterialiDisponibili;
+	private ArrayList<Prodotto> listaMaterialiNecessari;
 	private Geolocalizzazione posizioneCantiere;
-	private double estenzione;
+	private double estensione;
+	private double valore;
+	
 	/**
-	 * Costruttore Cantiere
-	 * @param val
-	 * @param langitudine
-	 * @param longitudine
-	 * @param est
+	 * Istanzia un cantiere
+	 * @param valore valore del cantiere
+	 * @param latitudine latitudine della posizione del cantiere
+	 * @param longitudine longitudine della posizione del cantiere
+	 * @param estensione estensione in m^2 del cantiere
 	 */
-	public Cantiere(double val,double langitudine,double longitudine,double est) {
-		this.valore=val;
-		this.posizioneCantiere=new Geolocalizzazione(langitudine, longitudine);
-		this.estenzione=est;
+	public Cantiere(double valore,double latitudine,double longitudine,double estensione) {
+		this.valore=valore;
+		this.posizioneCantiere=new Geolocalizzazione(latitudine, longitudine);
+		this.estensione=estensione;
 		Squadre=new ArrayList<Squadra>();
+		listaMaterialiDisponibili = new ArrayList<Prodotto>();
+		listaMaterialiNecessari= new ArrayList<Prodotto>();
 	}
+	
+	/**
+	 * Istanzia un cantiere assegnandogli un responsabile
+	 * 
+	 * @param valore valore del cantiere
+	 * @param latitudine latitudine della posizione del cantiere
+	 * @param longitudine longitudine della posizione del cantiere
+	 * @param estensione estensione in m^2 del cantiere
+	 * @param responsabile il responsabile del cantiere
+	 */
+	public Cantiere(double valore,double latitudine,double longitudine,double estensione,Responsabile responsabile) {
+		this.valore=valore;
+		this.posizioneCantiere=new Geolocalizzazione(latitudine, longitudine);
+		this.estensione=estensione;
+		Squadre=new ArrayList<Squadra>();
+		listaMaterialiDisponibili = new ArrayList<Prodotto>();
+		listaMaterialiNecessari= new ArrayList<Prodotto>();
+		Dipendente d=(Dipendente)responsabile;
+		if(d.isImpegnato())
+			throw new IllegalArgumentException("Responsabile già impegnato");		
+		if(valore>500000)
+			if(Dipendente.isDirigente((Dipendente)responsabile))
+				this.responsabile=responsabile;
+			else
+				throw new IllegalArgumentException();	
+		this.responsabile=responsabile;
+		
+		}
 	
 	public Responsabile getResponsabile() {
 		return responsabile;
@@ -50,25 +82,22 @@ public class Cantiere {
 		return posizioneCantiere;
 	}
 
-	public double getEstenzione() {
-		return estenzione;
+	public double getEstensione() {
+		return estensione;
 	}
 
 	/**
 	 * Metodo per aggiungere un Responsabile alla gestione della squadra.
 	 * il responsabile inoltre non deve essere abilitato ad esserlo in base al valore del cantiere
-	 * @param operaio 
-	 * @param resp
+	 * @param responsabile il responsabile da assegnare
 	 */
 	public void assegnaResponsabile(Responsabile responsabile) {
 		
 		if(valore>500000) {
-			if(responsabile.isDirigente())
+			if(Dipendente.isDirigente((Dipendente)responsabile))
 				this.responsabile=responsabile;
 			else
 				throw new IllegalArgumentException();
-		}
-		else {
 			this.responsabile=responsabile;
 		}
 	}
@@ -81,6 +110,7 @@ public class Cantiere {
 	public void assegnaSquadra(Squadra squadra) {
 		if(squadra.getOperai().size()>0) {
 			Squadre.add(squadra);
+			squadra.assegnaSquadra();
 		}
 		else
 			throw new IllegalArgumentException();
@@ -106,7 +136,9 @@ public class Cantiere {
 		public double getlatitudine() {
 			return latitudine;
 		}
+		
+		public String toString() {
+			return "[latitudine= "+ latitudine + ",longitudine="+longitudine+"]";
+		}
 	}
-
-
 }

@@ -8,7 +8,9 @@ package dipendenti;
  */
 public class Operaio extends Dipendente {
 	private int ore_lavorate; 
-	private enum lavoro {MURATORE,ELETTRICISTA,IDRAULICO,PIASTRELLISTA};
+	private int ore_straordinario;
+	private boolean possiede_equipaggiamento_protettivo;
+	public enum lavoro {MURATORE,ELETTRICISTA,IDRAULICO,PIASTRELLISTA};
 	private lavoro specializzazione;
 	/**
 	 * Costruttore standard di Operaio in cui viene stabilito un numero di ore di default
@@ -22,9 +24,11 @@ public class Operaio extends Dipendente {
 		setCodiceDipendente(generateCodice(matricola));
 		this.specializzazione=specializzazione;
 		ore_lavorate=40;
+		ore_straordinario=0;
+		possiede_equipaggiamento_protettivo=false;
 	}
 	/**
-	 * Costruttore standard di Operaio in cui viene stabilito il numero di ore. Se il numero di ore è maggiore di 70
+	 * Costruttore standard di Operaio in cui viene stabilito il numero di ore. Se il numero di ore è maggiore di 70 oppure negativo
 	 * viene lanciata una IllegalArgumentException()
 	 * @param nome il nome dell'operaio
 	 * @param cognome il cognome dell'operaio
@@ -36,30 +40,38 @@ public class Operaio extends Dipendente {
 		super(nome, cognome, eta);
 		setCodiceDipendente(generateCodice(matricola));
 		this.specializzazione=specializzazione;
-		if(ore_lavorate>70)
+		if(ore_lavorate>70||ore_lavorate<0)
 			throw new IllegalArgumentException();
 		ore_lavorate=ore;
+		ore_straordinario=0;
+		possiede_equipaggiamento_protettivo=false;
 	}
 
 	public String generateCodice(String matricola) {
 		return "02"+matricola;
 	}
 	
+	public String getSpecializzazione() {
+		return specializzazione.name();
+	}
+	
+	public boolean isProtetto() {
+		return possiede_equipaggiamento_protettivo;  
+	}
+	
 	public String toString() {
-		return super.toString()+"[ore_lavorate= "+ore_lavorate+"]";
+		return super.toString()+"[ore_lavorate= "+ore_lavorate+",specializzazione="+specializzazione.name()
+							   +",possiede_equipaggiamento_protettivo="+possiede_equipaggiamento_protettivo+"]";
 	}
 	
 	public boolean equals(Object o) {
 		if(!super.equals(o))
 			return false;
 		Operaio op=(Operaio)o;
-		return op.ore_lavorate==ore_lavorate; 
+		return op.ore_lavorate==ore_lavorate&&op.getSpecializzazione().equals(getSpecializzazione())&&op.possiede_equipaggiamento_protettivo==possiede_equipaggiamento_protettivo; 
 		}
 	
 	public Operaio clone() {
 		return (Operaio)super.clone();
 	}
-	
-	
-
 }

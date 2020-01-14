@@ -37,8 +37,5 @@ public class Quadro extends Dipendente implements Responsabile{
 		return (Quadro)super.clone();
 	}
 
-	public boolean isDirigente() {
-		return false;		
-	}
 	
 }

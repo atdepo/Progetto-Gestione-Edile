@@ -1,5 +1,7 @@
 package dipendenti;
 
+import eccezioni.DipendenteNonAssumibileException;
+
 /**
  * Questa classe cattura il concetto di un Dipendente.
  * Ogni dipendente possiede uno schema di retribuzione differente quindi non viene gestita in questa astrazione 
@@ -31,6 +33,8 @@ public abstract class Dipendente implements Cloneable {
 	 * @param codiceDip codice identificativo del dipendente
 	 */
 	public Dipendente(String nome,String cognome,int eta) {
+		if(eta<18||eta>68)
+			throw new DipendenteNonAssumibileException();
 		this.nome=nome;
 		this.cognome=cognome;
 		this.eta=eta;
@@ -62,6 +66,9 @@ public abstract class Dipendente implements Cloneable {
 		return impegnato;
 	}
 	
+	public void liberaDipendente() {
+		impegnato=false;
+	}
 	/**
 	 * In base alla mansione viene creato questo codice che univocamente identifica un dipendente
 	 * @param matricola la matricola del dipendente
@@ -75,6 +82,39 @@ public abstract class Dipendente implements Cloneable {
 	 */
 	protected void setCodiceDipendente(String codice) {
 		codiceDipendente= codice;
+	}
+	
+	public void impegnaDipendente() {
+		impegnato=true;
+	}
+	
+	
+	public static boolean isImpiegato(Dipendente d) {
+		if(d.codiceDipendente.substring(0, 2).equals("01"))
+			return true;
+		else
+			return false;
+	}
+	
+	public static boolean isOperaio(Dipendente d) {
+		if(d.codiceDipendente.substring(0, 2).equals("02"))
+			return true;
+		else
+			return false;
+	}
+	
+	public static boolean isQuadro(Dipendente d) {
+		if(d.codiceDipendente.substring(0, 2).equals("03"))
+			return true;
+		else
+			return false;
+	}
+	
+	public static boolean isDirigente(Dipendente d) {
+		if(d.codiceDipendente.substring(0, 2).equals("04"))
+			return true;
+		else
+			return false;
 	}
 	
 	public String toString() {

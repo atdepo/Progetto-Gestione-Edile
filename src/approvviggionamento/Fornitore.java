@@ -1,67 +1,57 @@
 package approvviggionamento;
 
 import java.util.ArrayList;
+/**
+ * 
+ * Questa classe implementa il concetto di un Fornitore che si occupa di vendere prodotti ad un cliente
+ */
+public class Fornitore {
 
-public class Fornitore implements Cloneable {
-	
 	 private String nomeFornitore;
 	 private ArrayList<Prodotto> prodottiInVendita;
-	 
+	 private ArrayList<MacchineDaCantiere> macchineDaCantiereInVendita;
 	 public Fornitore(String nomeFornitore) {
 		 this.nomeFornitore=nomeFornitore;
 		 prodottiInVendita=new ArrayList<Prodotto>();
+		 macchineDaCantiereInVendita = new ArrayList<MacchineDaCantiere>();
 	 }
 
 	public String getNomeFornitore() {
 		return nomeFornitore;
 	}
 
-	public void setNomeFornitore(String nomeFornitore) {
-		this.nomeFornitore = nomeFornitore;
-	}
-
 	public ArrayList<Prodotto> getProdottiInVendita() {
 		return prodottiInVendita;
 	}
 
-	public void addProdotto(Prodotto p) {
-		prodottiInVendita.add(p);
+	public ArrayList<MacchineDaCantiere> getMacchineDaCantiere(){
+		return macchineDaCantiereInVendita;
 	}
 	
-	public void compra(Prodotto p, int quantità) {
-		//prodottiInVendita.get().scalaProdotto(quantità);
+	public void addProdotto(Prodotto prodotto) {
+		if(prodotto!=null && prodottiInVendita!=null)
+		prodottiInVendita.add(prodotto);
 	}
 	
-	public void rimuoviProdVendita(int elem) {
+	public void addMacchina(MacchineDaCantiere macchina) {
+		if(macchina!=null && macchineDaCantiereInVendita!=null)
+		macchineDaCantiereInVendita.add(macchina);
+	}
+	
+	public Prodotto compra(Prodotto p, int quantita) {
+		for(Prodotto prod : prodottiInVendita) {
+			if(prod.equals(p)) {
+				if(prod.getNumeroPezziDisponibili()>=quantita) {
+					Prodotto daRestituire=prod.clone();
+					prod.scalaProdotto(quantita);
+					return daRestituire;
+				}
+			}
+		}
+		throw new IllegalArgumentException(); //aggiungiamo questa eccezzione?
+	}
+	
+	public void rimuoviProdVendita(int elem) { //da cambiare
 		prodottiInVendita.remove(elem);
 	}
-	
-	public String toString() {
-		return getClass().getName()+"[nomeFornitore="+nomeFornitore+",prodottiInVendita="+prodottiInVendita+"]";
-	}
-	
-	@SuppressWarnings("unchecked")
-  	public Fornitore clone() {
-		try {
-			Fornitore f=(Fornitore)super.clone();
-			f.prodottiInVendita = (ArrayList<Prodotto>)this.prodottiInVendita.clone();
-			return f;
-		} catch (CloneNotSupportedException e) {
-			return null;
-		}
-		
-	}
-	
-	public boolean equals(Object o) {
-		if(o==null||o.getClass()!=getClass())
-			return false;
-		Fornitore frn=(Fornitore)o;
-		return frn.getNomeFornitore().equals(nomeFornitore) && prodottiInVendita.equals(frn.getProdottiInVendita());
-								
-	}
-	
-	
-	
-	
-	 
 }

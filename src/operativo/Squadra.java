@@ -42,12 +42,29 @@ public class Squadra {
 	 */
 	public void aggiungiOperaio(Operaio operaio) {
 		Dipendente dip=(Dipendente)operaio;
-		if(!dip.isImpegnato()) {
+		if(!(dip.isImpegnato()||operai.contains(dip))) {
 			operai.add(operaio);
 		}
 		else 
 			throw new IllegalArgumentException();
 	}
 	
+	public void assegnaSquadra(){
+		for(Operaio o:operai) {
+			o.impegnaDipendente();
+		}
+	}
+	
+	public void liberaSquadra() {
+		for(Operaio o:operai) {
+			o.liberaDipendente();
+		}
+	}
+	
+	public void stampaSquadra() {
+		for(Operaio o:operai) {
+		System.out.println(o);
+		}
+	}
 	
 }
