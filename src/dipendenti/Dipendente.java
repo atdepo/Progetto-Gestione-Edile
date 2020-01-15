@@ -1,5 +1,6 @@
 package dipendenti;
 
+import amministrativo.Contratto;
 import eccezioni.DipendenteNonAssumibileException;
 
 /**
@@ -12,6 +13,7 @@ public abstract class Dipendente implements Cloneable {
 	private String nome,cognome,codiceDipendente;
 	private int eta;
 	private boolean pagato,impegnato;
+	private Contratto contratto;
 	
 	/**
 	 * Costruttore di un Dipendente
@@ -45,6 +47,14 @@ public abstract class Dipendente implements Cloneable {
 	
 	public String getCodiceDipendente() {
 		return codiceDipendente;
+	}
+	
+	public void setContratto(double stipendio,double bonus) {
+		contratto=new Contratto(stipendio, bonus);
+	}
+	
+	public Contratto getContratto() {
+		return contratto;
 	}
 	
 	public boolean isPagato() {
