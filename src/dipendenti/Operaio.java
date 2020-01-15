@@ -43,10 +43,20 @@ public class Operaio extends Dipendente {
 		if(ore_lavorate>70||ore_lavorate<0)
 			throw new IllegalArgumentException();
 		ore_lavorate=ore;
-		ore_straordinario=0;
+		ore_straordinario=40;
 		possiede_equipaggiamento_protettivo=false;
 	}
 
+	public int getOre_lavorate() {
+		return ore_lavorate;
+	}
+	
+	public int getOre_straordinario() {
+		return ore_straordinario;
+	}
+	public void incre_Ore_straordinario(int ore_straordinario) {
+		this.ore_straordinario += ore_straordinario;
+	}
 	public String generateCodice(String matricola) {
 		return "02"+matricola;
 	}
@@ -57,6 +67,11 @@ public class Operaio extends Dipendente {
 	
 	public boolean isProtetto() {
 		return possiede_equipaggiamento_protettivo;  
+	}
+	
+	public void resetOre() {
+		ore_lavorate=0;
+		ore_straordinario=0;
 	}
 	
 	public String toString() {
