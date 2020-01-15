@@ -75,8 +75,9 @@ public class RepartoAmministrativo {
 		
 	}
 	
-	static void pagaDirigente() {
+	static double pagaDirigente() {
 		//da definire
+		return 0;
 	}
 	
 	static double pagaImpiegato(Dipendente d) {
@@ -109,21 +110,21 @@ public class RepartoAmministrativo {
 	}
 	
 	public void pagamentoAssunti() {
-		
+		double speseDipendentiAzienda=0;
 		for(int i=0;i<dipendenti.size();i++) {
 			Dipendente d=dipendenti.get(i);
 					
 			if(Dipendente.isDirigente(d)) {
-				pagaDirigente();
+				speseDipendentiAzienda+=pagaDirigente();
 			}
 			else if(Dipendente.isImpiegato(d)) {
-				pagaImpiegato(d);
+				speseDipendentiAzienda+=pagaImpiegato(d);
 			}
 			else if(Dipendente.isOperaio(d)) {
-				pagaOperaio(d);
+				speseDipendentiAzienda+=pagaOperaio(d);
 			}
 			else if(Dipendente.isQuadro(d)) {
-				pagaQuadro(d);
+				speseDipendentiAzienda+=pagaQuadro(d);
 			}		
 		}
 	}
