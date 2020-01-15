@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import approvviggionamento.Fornitore;
 import dipendenti.Dipendente;
+import dipendenti.Dirigente;
 import dipendenti.Impiegato;
 import dipendenti.Operaio;
 import dipendenti.Quadro;
@@ -25,7 +26,7 @@ public class RepartoAmministrativo {
 	protected static final double BONUS_QUADRO_CAPOSQUADRA=3;
 	protected static final double BONUS_IMPIEGATO=4.0D;
 	protected static final double BONUS_OPERAIO=4.0D;
-	//protected static final double BONUS_DIRIGENTE=5.0D;
+	protected static final double BONUS_DIRIGENTE_PER_OPERAIO=5.0D;
 	protected static final double BONUS_STRAORDINARIO_IMPIEGATO=9.0D;
 	protected static final double BONUS_STRAORDINARIO_OPERAIO=8.0D;
 	
@@ -58,12 +59,12 @@ public class RepartoAmministrativo {
 			numDirigenti++;
 		}
 		else if(Dipendente.isImpiegato(d)) {
-			d.setContratto(STIPENDIO_IMPIEGATO,BONUS_IMPIEGATO );
+			d.setContratto(STIPENDIO_IMPIEGATO,BONUS_IMPIEGATO);
 			dipendenti.add(d);
 			numImpiegati++;
 		}
 		else if(Dipendente.isOperaio(d)) {
-			d.setContratto(STIPENDIO_OPERAIO_GIORNO,BONUS_OPERAIO );
+			d.setContratto(STIPENDIO_OPERAIO_GIORNO,BONUS_OPERAIO);
 			dipendenti.add(d);
 			numOperai++;
 		}
@@ -75,9 +76,11 @@ public class RepartoAmministrativo {
 		
 	}
 	
-	static double pagaDirigente() {
-		//da definire
-		return 0;
+	static double pagaDirigente(Dipendente d) {
+		Contratto c=d.getContratto();
+		Dirigente dip=(Dirigente)d;
+		double saldo=dip.getNumeroOperai()*BONUS_DIRIGENTE_PER_OPERAIO+c.getStipendio();
+		return saldo;
 	}
 	
 	static double pagaImpiegato(Dipendente d) {
@@ -109,13 +112,13 @@ public class RepartoAmministrativo {
 		return saldo;
 	}
 	
-	public void pagamentoAssunti() {
+	public double pagamentoAssunti() {
 		double speseDipendentiAzienda=0;
 		for(int i=0;i<dipendenti.size();i++) {
 			Dipendente d=dipendenti.get(i);
 					
 			if(Dipendente.isDirigente(d)) {
-				speseDipendentiAzienda+=pagaDirigente();
+				speseDipendentiAzienda+=pagaDirigente(d);
 			}
 			else if(Dipendente.isImpiegato(d)) {
 				speseDipendentiAzienda+=pagaImpiegato(d);
@@ -127,6 +130,7 @@ public class RepartoAmministrativo {
 				speseDipendentiAzienda+=pagaQuadro(d);
 			}		
 		}
+		return speseDipendentiAzienda;
 	}
 	
 	public int totale_Dipendenti() {
