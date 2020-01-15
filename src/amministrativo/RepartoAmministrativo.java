@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import approvviggionamento.Fornitore;
 import dipendenti.Dipendente;
+import dipendenti.Dirigente;
 import dipendenti.Impiegato;
 import dipendenti.Operaio;
 import dipendenti.Quadro;
@@ -15,7 +16,7 @@ import dipendenti.Quadro;
  */
 public class RepartoAmministrativo {
 	
-	//questa è una responsabilità che deve avere la classe dipendente?
+	//questa ï¿½ una responsabilitï¿½ che deve avere la classe dipendente?
 	
 	protected static final double STIPENDIO_IMPIEGATO=7.0D;
 	protected static final double STIPENDIO_OPERAIO_GIORNO=25.0D;
@@ -25,7 +26,7 @@ public class RepartoAmministrativo {
 	protected static final double BONUS_QUADRO_CAPOSQUADRA=3;
 	protected static final double BONUS_IMPIEGATO=4.0D;
 	protected static final double BONUS_OPERAIO=4.0D;
-	//protected static final double BONUS_DIRIGENTE=5.0D;
+	protected static final double BONUS_DIRIGENTE_PER_OPERAIO=5.0D;
 	protected static final double BONUS_STRAORDINARIO_IMPIEGATO=9.0D;
 	protected static final double BONUS_STRAORDINARIO_OPERAIO=8.0D;
 	
@@ -38,7 +39,7 @@ public class RepartoAmministrativo {
 	private int numOperai;
 	private int numImpiegati;
 	
-	private Magazino magazzino;
+	private Magazzino magazzino;
 	
 	
 	public RepartoAmministrativo() {
@@ -58,12 +59,12 @@ public class RepartoAmministrativo {
 			numDirigenti++;
 		}
 		else if(Dipendente.isImpiegato(d)) {
-			d.setContratto(STIPENDIO_IMPIEGATO,BONUS_IMPIEGATO );
+			d.setContratto(STIPENDIO_IMPIEGATO,BONUS_IMPIEGATO);
 			dipendenti.add(d);
 			numImpiegati++;
 		}
 		else if(Dipendente.isOperaio(d)) {
-			d.setContratto(STIPENDIO_OPERAIO_GIORNO,BONUS_OPERAIO );
+			d.setContratto(STIPENDIO_OPERAIO_GIORNO,BONUS_OPERAIO);
 			dipendenti.add(d);
 			numOperai++;
 		}
@@ -75,8 +76,11 @@ public class RepartoAmministrativo {
 		
 	}
 	
-	static void pagaDirigente() {
-		//da definire
+	static double pagaDirigente(Dipendente d) {
+		Contratto c=d.getContratto();
+		Dirigente dip=(Dirigente)d;
+		double saldo=dip.getNumeroOperai()*BONUS_DIRIGENTE_PER_OPERAIO+c.getStipendio();
+		return saldo;
 	}
 	
 	static double pagaImpiegato(Dipendente d) {
@@ -113,21 +117,22 @@ public class RepartoAmministrativo {
 		for(Dipendente d:dipendenti) {	
 			
 			if(Dipendente.isDirigente(d)) {
-				pagaDirigente();
+				speseDipendentiAzienda+=pagaDirigente(d);
 			}
 			
 			else if(Dipendente.isImpiegato(d)) {
-				pagaImpiegato(d);
+				speseDipendentiAzienda+=pagaImpiegato(d);
 			}
 			
 			else if(Dipendente.isOperaio(d)) {
-				pagaOperaio(d);
+				speseDipendentiAzienda+=pagaOperaio(d);
 			}
 			
 			else if(Dipendente.isQuadro(d)) {
-				pagaQuadro(d);
+				speseDipendentiAzienda+=pagaQuadro(d);
 			}		
 		}
+		return speseDipendentiAzienda;
 	}
 	
 	public int totale_Dipendenti() {
