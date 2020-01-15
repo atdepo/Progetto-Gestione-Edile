@@ -1,10 +1,12 @@
 package operativo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import dipendenti.Dipendente;
 import dipendenti.Operaio;
 import dipendenti.Quadro;
+import eccezioni.OperaioOccupatoException;
 
 /**
  * Questa classe cattura il concetto astratto di una Squadra che lavora nel cantiere.
@@ -13,7 +15,7 @@ import dipendenti.Quadro;
  * un numero di operai specializzati che non devono essere impegnati in altri cantieri
  *
  */
-public class Squadra {
+public class Squadra implements Serializable{
 	
 	private Quadro capoSquadra;
 	private ArrayList<Operaio> operai;
@@ -39,14 +41,15 @@ public class Squadra {
 	 * Metodo per aggiungere un operaio alla lista degli operaio impegnati nella squadra.
 	 * l'operaio inoltre non deve essere assegnato ad alcun altro lavoro
 	 * @param operaio
+	 * @throws OperaioOccupatoException 
 	 */
-	public void aggiungiOperaio(Operaio operaio) {
+	public void aggiungiOperaio(Operaio operaio) throws OperaioOccupatoException {
 		Dipendente dip=(Dipendente)operaio;
 		if(!(dip.isImpegnato()||operai.contains(dip))) {
 			operai.add(operaio);
 		}
 		else 
-			throw new IllegalArgumentException();
+			throw new OperaioOccupatoException();
 	}
 	
 	public void assegnaSquadra(){

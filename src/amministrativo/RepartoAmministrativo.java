@@ -38,7 +38,7 @@ public class RepartoAmministrativo {
 	private int numOperai;
 	private int numImpiegati;
 	
-	private Magazino magazino;
+	private Magazino magazzino;
 	
 	
 	public RepartoAmministrativo() {
@@ -110,18 +110,20 @@ public class RepartoAmministrativo {
 	
 	public void pagamentoAssunti() {
 		
-		for(int i=0;i<dipendenti.size();i++) {
-			Dipendente d=dipendenti.get(i);
-					
+		for(Dipendente d:dipendenti) {	
+			
 			if(Dipendente.isDirigente(d)) {
 				pagaDirigente();
 			}
+			
 			else if(Dipendente.isImpiegato(d)) {
 				pagaImpiegato(d);
 			}
+			
 			else if(Dipendente.isOperaio(d)) {
 				pagaOperaio(d);
 			}
+			
 			else if(Dipendente.isQuadro(d)) {
 				pagaQuadro(d);
 			}		

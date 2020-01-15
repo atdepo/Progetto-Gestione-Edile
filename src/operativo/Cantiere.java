@@ -1,5 +1,6 @@
 package operativo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import approvviggionamento.Prodotto;
@@ -13,10 +14,9 @@ import dipendenti.Responsabile;
  * 
  *
  */
-public class Cantiere {
+public class Cantiere implements Serializable   {
 	private Responsabile responsabile;
 	private ArrayList<Squadra> Squadre;
-	private ArrayList<Prodotto> listaMaterialiDisponibili;
 	private ArrayList<Prodotto> listaMaterialiNecessari;
 	private Geolocalizzazione posizioneCantiere;
 	private double estensione;
@@ -34,7 +34,6 @@ public class Cantiere {
 		this.posizioneCantiere=new Geolocalizzazione(latitudine, longitudine);
 		this.estensione=estensione;
 		Squadre=new ArrayList<Squadra>();
-		listaMaterialiDisponibili = new ArrayList<Prodotto>();
 		listaMaterialiNecessari= new ArrayList<Prodotto>();
 	}
 	
@@ -52,7 +51,6 @@ public class Cantiere {
 		this.posizioneCantiere=new Geolocalizzazione(latitudine, longitudine);
 		this.estensione=estensione;
 		Squadre=new ArrayList<Squadra>();
-		listaMaterialiDisponibili = new ArrayList<Prodotto>();
 		listaMaterialiNecessari= new ArrayList<Prodotto>();
 		Dipendente d=(Dipendente)responsabile;
 		if(d.isImpegnato())
@@ -76,6 +74,10 @@ public class Cantiere {
 
 	public ArrayList<Squadra> getSquadre() {
 		return Squadre;
+	}
+	
+	public void assegnaMateriali(ArrayList<Prodotto> materiali) {
+		materiali.addAll(materiali);
 	}
 
 	public Geolocalizzazione getPosizioneCantiere() {
@@ -104,8 +106,7 @@ public class Cantiere {
 	
 	/**
 	 * Metodo per aggiungere squadre alla lista delle squadre impegnate nel cantiere.
-	 * @param operaio 
-	 * @param squadra
+	 * @param squadra la squadra da aggiungere
 	 */
 	public void assegnaSquadra(Squadra squadra) {
 		if(squadra.getOperai().size()>0) {
