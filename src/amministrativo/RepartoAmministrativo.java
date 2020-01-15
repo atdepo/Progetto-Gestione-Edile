@@ -8,6 +8,7 @@ import dipendenti.Dirigente;
 import dipendenti.Impiegato;
 import dipendenti.Operaio;
 import dipendenti.Quadro;
+import dipendenti.Operaio.lavoro;
 
 /**
  * Questa classe cattura il concetto  di un RepartoAmministrativo di un cantiere.
@@ -74,6 +75,36 @@ public class RepartoAmministrativo {
 			numQuadri++;
 		}
 		
+	}
+	
+	public void assumiDirigente(String nome, String cognome, int eta) {
+		numDirigenti++;
+		dipendenti.add(new Dirigente(nome, cognome, eta, Integer.toString(numDirigenti)));
+	}
+	
+	public void assumiQuadro(String nome, String cognome, int eta) {
+		numQuadri++;
+		dipendenti.add(new Quadro(nome, cognome, eta, Integer.toString(numQuadri)));
+	}
+	
+	public void assumiOperaio(String nome, String cognome, int eta,lavoro specializzazione,int ore) {
+		numOperai++;
+		dipendenti.add(new Operaio(nome, cognome, eta, Integer.toString(numOperai), specializzazione, ore));
+	}
+	
+	public void assumiOperaio(String nome, String cognome, int eta,lavoro specializzazione) {
+		numOperai++;
+		dipendenti.add(new Operaio(nome, cognome, eta, Integer.toString(numOperai), specializzazione));
+	}
+	
+	public void assumiImpiegato(String nome, String cognome, int eta,String matricola,int giorni) {
+		numImpiegati++;
+		dipendenti.add(new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati),giorni));
+	}
+	
+	public void assumiImpiegato(String nome, String cognome, int eta,String matricola) {
+		numImpiegati++;
+		dipendenti.add(new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati)));
 	}
 	
 	static double pagaDirigente(Dipendente d) {
