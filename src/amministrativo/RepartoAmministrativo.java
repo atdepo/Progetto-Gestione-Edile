@@ -38,7 +38,7 @@ public class RepartoAmministrativo {
 	private int numOperai;
 	private int numImpiegati;
 	
-	private Magazino magazino;
+	private Magazzino magazzino;
 	
 	
 	public RepartoAmministrativo() {
