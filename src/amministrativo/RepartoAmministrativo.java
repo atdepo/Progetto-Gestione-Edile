@@ -112,8 +112,8 @@ public class RepartoAmministrativo {
 		return saldo;
 	}
 	
-	public void pagamentoAssunti() {
-		
+	public int pagamentoAssunti() {
+		int speseDipendentiAzienda=0;
 		for(Dipendente d:dipendenti) {	
 			
 			if(Dipendente.isDirigente(d)) {
