@@ -61,6 +61,11 @@ public class Impiegato extends Dipendente{
 		giorni_lavoro_straordinario=giorni;
 	}
 	
+	public void resetOre() {
+		giorni_lavorati=0;
+		giorni_lavoro_straordinario=0;
+	}
+	
 	public String toString() {
 		return super.toString()+"[giorni_lavorati= "+giorni_lavorati+"giorni_lavoro_straordinario"+giorni_lavoro_straordinario+"]";
 	}
