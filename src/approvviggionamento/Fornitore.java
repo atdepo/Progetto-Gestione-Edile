@@ -38,7 +38,7 @@ public class Fornitore {
 		macchineDaCantiereInVendita.add(macchina);
 	}
 	
-	public Prodotto compra(Prodotto p, int quantita) {
+	public Prodotto compraProdotto(Prodotto p, int quantita) {
 		for(Prodotto prod : prodottiInVendita) {
 			if(prod.equals(p)) {
 				if(prod.getNumeroPezziDisponibili()>=quantita) {
@@ -50,6 +50,8 @@ public class Fornitore {
 		}
 		throw new IllegalArgumentException(); //aggiungiamo questa eccezzione?
 	}
+	
+	
 	
 	public void rimuoviProdVendita(int elem) { //da cambiare
 		prodottiInVendita.remove(elem);

@@ -22,6 +22,14 @@ public class Quadro extends Dipendente implements Responsabile{
 		return "03"+matricola;
 	}
 	
+	public boolean isResponsabile() {
+		return isResponsabile;
+	}
+	
+	public boolean isCaposquadra() {
+		return isCaposquadra;
+	}
+	
 	public String toString() {
 		return super.toString()+"[isResponsabile="+isResponsabile+",isCaposquadra="+isCaposquadra+"]";
 	}

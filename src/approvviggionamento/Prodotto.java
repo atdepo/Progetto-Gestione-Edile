@@ -58,6 +58,7 @@ public class Prodotto implements Cloneable{
 	
 	public String getCaratteristicheProdotto() {
 		String toReturn="nome prodotto="+nomeProdotto+"\n";
+		
 		if(!materialeDiCostruzione.isEmpty())
 			toReturn+="materiale="+materialeDiCostruzione+"\n";
 		if(!casaProduttrice.isEmpty())

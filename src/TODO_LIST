@@ -15,8 +15,6 @@ TODO:
 
 -implementare un modo per comprare dei mezzi da un fornitore--------------------------------------------------------fatto 
 
--implementare servizi dei fornitori
-
 -implementare se possibile retribuzioni in base al mese
 
 -implementare tester per ogni pacchetto
@@ -25,8 +23,6 @@ TODO:
 
 -implemnetare quando si licenzia un dipendente la buona uscita differente per ogni tipo di impiegato
 
--implementare un metodo statico per controllare se un dipendente è di un certo tipo---------------------------------fatto
+-implementare un metodo statico per controllare se un dipendente Ã¨ di un certo tipo---------------------------------fatto
 
--se teniamo un pò di tempo da perdere i tester ci facciamo un interfaccia grafica
-
-
+-(forse)implementare fattura
