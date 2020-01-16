@@ -38,17 +38,17 @@ public class Fornitore {
 		macchineDaCantiereInVendita.add(macchina);
 	}
 	
-	public Prodotto compraProdotto(Prodotto p, int quantita) {
+	public Prodotto compraProdotto(Prodotto p) {
 		for(Prodotto prod : prodottiInVendita) {
 			if(prod.equals(p)) {
-				if(prod.getNumeroPezziDisponibili()>=quantita) {
+				if(prod.getNumeroPezziDisponibili()>=p.getNumeroPezziDisponibili()) {
 					Prodotto daRestituire=prod.clone();
-					prod.scalaProdotto(quantita);
+					prod.scalaProdotto(p.getNumeroPezziDisponibili());
 					return daRestituire;
 				}
 			}
 		}
-		throw new IllegalArgumentException(); //aggiungiamo questa eccezzione?
+		return null;
 	}
 	
 	

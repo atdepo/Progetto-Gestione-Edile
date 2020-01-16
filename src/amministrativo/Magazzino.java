@@ -14,27 +14,6 @@ public class Magazzino {
 	private double capacitaMax; //espressa in m^2
 	private int postiMacchine; //espressa in posti
 	
-<<<<<<< HEAD
-	public Magazzino() {
-		prodottiInMagazino= new ArrayList<Prodotto>();
-		macchineDaCantiere= new ArrayList<MacchineDaCantiere>();
-	}
-
-
-	public void addProdottiMagazino(Prodotto prod) {
-		prodottiInMagazino.add(prod);
-	}
-
-
-	public void addMacchineDaCantiere(MacchineDaCantiere mC) {
-		macchineDaCantiere.add(mC);
-	};
-	
-	
-	
-	
-
-=======
 	public Magazzino(double capacita,int posti) {
 		prodottiInMagazino= new ArrayList<Prodotto>();
 		macchineDaCantiere= new ArrayList<MacchineDaCantiere>();
@@ -74,31 +53,29 @@ public class Magazzino {
 		else
 			prodottiInMagazino.add(prodotto);
 		}
-/*
+
 	public Prodotto prendiProdotto(Prodotto prodotto) throws ProdottoNonTrovatoException {
 		
 		for(Prodotto p:prodottiInMagazino) {
 			if(p.equalsCaratteristiche(prodotto)) 
 				if(p.getNumeroPezziDisponibili()>prodotto.getNumeroPezziDisponibili()) {
+					capacitaMax+=(p.getSpazioOccupato()*p.getNumeroPezziDisponibili());
 					p.scalaProdotto(prodotto.getNumeroPezziDisponibili());
 					return prodotto;
 				}	
 		}
 		throw new ProdottoNonTrovatoException();
 	}
-	*/
+	
 	public Prodotto rimuoviProdotto(Prodotto prodotto) throws ProdottoNonTrovatoException {
 		
 		for(Prodotto p:prodottiInMagazino) {
 			if(p.equalsCaratteristiche(prodotto)) {
-				
+				capacitaMax+=p.getSpazioOccupatoTotale();
 				return prodottiInMagazino.remove(prodottiInMagazino.indexOf(prodotto));
-				
 			}
 		}
 		throw new ProdottoNonTrovatoException();
-		
 	}
 	
->>>>>>> 3949d7df785f480525ca232667832caf58a3e2c5
 }

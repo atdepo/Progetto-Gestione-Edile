@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import approvviggionamento.Fornitore;
+import approvviggionamento.Prodotto;
 import dipendenti.Dipendente;
 import dipendenti.Dirigente;
 import dipendenti.Impiegato;
 import dipendenti.Operaio;
 import dipendenti.Quadro;
+import eccezioni.ProdottoNonTrovatoException;
 import dipendenti.Operaio.lavoro;
 
 /**
@@ -118,8 +120,8 @@ public class RepartoAmministrativo implements Serializable {
 		return saldo;
 	}
 	
-	public int pagamentoAssunti() {
-		int speseDipendentiAzienda=0;
+	public double pagamentoAssunti() {
+		double speseDipendentiAzienda=0;
 		for(Dipendente d:dipendenti) {	
 			
 			if(Dipendente.isDirigente(d)) {
@@ -165,6 +167,28 @@ public class RepartoAmministrativo implements Serializable {
 		return dipendenti.remove(dipendenti.indexOf(daRimuovere));
 	}
 	
+	public void aggiungiFornitore(Fornitore fornitore) {
+		if(!fornitori.contains(fornitore)) {
+			fornitori.add(fornitore);
+		}
+	}
+	
+	public void removeFornitore(Fornitore fornitore) {
+		if(fornitori.contains(fornitore)) {
+			fornitori.remove(fornitore);
+		}
+		else
+			throw new IllegalArgumentException();
+	}
+	
+	public Prodotto compraProdotto(Prodotto prodotto) throws ProdottoNonTrovatoException {
+		for(Fornitore f: fornitori) {
+			Prodotto daComprare=f.compraProdotto(prodotto);
+			if(daComprare!=null)
+				return daComprare;
+		}
+		throw new ProdottoNonTrovatoException();
+	}
 	
 }
 
