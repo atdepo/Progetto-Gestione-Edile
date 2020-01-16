@@ -56,6 +56,10 @@ public class Prodotto implements Cloneable{
 		return numeroPezziDisponibili;
 	}
 	
+	public void setNumeroPezziDisponibili(int numero) {
+		numeroPezziDisponibili+=numero;
+	}
+	
 	public String getCaratteristicheProdotto() {
 		String toReturn="nome prodotto="+nomeProdotto+"\n";
 		
@@ -78,15 +82,19 @@ public class Prodotto implements Cloneable{
 		return toReturn;
 	}
 	
-	public void rifornimentoProdotto(int quantitaRif) {
-		numeroPezziDisponibili+=quantitaRif;
+	public double getSpazioOccupato() {
+		return lunghezza*larghezza*altezza*1000000;
+	}
+	
+	public double getSpazioOccupatoTotale() {
+		return lunghezza*larghezza*altezza*1000000*numeroPezziDisponibili;
 	}
 	
 	public void scalaProdotto(int quantitaScalo) { // implementare eccezzione 
 		numeroPezziDisponibili-=quantitaScalo;
 	}
 	
-	public boolean equals(Object o) {
+	public boolean equalsCaratteristiche(Object o) {
 		if(o==null||o.getClass()!=getClass())
 			return false;
 		Prodotto p=(Prodotto)o;

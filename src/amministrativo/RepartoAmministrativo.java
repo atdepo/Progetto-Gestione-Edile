@@ -186,16 +186,9 @@ public class RepartoAmministrativo {
 		return numImpiegati;
 	}
 	
-	public Dipendente licenziamentoDipendente(String codiceDipendente) {
-		Dipendente rimosso = null;
-		for(int i=0;i<dipendenti.size();i++) {
-			Dipendente d=dipendenti.get(i);
-			if(d.getCodiceDipendente().equals(codiceDipendente))
-				rimosso=dipendenti.remove(i);
-		}
-	return rimosso;
+	public Dipendente licenziamentoDipendente(Dipendente daRimuovere) {
+		return dipendenti.remove(dipendenti.indexOf(daRimuovere));
 	}
-	
 	
 	
 }
