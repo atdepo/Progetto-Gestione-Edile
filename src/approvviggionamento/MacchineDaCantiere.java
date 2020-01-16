@@ -7,9 +7,9 @@ public class MacchineDaCantiere implements Cloneable{
 
 	private String nome;
 	private String casaMadre;
-	private double peso;
-	private double potenza;
-	private double prezzo;
+	private double peso;    //espresso in kg
+	private double potenza; //espressa in cavalli
+	private double prezzo;  //espressa in euro
 	
 	public MacchineDaCantiere(String nome,String casaMadre,double peso,double potenza,double prezzo) {
 		this.nome=nome;
@@ -37,6 +37,12 @@ public class MacchineDaCantiere implements Cloneable{
 	
 	public double getPrezzo() {
 		return prezzo;
+	}
+	
+	public boolean equalsCaratteristiche(MacchineDaCantiere macchina) {
+		if(macchina==null)
+			return false;
+		return nome.equals(macchina.getNome())&&casaMadre.equals(macchina.getCasaMadre())&&peso==macchina.getPeso()&&potenza==macchina.getPotenza();
 	}
 	
 	public MacchineDaCantiere clone() {
