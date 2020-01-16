@@ -55,22 +55,14 @@ public class Magazzino {
 			throw new CapacitaSuperataException();
 	}
 	
-/*	public MacchineDaCantiere prendiMacchina(MacchineDaCantiere macchina) {
-		
-		for(MacchineDaCantiere m:macchineDaCantiere) {
-			if(m.equalsCaratteristiche(macchina)) {
-				postiMacchine--;
-				return m;
-			}
-		}
-		throw new IllegalArgumentException();
-	}
-	*/
+
 	public MacchineDaCantiere rimuoviMacchina(MacchineDaCantiere macchina) {
 		
 		for(MacchineDaCantiere p:macchineDaCantiere) {
-			if(p.equalsCaratteristiche(macchina))
+			if(p.equalsCaratteristiche(macchina)) {
+				postiMacchine--;
 				return macchineDaCantiere.remove(macchineDaCantiere.indexOf(macchina));
+			}
 		}
 		throw new IllegalArgumentException();
 	}
@@ -103,6 +95,7 @@ public class Magazzino {
 		
 		for(Prodotto p:prodottiInMagazino) {
 			if(p.equalsCaratteristiche(prodotto)) {
+				
 				return prodottiInMagazino.remove(prodottiInMagazino.indexOf(prodotto));
 				
 			}

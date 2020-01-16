@@ -1,6 +1,8 @@
 package amministrativo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import approvviggionamento.Fattura;
 import approvviggionamento.Fornitore;
@@ -16,10 +18,8 @@ import dipendenti.Operaio.lavoro;
  * un reparto amministrativo ha il compito di assumere i dipendenti e 
  *
  */
-public class RepartoAmministrativo {
-	
-	//questa � una responsabilit� che deve avere la classe dipendente?
-	
+public class RepartoAmministrativo implements Serializable {
+		
 	protected static final double STIPENDIO_IMPIEGATO=7.0D;
 	protected static final double STIPENDIO_OPERAIO_GIORNO=25.0D;
 	protected static final double STIPENDIO_QUADRO=1780.0D;	
@@ -51,6 +51,7 @@ public class RepartoAmministrativo {
 		numQuadri=0;
 		numOperai=0;
 		numImpiegati=0;
+<<<<<<< HEAD
 		magazzino=new Magazzino();
 		fatture=new ArrayList<Fattura>();
 	}
@@ -77,6 +78,8 @@ public class RepartoAmministrativo {
 			numQuadri++;
 		}
 		
+=======
+>>>>>>> daee041d93f93f928c1e235a8c456591cc440c57
 	}
 	
 	public void assumiDirigente(String nome, String cognome, int eta) {

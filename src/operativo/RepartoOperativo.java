@@ -32,7 +32,7 @@ public class RepartoOperativo implements Serializable{
 	public void chiudiCantiere(Cantiere daChiudere) {
 		int index=cantieri.indexOf(daChiudere);
 		if(index==-1)
-			;
+			throw new IllegalArgumentException();
 		else
 		cantieri.remove(index);
 		
