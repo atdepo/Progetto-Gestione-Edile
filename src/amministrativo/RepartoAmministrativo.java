@@ -43,7 +43,9 @@ public class RepartoAmministrativo implements Serializable {
 	private int numOperai;
 	private int numImpiegati;
 	
-	private Magazzino magazzino;
+	private double capitale;
+	
+	public Magazzino magazzino; //CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	private ArrayList<Fattura> fatture;
 	
 	public RepartoAmministrativo() {
@@ -53,9 +55,23 @@ public class RepartoAmministrativo implements Serializable {
 		numQuadri=0;
 		numOperai=0;
 		numImpiegati=0;
-		magazzino=new Magazzino();
+		capitale=0;
+		magazzino=new Magazzino(0,0);
 		fatture=new ArrayList<Fattura>();
 	}
+	
+	public RepartoAmministrativo(int capacita,int posti,double capitale) {
+		dipendenti=new ArrayList<Dipendente>();
+		fornitori= new ArrayList<Fornitore>();
+		numDirigenti=0;
+		numQuadri=0;
+		numOperai=0;
+		numImpiegati=0;
+		this.capitale=capitale;
+		magazzino=new Magazzino(capacita,posti);
+		fatture=new ArrayList<Fattura>();
+	}
+	
 	
 	public void assumiDirigente(String nome, String cognome, int eta) {
 		numDirigenti++;
@@ -191,6 +207,35 @@ public class RepartoAmministrativo implements Serializable {
 				return daComprare;
 		}
 		throw new ProdottoNonTrovatoException();
+	}
+	
+	public void aggiungiProdottoAlMagazzino(Prodotto prodotto) {
+		magazzino.aggiungiProdotto(prodotto);
+	}
+	
+	public Prodotto getProdotto(Prodotto prodotto){ 
+		try {
+			Prodotto daRestituire= magazzino.prendiProdotto(prodotto.clone());
+			if(daRestituire!=null) {
+				if(daRestituire.getNumeroPezziDisponibili()==prodotto.getNumeroPezziDisponibili()) { // se il magazzino è riuscito a soddisfarre la richiesta 
+					return daRestituire; //ritorno il prodotto richiesto
+				}
+				else {
+					int quantita_rimanente=prodotto.getNumeroPezziDisponibili()-daRestituire.getNumeroPezziDisponibili();
+					Prodotto tmp=prodotto.clone(); // creo un "dummy" del prodotto modificandogli solamente il numero di elementi
+					tmp.setNumeroPezziDisponibili(quantita_rimanente);// togliamo i pezzi gia ottenuti dal magazzino
+					Prodotto p= compraProdotto(tmp);
+					return daRestituire.sommaDisponibilita(p);
+				}
+			}
+			else
+			return compraProdotto(prodotto);
+
+		} catch (ProdottoNonTrovatoException e) {
+			System.out.println("qua?");
+			return null;
+			}
+		
 	}
 	
 }

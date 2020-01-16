@@ -1,6 +1,8 @@
 package approvviggionamento;
 
 import java.util.ArrayList;
+
+import eccezioni.ProdottoNonTrovatoException;
 /**
  * 
  * Questa classe implementa il concetto di un Fornitore 
@@ -28,30 +30,49 @@ public class Fornitore {
 	public ArrayList<MacchineDaCantiere> getMacchineDaCantiere(){
 		return macchineDaCantiereInVendita;
 	}
+	/**
+	 * Se due prodotti condividono le caratteristiche, vengono sommate le disponibilità dei pezzi
+	 * @param a il primo prodotto 
+	 * @param b il secondo prodotto
+	 * @return il prodotto avente numero_pezzi=numero_pezzi(a)+numero_pezzi(b)
+	 */
 	
-	public void addProdotto(Prodotto prodotto) {
+	
+	public void aggiungiProdotto(Prodotto prodotto) {
 		if(prodotto!=null && prodottiInVendita!=null)
+				
 		prodottiInVendita.add(prodotto);
 	}
 	
-	public void addMacchina(MacchineDaCantiere macchina) {
+	public void aggiungiMacchina(MacchineDaCantiere macchina) {
 		if(macchina!=null && macchineDaCantiereInVendita!=null)
 		macchineDaCantiereInVendita.add(macchina);
 	}
 	
 	public Prodotto compraProdotto(Prodotto p) {
-		for(Prodotto prod : prodottiInVendita) {
-			if(prod.equals(p)) {
-				if(prod.getNumeroPezziDisponibili()>=p.getNumeroPezziDisponibili()) {
-					Prodotto daRestituire=prod.clone();
-					prod.scalaProdotto(p.getNumeroPezziDisponibili());
-					return daRestituire;
-				}
+		try {
+			Prodotto prod= cercaProdotto(p);
+			if(prod.getNumeroPezziDisponibili()>=p.getNumeroPezziDisponibili()) {
+				prod.scalaProdotto(p.getNumeroPezziDisponibili());
+				Prodotto daRestituire=prod.clone();
+				daRestituire.setNumeroPezziDisponibili(p.getNumeroPezziDisponibili());
+				System.out.println(daRestituire.getCaratteristicheProdotto()+"\n\n"+p.getNumeroPezziDisponibili()+"\n\n");
+				return daRestituire;
 			}
+			else 
+				return null;
+		} catch (ProdottoNonTrovatoException e) {
+			return null;
 		}
-		return null;
 	}
 	
+	public Prodotto cercaProdotto(Prodotto prodotto) throws ProdottoNonTrovatoException {
+		for(Prodotto prod : prodottiInVendita) {
+			if(prod.equalsCaratteristiche(prodotto)) 
+					return prod;
+		}
+		throw new ProdottoNonTrovatoException();
+	}
 	
 	
 	public void rimuoviProdVendita(int elem) { //da cambiare

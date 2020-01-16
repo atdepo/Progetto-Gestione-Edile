@@ -1,6 +1,6 @@
 package amministrativo;
 
-public class Contratto {
+public final class Contratto {
 	
 	//date assunzione e durata contratto
 	private double stipendio;

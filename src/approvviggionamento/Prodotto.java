@@ -65,7 +65,7 @@ public class Prodotto implements Cloneable{
 	}
 	
 	public void setNumeroPezziDisponibili(int numero) {
-		numeroPezziDisponibili+=numero;
+		numeroPezziDisponibili=numero;
 	}
 	
 	public String getCaratteristicheProdotto() {
@@ -87,28 +87,37 @@ public class Prodotto implements Cloneable{
 			toReturn+="consumo="+consumoEnergetico+"W\n";
 		if(anniGaranzia!=0)
 			toReturn+="anni di garanzia="+anniGaranzia+"\n";
+		toReturn+="numero pezzi disponibili="+numeroPezziDisponibili+"\n";
 		return toReturn;
 	}
 	
 	public double getSpazioOccupato() {
-		return lunghezza*larghezza*altezza*1000000;
+		return (lunghezza*larghezza*altezza)/1000000;
 	}
 	
 	public double getSpazioOccupatoTotale() {
-		return lunghezza*larghezza*altezza*1000000*numeroPezziDisponibili;
+		return ((lunghezza*larghezza*altezza)/1000000)*numeroPezziDisponibili;
 	}
 	
 	public void scalaProdotto(int quantitaScalo) { // implementare eccezzione 
 		numeroPezziDisponibili-=quantitaScalo;
 	}
 	
-	public boolean equalsCaratteristiche(Object o) {
-		if(o==null||o.getClass()!=getClass())
+	public boolean equalsCaratteristiche(Prodotto p) {
+		if(p==null||p.getClass()!=getClass())
 			return false;
-		Prodotto p=(Prodotto)o;
 		return p.altezza==altezza && p.anniGaranzia==anniGaranzia && p.casaProduttrice.equals(casaProduttrice) && 
 			   p.consumoEnergetico==consumoEnergetico && p.larghezza==larghezza && p.lunghezza==lunghezza && p.materialeDiCostruzione.equals(materialeDiCostruzione)&&
 			   p.nomeProdotto.equals(nomeProdotto) && p.peso==peso && p.prezzo==prezzo;
+	}
+	
+	public Prodotto sommaDisponibilita (Prodotto a) {
+		if(a!=null)
+		if(equalsCaratteristiche(a)) {  //se due prodotti hanno le stesse caratteristiche
+			this.setNumeroPezziDisponibili(a.getNumeroPezziDisponibili()+getNumeroPezziDisponibili()); //sommiamo i pezzi
+			return this;
+		}
+		return null;
 	}
 	
 	public Prodotto clone() {
