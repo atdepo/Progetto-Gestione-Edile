@@ -16,13 +16,13 @@ public class Magazzino {
 	
 <<<<<<< HEAD
 	public Magazzino() {
-		prodottiMagazino= new ArrayList<Prodotto>();
+		prodottiInMagazino= new ArrayList<Prodotto>();
 		macchineDaCantiere= new ArrayList<MacchineDaCantiere>();
 	}
 
 
 	public void addProdottiMagazino(Prodotto prod) {
-		prodottiMagazino.add(prod);
+		prodottiInMagazino.add(prod);
 	}
 
 
