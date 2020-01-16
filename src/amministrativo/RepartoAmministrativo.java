@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import approvviggionamento.Fattura;
 import approvviggionamento.Fornitore;
 import approvviggionamento.Prodotto;
 import dipendenti.Dipendente;
@@ -43,7 +44,7 @@ public class RepartoAmministrativo implements Serializable {
 	private int numImpiegati;
 	
 	private Magazzino magazzino;
-	
+	private ArrayList<Fattura> fatture;
 	
 	public RepartoAmministrativo() {
 		dipendenti=new ArrayList<Dipendente>();
@@ -52,6 +53,8 @@ public class RepartoAmministrativo implements Serializable {
 		numQuadri=0;
 		numOperai=0;
 		numImpiegati=0;
+		magazzino=new Magazzino();
+		fatture=new ArrayList<Fattura>();
 	}
 	
 	public void assumiDirigente(String nome, String cognome, int eta) {

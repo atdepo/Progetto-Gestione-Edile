@@ -3,7 +3,8 @@ package approvviggionamento;
 import java.util.ArrayList;
 /**
  * 
- * Questa classe implementa il concetto di un Fornitore che si occupa di vendere prodotti ad un cliente
+ * Questa classe implementa il concetto di un Fornitore 
+ * che si occupa di vendere prodotti ad una azienda cliente
  */
 public class Fornitore {
 

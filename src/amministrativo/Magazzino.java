@@ -6,7 +6,11 @@ import approvviggionamento.MacchineDaCantiere;
 import approvviggionamento.Prodotto;
 import eccezioni.CapacitaSuperataException;
 import eccezioni.ProdottoNonTrovatoException;
-
+/**
+ * questa classe implementa la funzione di un magazzino di una Azienda edile 
+ * specifiche: capacita massima di materiale e numero posti autoMezzi
+ * 
+ */
 public class Magazzino {
 	
 	private ArrayList<Prodotto> prodottiInMagazino;
