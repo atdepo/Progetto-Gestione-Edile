@@ -1,6 +1,8 @@
 package amministrativo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import approvviggionamento.Fornitore;
 import dipendenti.Dipendente;
@@ -15,10 +17,8 @@ import dipendenti.Operaio.lavoro;
  * un reparto amministrativo ha il compito di assumere i dipendenti e 
  *
  */
-public class RepartoAmministrativo {
-	
-	//questa � una responsabilit� che deve avere la classe dipendente?
-	
+public class RepartoAmministrativo implements Serializable {
+		
 	protected static final double STIPENDIO_IMPIEGATO=7.0D;
 	protected static final double STIPENDIO_OPERAIO_GIORNO=25.0D;
 	protected static final double STIPENDIO_QUADRO=1780.0D;	
@@ -50,31 +50,6 @@ public class RepartoAmministrativo {
 		numQuadri=0;
 		numOperai=0;
 		numImpiegati=0;
-		
-	}
-	
-	public void assumiDipendente(Dipendente d) {
-		if(Dipendente.isDirigente(d)) {
-			d.setContratto(STIPENDIO_DIRIGENTE,0 );
-			dipendenti.add(d);
-			numDirigenti++;
-		}
-		else if(Dipendente.isImpiegato(d)) {
-			d.setContratto(STIPENDIO_IMPIEGATO,BONUS_IMPIEGATO);
-			dipendenti.add(d);
-			numImpiegati++;
-		}
-		else if(Dipendente.isOperaio(d)) {
-			d.setContratto(STIPENDIO_OPERAIO_GIORNO,BONUS_OPERAIO);
-			dipendenti.add(d);
-			numOperai++;
-		}
-		else if(Dipendente.isQuadro(d)) {
-			d.setContratto(STIPENDIO_QUADRO,0);
-			dipendenti.add(d);
-			numQuadri++;
-		}
-		
 	}
 	
 	public void assumiDirigente(String nome, String cognome, int eta) {
