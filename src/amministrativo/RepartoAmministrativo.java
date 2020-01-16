@@ -2,6 +2,7 @@ package amministrativo;
 
 import java.util.ArrayList;
 
+import approvviggionamento.Fattura;
 import approvviggionamento.Fornitore;
 import dipendenti.Dipendente;
 import dipendenti.Dirigente;
@@ -41,7 +42,7 @@ public class RepartoAmministrativo {
 	private int numImpiegati;
 	
 	private Magazzino magazzino;
-	
+	private ArrayList<Fattura> fatture;
 	
 	public RepartoAmministrativo() {
 		dipendenti=new ArrayList<Dipendente>();
@@ -50,7 +51,8 @@ public class RepartoAmministrativo {
 		numQuadri=0;
 		numOperai=0;
 		numImpiegati=0;
-		
+		magazzino=new Magazzino();
+		fatture=new ArrayList<Fattura>();
 	}
 	
 	public void assumiDipendente(Dipendente d) {
@@ -190,6 +192,34 @@ public class RepartoAmministrativo {
 		return dipendenti.remove(dipendenti.indexOf(daRimuovere));
 	}
 	
+	public void aggiungiFornitore(Fornitore f) {
+		fornitori.add(f);
+	}
+	
+	public ArrayList<Fornitore> getFornitori(){
+		return fornitori;
+	}
+	
+	public void rimuoviFornitore(int elem) {
+		fornitori.remove(elem);
+	}
+	public Magazzino getMagazino() {
+		return magazzino;
+		}
+	/**
+	 * creazione di una fattura con un dato fornitore i pagamenti delle fatture verranno fatti 
+	 * una volta al mese
+	 * @param f
+	 */
+	public void creaFatturaConFornitore(Fornitore f){
+		Fattura fatt=new Fattura(f);
+		fatture.add(fatt);
+	}
+	
+	public void pagaFatture() {
+		// pagare un azienda alla volta scorrere con un doppio foreach 
+		//fornitori e fattura e pagare un fornitore alla volta
+	}
 	
 }
 

@@ -1,5 +1,9 @@
 package approvviggionamento;
-
+/**
+ * classe che implementa la funzione di un prodotto descrivendo tutte le caratteristiche di un prodotto
+ * questo prodotto è destinato alla vendita di fornitori che riforniscono delle aziende edili
+ *
+ */
 public class Prodotto implements Cloneable{
 	
 	private String nomeProdotto;
@@ -54,6 +58,10 @@ public class Prodotto implements Cloneable{
 	}
 	public int getNumeroPezziDisponibili() {
 		return numeroPezziDisponibili;
+	}
+	
+	public double getPrezzo() {
+		return prezzo;
 	}
 	
 	public void setNumeroPezziDisponibili(int numero) {
