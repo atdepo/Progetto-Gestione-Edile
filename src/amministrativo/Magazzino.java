@@ -31,6 +31,7 @@ public class Magazzino {
 		if(postiMacchine>0) {
 		macchineDaCantiere.add(macchina);
 		capacitaMax--;
+		
 		}
 		else
 			throw new CapacitaSuperataException();
@@ -91,10 +92,6 @@ public class Magazzino {
 		throw new ProdottoNonTrovatoException();
 	}
 	
-	public void stampa() {
-		for(Prodotto p:prodottiInMagazino) {
-			System.out.println(p.getCaratteristicheProdotto()+"\n\n");
-		}
-	}
-	
+
+	 
 }

@@ -67,7 +67,7 @@ public class Impiegato extends Dipendente{
 	}
 	
 	public String toString() {
-		return super.toString()+"[giorni_lavorati= "+giorni_lavorati+"giorni_lavoro_straordinario"+giorni_lavoro_straordinario+"]";
+		return super.toString()+"[giorni_lavorati= "+giorni_lavorati+",giorni_lavoro_straordinario="+giorni_lavoro_straordinario+"]";
 	}
 	
 	

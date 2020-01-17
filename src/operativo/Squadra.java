@@ -37,6 +37,9 @@ public class Squadra implements Serializable{
 		return operai;
 	}
 	
+	public int getNumeroOperai() {
+		return operai.size();
+	}
 	/**
 	 * Metodo per aggiungere un operaio alla lista degli operaio impegnati nella squadra.
 	 * l'operaio inoltre non deve essere assegnato ad alcun altro lavoro
@@ -44,8 +47,7 @@ public class Squadra implements Serializable{
 	 * @throws OperaioOccupatoException 
 	 */
 	public void aggiungiOperaio(Operaio operaio) throws OperaioOccupatoException {
-		Dipendente dip=(Dipendente)operaio;
-		if(!(dip.isImpegnato()||operai.contains(dip))) {
+		if(!(operaio.isImpegnato()||operai.contains(operaio))) {
 			operai.add(operaio);
 		}
 		else 
@@ -61,12 +63,6 @@ public class Squadra implements Serializable{
 	public void liberaSquadra() {
 		for(Operaio o:operai) {
 			o.liberaDipendente();
-		}
-	}
-	
-	public void stampaSquadra() {
-		for(Operaio o:operai) {
-		System.out.println(o);
 		}
 	}
 	

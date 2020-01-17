@@ -31,6 +31,8 @@ public class Tester {
 		System.out.println(p1);
 		//System.out.println(p1.getSpazioOccupatoTotale());
 		System.out.println("Ho trovato\n"+p1.getCaratteristicheProdotto());
+		r.assumiDirigente("Geppetto","Petrelli", 18);
+		
 	
 	}
 }

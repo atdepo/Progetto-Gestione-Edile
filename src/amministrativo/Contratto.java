@@ -1,8 +1,14 @@
 package amministrativo;
-
+/**
+ * 
+ * 
+ * Questa classe cattura il concetto di un contratto di lavoro per un dipendente.
+ * Il contratto è un oggetto immutabile, infatti per cambiare qualche aspetto del contratto deve esserne
+ * creato uno nuovo.
+ * 
+ */
 public final class Contratto {
 	
-	//date assunzione e durata contratto
 	private double stipendio;
 	private double bonus;
 	

@@ -20,9 +20,12 @@ public class Dirigente extends Dipendente implements Responsabile{
 		return numero_operai;
 	}
 	
+	public void aggiungiOperai(int numero) {
+		numero_operai+=numero;
+	}
 	public String generateCodice(String matricola) {
 		return "04"+matricola;
-		}
+	}
 	
 	public String toString() {
 		return super.toString()+"[numero_operai= "+numero_operai+"]";

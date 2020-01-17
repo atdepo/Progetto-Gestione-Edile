@@ -1,10 +1,9 @@
 package dipendenti;
 /**
  * Questa classe cattura il concetto di un <b>Quadro</b>.
- * Un Quadro può essere responsabile di un cantiere quando il suo valore è al di sotto di 500.000 euro.
- * In questo caso il quadro otterrà una maggiorazione al suo stipendio fisso del 5% del valore del cantiere ogni mese che lo dirigerà.
- * Mentre se un quadro è caposquadra di un gruppo di operai otterrà  una maggiorazione al suo stipendio base del 2% del valore del cantiere
- * per ogni mese che sarà caposquadra.
+ * Un Quadro può essere responsabile di un cantiere quando il suo valore è al di sotto di 500.000 euro oppure essere il caposquadra 
+ * di una squadra di operai.
+ * In questo caso il quadro otterrà una maggiorazione al suo stipendio fisso del 6%.
  * Il codiceDipendente del Quadro inizia con <b>03 </b>
  */
 public class Quadro extends Dipendente implements Responsabile{
@@ -28,6 +27,10 @@ public class Quadro extends Dipendente implements Responsabile{
 	
 	public boolean isCaposquadra() {
 		return isCaposquadra;
+	}
+	
+	public boolean isImpegnato() {
+		return isResponsabile&&isCaposquadra;
 	}
 	
 	public String toString() {

@@ -18,10 +18,10 @@ public class Tester {
 		s.aggiungiOperaio(new Operaio("tipetto","a caso",21,"asd",lavoro.MURATORE));
 		s.aggiungiOperaio(new Operaio("mignotta","a caso",21,"asd",lavoro.IDRAULICO));
 		s.aggiungiOperaio(new Operaio("patt","a caso",21,"asd",lavoro.PIASTRELLISTA));
-		s.stampaSquadra();
+		//s.stampaSquadra();
 		Cantiere c= new Cantiere(200000, 21, 21, 10);
 		c.assegnaSquadra(s);
-		s.stampaSquadra();
+		//s.stampaSquadra();
 	} catch (OperaioOccupatoException e) {
 		e.printStackTrace();
 	}

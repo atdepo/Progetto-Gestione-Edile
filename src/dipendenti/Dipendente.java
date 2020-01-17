@@ -65,6 +65,11 @@ public abstract class Dipendente implements Cloneable {
 		return impegnato;
 	}
 	
+	public void impegnaDipendente() {
+		impegnato=true;
+	}
+	
+	
 	public void liberaDipendente() {
 		impegnato=false;
 	}
@@ -81,10 +86,6 @@ public abstract class Dipendente implements Cloneable {
 	 */
 	protected void setCodiceDipendente(String codice) {
 		codiceDipendente= codice;
-	}
-	
-	public void impegnaDipendente() {
-		impegnato=true;
 	}
 	
 	

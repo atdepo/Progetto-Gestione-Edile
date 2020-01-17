@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import approvviggionamento.Fattura;
 import approvviggionamento.Fornitore;
 import approvviggionamento.Prodotto;
 import dipendenti.Dipendente;
@@ -22,17 +21,14 @@ import dipendenti.Operaio.lavoro;
  */
 public class RepartoAmministrativo implements Serializable {
 		
-	protected static final double STIPENDIO_IMPIEGATO=7.0D;
-	protected static final double STIPENDIO_OPERAIO_GIORNO=25.0D;
-	protected static final double STIPENDIO_QUADRO=1780.0D;	
-	protected static final double STIPENDIO_DIRIGENTE=2750.0D;
-	protected static final double BONUS_QUADRO_CAPOCANTIERE=5;
-	protected static final double BONUS_QUADRO_CAPOSQUADRA=3;
-	protected static final double BONUS_IMPIEGATO=4.0D;
-	protected static final double BONUS_OPERAIO=4.0D;
-	protected static final double BONUS_DIRIGENTE_PER_OPERAIO=5.0D;
-	protected static final double BONUS_STRAORDINARIO_IMPIEGATO=9.0D;
-	protected static final double BONUS_STRAORDINARIO_OPERAIO=8.0D;
+	private static final double STIPENDIO_IMPIEGATO=7.0D;
+	private static final double STIPENDIO_OPERAIO_ORARIO=7.0D;
+	private static final double STIPENDIO_QUADRO=1780.0D;	
+	private static final double STIPENDIO_DIRIGENTE=2750.0D;
+	private static final double BONUS_QUADRO=2;
+	private static final double BONUS_DIRIGENTE_PER_OPERAIO=5.0D;
+	private static final double BONUS_STRAORDINARIO_IMPIEGATO=9.0D;
+	private static final double BONUS_STRAORDINARIO_OPERAIO=8.0D;
 	
 	
 	private ArrayList<Dipendente> dipendenti;
@@ -45,8 +41,7 @@ public class RepartoAmministrativo implements Serializable {
 	
 	private double capitale;
 	
-	public Magazzino magazzino; //CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-	private ArrayList<Fattura> fatture;
+	private Magazzino magazzino;
 	
 	public RepartoAmministrativo() {
 		dipendenti=new ArrayList<Dipendente>();
@@ -57,7 +52,6 @@ public class RepartoAmministrativo implements Serializable {
 		numImpiegati=0;
 		capitale=0;
 		magazzino=new Magazzino(0,0);
-		fatture=new ArrayList<Fattura>();
 	}
 	
 	public RepartoAmministrativo(int capacita,int posti,double capitale) {
@@ -69,56 +63,67 @@ public class RepartoAmministrativo implements Serializable {
 		numImpiegati=0;
 		this.capitale=capitale;
 		magazzino=new Magazzino(capacita,posti);
-		fatture=new ArrayList<Fattura>();
 	}
 	
 	
 	public void assumiDirigente(String nome, String cognome, int eta) {
 		numDirigenti++;
-		dipendenti.add(new Dirigente(nome, cognome, eta, Integer.toString(numDirigenti)));
+		Dirigente toAdd=new Dirigente(nome, cognome, eta, Integer.toString(numDirigenti));
+		toAdd.setContratto(STIPENDIO_DIRIGENTE, BONUS_DIRIGENTE_PER_OPERAIO);
+		dipendenti.add(toAdd);
 	}
 	
 	public void assumiQuadro(String nome, String cognome, int eta) {
 		numQuadri++;
-		dipendenti.add(new Quadro(nome, cognome, eta, Integer.toString(numQuadri)));
+		Quadro toAdd =new Quadro(nome, cognome, eta, Integer.toString(numQuadri));
+		toAdd.setContratto(STIPENDIO_QUADRO, BONUS_QUADRO);
+		dipendenti.add(toAdd);
 	}
 	
 	public void assumiOperaio(String nome, String cognome, int eta,lavoro specializzazione,int ore) {
 		numOperai++;
-		dipendenti.add(new Operaio(nome, cognome, eta, Integer.toString(numOperai), specializzazione, ore));
+		Operaio toAdd=new Operaio(nome, cognome, eta, Integer.toString(numOperai), specializzazione, ore);
+		toAdd.setContratto(STIPENDIO_OPERAIO_ORARIO,BONUS_STRAORDINARIO_OPERAIO);
+		dipendenti.add(toAdd);
 	}
 	
 	public void assumiOperaio(String nome, String cognome, int eta,lavoro specializzazione) {
 		numOperai++;
+		Operaio toAdd=new Operaio(nome, cognome, eta, Integer.toString(numOperai), specializzazione);
+		toAdd.setContratto(STIPENDIO_OPERAIO_ORARIO,BONUS_STRAORDINARIO_OPERAIO);
 		dipendenti.add(new Operaio(nome, cognome, eta, Integer.toString(numOperai), specializzazione));
 	}
 	
-	public void assumiImpiegato(String nome, String cognome, int eta,String matricola,int giorni) {
+	public void assumiImpiegato(String nome, String cognome, int eta,int giorni) {
 		numImpiegati++;
-		dipendenti.add(new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati),giorni));
+		Impiegato toAdd = new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati),giorni);
+		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_OPERAIO);
+		dipendenti.add(toAdd);
 	}
 	
-	public void assumiImpiegato(String nome, String cognome, int eta,String matricola) {
+	public void assumiImpiegato(String nome, String cognome, int eta) {
 		numImpiegati++;
+		Impiegato toAdd = new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati));
+		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_OPERAIO);
 		dipendenti.add(new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati)));
 	}
 	
-	static double pagaDirigente(Dipendente d) {
-		Contratto c=d.getContratto();
-		Dirigente dip=(Dirigente)d;
-		double saldo=dip.getNumeroOperai()*BONUS_DIRIGENTE_PER_OPERAIO+c.getStipendio();
-		return saldo;
+	public double pagaDirigente(Dipendente d) {
+		Dirigente toPay=(Dirigente)d;
+		Contratto c=toPay.getContratto();
+		if(toPay.isImpegnato())
+			return c.getStipendio()+c.getBonus()*toPay.getNumeroOperai();
+		return c.getStipendio();
 	}
 	
-	static double pagaImpiegato(Dipendente d) {
-		Contratto c=d.getContratto();
-		Impiegato i= (Impiegato)d; 
+	public double pagaImpiegato(Impiegato i) {
+		Contratto c=i.getContratto();
 		double saldo=i.getGiorniLavorati()*c.getStipendio()+i.getGiorniStraordinario()*c.getBonus();
 		i.resetOre();
 		return saldo;
 	}
 	
-	static double pagaOperaio(Dipendente d) {
+	public double pagaOperaio(Dipendente d) {
 		Contratto c=d.getContratto();
 		Operaio i= (Operaio)d;
 		double saldo=i.getOre_lavorate()*c.getStipendio()+i.getOre_straordinario()*c.getBonus();
@@ -127,19 +132,18 @@ public class RepartoAmministrativo implements Serializable {
 		
 	}	
 	
-	static double pagaQuadro(Dipendente d) {
+	public double pagaQuadro(Dipendente d) {
 		Contratto c=d.getContratto();
 		Quadro i= (Quadro)d;
+		
 		double saldo=c.getStipendio();
-		if(i.isCaposquadra())
-			saldo=saldo+c.getBonus();
-		else if (i.isResponsabile())
-			saldo=saldo+(c.getBonus()*2);
+		if(i.isCaposquadra()||i.isResponsabile())
+			return saldo+((saldo/100)*c.getBonus());
 		
 		return saldo;
 	}
 	
-	public double pagamentoAssunti() {
+	public void pagamentoAssunti() {
 		double speseDipendentiAzienda=0;
 		for(Dipendente d:dipendenti) {	
 			
@@ -148,7 +152,7 @@ public class RepartoAmministrativo implements Serializable {
 			}
 			
 			else if(Dipendente.isImpiegato(d)) {
-				speseDipendentiAzienda+=pagaImpiegato(d);
+				//speseDipendentiAzienda+=pagaImpiegato(d);
 			}
 			
 			else if(Dipendente.isOperaio(d)) {
@@ -159,7 +163,15 @@ public class RepartoAmministrativo implements Serializable {
 				speseDipendentiAzienda+=pagaQuadro(d);
 			}		
 		}
-		return speseDipendentiAzienda;
+		capitale-=speseDipendentiAzienda;
+	}
+	
+	public ArrayList<Dipendente> getDipendenti(){
+		return (ArrayList<Dipendente>) dipendenti.clone();
+	}
+	
+	public ArrayList<Fornitore> getFornitori(){
+		return (ArrayList<Fornitore>) fornitori.clone();
 	}
 	
 	public int totale_Dipendenti() {
@@ -203,9 +215,12 @@ public class RepartoAmministrativo implements Serializable {
 	public Prodotto compraProdotto(Prodotto prodotto) throws ProdottoNonTrovatoException {
 		for(Fornitore f: fornitori) {
 			Prodotto daComprare=f.compraProdotto(prodotto);
-			if(daComprare!=null)
-				return daComprare;
-		}
+			if(daComprare!=null) { //se sono riuscito a trovare il prodotto specificato in quantità necessaria
+				capitale-=daComprare.getNumeroPezziDisponibili()*daComprare.getPrezzo();
+				return daComprare; //ritorno il prodotto
+			
+			}
+		}	
 		throw new ProdottoNonTrovatoException();
 	}
 	

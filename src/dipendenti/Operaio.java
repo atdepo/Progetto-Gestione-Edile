@@ -9,9 +9,9 @@ package dipendenti;
 public class Operaio extends Dipendente {
 	private int ore_lavorate; 
 	private int ore_straordinario;
-	private boolean possiede_equipaggiamento_protettivo;
 	public enum lavoro {MURATORE,ELETTRICISTA,IDRAULICO,PIASTRELLISTA};
 	private lavoro specializzazione;
+	private boolean impegnato; 
 	/**
 	 * Costruttore standard di Operaio in cui viene stabilito un numero di ore di default
 	 * @param nome il nome dell'operaio
@@ -25,7 +25,6 @@ public class Operaio extends Dipendente {
 		this.specializzazione=specializzazione;
 		ore_lavorate=40;
 		ore_straordinario=0;
-		possiede_equipaggiamento_protettivo=false;
 	}
 	/**
 	 * Costruttore standard di Operaio in cui viene stabilito il numero di ore. Se il numero di ore è maggiore di 70 oppure negativo
@@ -43,8 +42,7 @@ public class Operaio extends Dipendente {
 		if(ore_lavorate>70||ore_lavorate<0)
 			throw new IllegalArgumentException();
 		ore_lavorate=ore;
-		ore_straordinario=40;
-		possiede_equipaggiamento_protettivo=false;
+		ore_straordinario=0;
 	}
 
 	public int getOre_lavorate() {
@@ -65,25 +63,20 @@ public class Operaio extends Dipendente {
 		return specializzazione.name();
 	}
 	
-	public boolean isProtetto() {
-		return possiede_equipaggiamento_protettivo;  
-	}
-	
 	public void resetOre() {
 		ore_lavorate=0;
 		ore_straordinario=0;
 	}
 	
 	public String toString() {
-		return super.toString()+"[ore_lavorate= "+ore_lavorate+",specializzazione="+specializzazione.name()
-							   +",possiede_equipaggiamento_protettivo="+possiede_equipaggiamento_protettivo+"]";
+		return super.toString()+"[ore_lavorate= "+ore_lavorate+",specializzazione="+specializzazione.name()+",ore_straordinario="+ore_straordinario+"]";
 	}
 	
 	public boolean equals(Object o) {
 		if(!super.equals(o))
 			return false;
 		Operaio op=(Operaio)o;
-		return op.ore_lavorate==ore_lavorate&&op.getSpecializzazione().equals(getSpecializzazione())&&op.possiede_equipaggiamento_protettivo==possiede_equipaggiamento_protettivo; 
+		return op.ore_lavorate==ore_lavorate&&op.ore_straordinario==ore_straordinario&&op.getSpecializzazione().equals(getSpecializzazione()); 
 		}
 	
 	public Operaio clone() {

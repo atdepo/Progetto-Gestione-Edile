@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import approvviggionamento.Prodotto;
 import dipendenti.Dipendente;
+import dipendenti.Dirigente;
+import dipendenti.Quadro;
 import dipendenti.Responsabile;
 /**
  * Questa classe cattura il concetto  di un Cantiere.
@@ -52,16 +54,7 @@ public class Cantiere implements Serializable   {
 		this.estensione=estensione;
 		Squadre=new ArrayList<Squadra>();
 		listaMaterialiNecessari= new ArrayList<Prodotto>();
-		Dipendente d=(Dipendente)responsabile;
-		if(d.isImpegnato())
-			throw new IllegalArgumentException("Responsabile già impegnato");		
-		if(valore>500000)
-			if(Dipendente.isDirigente((Dipendente)responsabile))
-				this.responsabile=responsabile;
-			else
-				throw new IllegalArgumentException();	
-		this.responsabile=responsabile;
-		
+		assegnaResponsabile(responsabile);
 		}
 	
 	public Responsabile getResponsabile() {
@@ -74,6 +67,14 @@ public class Cantiere implements Serializable   {
 
 	public ArrayList<Squadra> getSquadre() {
 		return Squadre;
+	}
+	
+	public int getNumeroOperaiCantiere() {
+		int totale=0;
+		for(Squadra s:Squadre) {
+			totale+=s.getNumeroOperai();
+		}
+		return totale;
 	}
 	
 	public void assegnaMateriali(ArrayList<Prodotto> materiali) {
@@ -96,12 +97,21 @@ public class Cantiere implements Serializable   {
 	public void assegnaResponsabile(Responsabile responsabile) {
 		
 		if(valore>500000) {
-			if(Dipendente.isDirigente((Dipendente)responsabile))
+			if(Dipendente.isDirigente((Dipendente)responsabile)) {
+				Dirigente d=(Dirigente)responsabile;
+				d.aggiungiOperai(getNumeroOperaiCantiere());
 				this.responsabile=responsabile;
-			else
-				throw new IllegalArgumentException();
-			this.responsabile=responsabile;
+				return;
+			}
 		}
+		else {
+			Quadro q=(Quadro)responsabile;
+			this.responsabile=responsabile;
+			
+			//q.setContratto(, bonus);
+		}
+		
+		throw new IllegalArgumentException();
 	}
 	
 	/**

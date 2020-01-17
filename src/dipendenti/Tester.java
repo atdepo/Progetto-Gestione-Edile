@@ -12,6 +12,11 @@ public class Tester {
 		Operaio o= new Operaio("Paolo", "Apostolico", 24, "012", lavoro.MURATORE);
 		System.out.println(o);
 		
+		System.out.println("Controllo se l'operaio è impegnato="+o.isImpegnato());
+		System.out.println("Impegno l'operaio");
+		o.impegnaDipendente();
+		System.out.println("Controllo se l'operaio è impegnato="+o.isImpegnato());
+		
 		System.out.println("\nIstanzio un Impiegato che lavora solamente 4 giorni alla settimana");
 		Impiegato i= new Impiegato("Giuseppe", "Contaldi", 21, "031", 4);
 		System.out.println(i);
@@ -36,11 +41,6 @@ public class Tester {
 		
 		System.out.println("Controllo se sono uguali:"+clone.equals(d1));
 		
-		System.out.println("\nControllo se l'impiegato "+i.getNome()+" "+i.getCognome()+" è impegnato");
-		System.out.println("L'impiegato "+ i.getNome()+" "+i.getCognome()+" è impegnato? "+i.isImpegnato());
-		System.out.println("Impegno l'impiegato "+i.getNome()+" "+i.getCognome());
-		i.impegnaDipendente();
-		System.out.println("L'impiegato "+ i.getNome()+" "+i.getCognome()+" è impegnato? "+i.isImpegnato());
 		
 		System.out.println("Controllo se "+d.getNome()+" "+d.getCognome()+" è un operaio\n");
 		System.out.println(d.getNome()+" "+d.getCognome()+" è un operaio? "+Dipendente.isOperaio(d));
