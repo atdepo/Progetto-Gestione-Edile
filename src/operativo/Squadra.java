@@ -54,16 +54,24 @@ public class Squadra implements Serializable{
 			throw new OperaioOccupatoException();
 	}
 	
+	public void rimuoviOperaio(Operaio operaio) {
+		operaio.liberaDipendente();
+		operai.remove(operaio);
+	}
+	
 	public void assegnaSquadra(){
+		capoSquadra.impegnaDipendente();
 		for(Operaio o:operai) {
 			o.impegnaDipendente();
 		}
 	}
 	
 	public void liberaSquadra() {
+		capoSquadra.liberaDipendente();
 		for(Operaio o:operai) {
 			o.liberaDipendente();
 		}
 	}
 	
+
 }

@@ -1,5 +1,6 @@
 package approvviggionamento;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import eccezioni.ProdottoNonTrovatoException;
@@ -8,11 +9,12 @@ import eccezioni.ProdottoNonTrovatoException;
  * Questa classe implementa il concetto di un Fornitore 
  * che si occupa di vendere prodotti ad una azienda cliente
  */
-public class Fornitore {
+public class Fornitore implements Serializable{
 
 	 private String nomeFornitore;
 	 private ArrayList<Prodotto> prodottiInVendita;
 	 private ArrayList<MacchineDaCantiere> macchineDaCantiereInVendita;
+	 
 	 public Fornitore(String nomeFornitore) {
 		 this.nomeFornitore=nomeFornitore;
 		 prodottiInVendita=new ArrayList<Prodotto>();
@@ -30,13 +32,6 @@ public class Fornitore {
 	public ArrayList<MacchineDaCantiere> getMacchineDaCantiere(){
 		return macchineDaCantiereInVendita;
 	}
-	/**
-	 * Se due prodotti condividono le caratteristiche, vengono sommate le disponibilità dei pezzi
-	 * @param a il primo prodotto 
-	 * @param b il secondo prodotto
-	 * @return il prodotto avente numero_pezzi=numero_pezzi(a)+numero_pezzi(b)
-	 */
-	
 	
 	public void aggiungiProdotto(Prodotto prodotto) {
 		if(prodotto!=null && prodottiInVendita!=null)
@@ -49,6 +44,19 @@ public class Fornitore {
 		macchineDaCantiereInVendita.add(macchina);
 	}
 	
+	public MacchineDaCantiere compraMacchina(MacchineDaCantiere macchina) {
+		
+		try {
+			MacchineDaCantiere daComprare=cercaMacchina(macchina);
+			macchineDaCantiereInVendita.remove(daComprare);
+			return daComprare;
+			
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+		
+	}
+	
 	public Prodotto compraProdotto(Prodotto p) {
 		try {
 			Prodotto prod= cercaProdotto(p);
@@ -56,7 +64,6 @@ public class Fornitore {
 				prod.scalaProdotto(p.getNumeroPezziDisponibili());
 				Prodotto daRestituire=prod.clone();
 				daRestituire.setNumeroPezziDisponibili(p.getNumeroPezziDisponibili());
-				System.out.println(daRestituire.getCaratteristicheProdotto()+"\n\n"+p.getNumeroPezziDisponibili()+"\n\n");
 				return daRestituire;
 			}
 			else 
@@ -74,8 +81,19 @@ public class Fornitore {
 		throw new ProdottoNonTrovatoException();
 	}
 	
+	public MacchineDaCantiere cercaMacchina(MacchineDaCantiere daCercare) {
+		for(MacchineDaCantiere m:macchineDaCantiereInVendita) {
+			if(m.equalsCaratteristiche(daCercare))
+				return m;
+		}
+		throw new IllegalArgumentException("Macchina non trovata");
+	}
 	
-	public void rimuoviProdVendita(int elem) { //da cambiare
-		prodottiInVendita.remove(elem);
+	public void rimuoviProdotto(Prodotto prodotto) throws ProdottoNonTrovatoException {
+		prodottiInVendita.remove(cercaProdotto(prodotto));
+	}
+	
+	public void rimuoviMacchina(MacchineDaCantiere macchina) {
+		macchineDaCantiereInVendita.remove(cercaMacchina(macchina));
 	}
 }

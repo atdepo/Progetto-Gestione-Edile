@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import amministrativo.RepartoAmministrativo;
 import dipendenti.Dipendente;
+import dipendenti.Dirigente;
 import dipendenti.Operaio.lavoro;
 import dipendenti.Responsabile;
 import operativo.RepartoOperativo;
@@ -25,8 +26,11 @@ public class TesterAzienda {
 	for(Dipendente d: dip) {
 		System.out.println(d);
 	}
-	Responsabile r=(Responsabile) dip.get(1);
-	ro.apriCantiere(41454, 4154, 415, 4154,r);
+	Dirigente d=(Dirigente) dip.get(1);
+	//Responsabile r=(Responsabile) 
+	ro.apriCantiere(41454, 4154, 415, 4154,d);
+	
+	
 	}
 	
 	

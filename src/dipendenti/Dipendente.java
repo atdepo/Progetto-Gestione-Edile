@@ -1,5 +1,7 @@
 package dipendenti;
 
+import java.io.Serializable;
+
 import amministrativo.Contratto;
 import eccezioni.DipendenteNonAssumibileException;
 
@@ -8,7 +10,7 @@ import eccezioni.DipendenteNonAssumibileException;
  * Ogni dipendente possiede uno schema di retribuzione differente quindi non viene gestita in questa astrazione 
  * la sua retribuzione
  */
-public abstract class Dipendente implements Cloneable {
+public abstract class Dipendente implements Cloneable,Serializable {
 
 	private String nome,cognome,codiceDipendente;
 	private int eta;
@@ -61,6 +63,14 @@ public abstract class Dipendente implements Cloneable {
 		return pagato;
 	}
 	
+	public void setPagato() {
+		pagato=true;
+	}
+	
+	public void resetPagamento() {
+		pagato=false;
+	}
+	
 	public boolean isImpegnato() {
 		return impegnato;
 	}
@@ -68,7 +78,6 @@ public abstract class Dipendente implements Cloneable {
 	public void impegnaDipendente() {
 		impegnato=true;
 	}
-	
 	
 	public void liberaDipendente() {
 		impegnato=false;
@@ -118,7 +127,7 @@ public abstract class Dipendente implements Cloneable {
 	}
 	
 	public String toString() {
-		return getClass().getName()+"[nome="+nome+",cognome="+cognome+",eta="+eta+",codiceDipendente="+codiceDipendente+",pagato="+pagato+",impegnato="+impegnato+"]";
+		return getClass().getSimpleName()+"[nome="+nome+",cognome="+cognome+",eta="+eta+",codiceDipendente="+codiceDipendente+",pagato="+pagato+",impegnato="+impegnato+"]";
 	}
 	
 	public boolean equals(Object o) {

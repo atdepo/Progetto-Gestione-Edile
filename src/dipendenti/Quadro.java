@@ -30,7 +30,7 @@ public class Quadro extends Dipendente implements Responsabile{
 	}
 	
 	public boolean isImpegnato() {
-		return isResponsabile&&isCaposquadra;
+		return isResponsabile||isCaposquadra;
 	}
 	
 	public String toString() {

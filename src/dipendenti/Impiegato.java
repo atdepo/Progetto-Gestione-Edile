@@ -62,7 +62,6 @@ public class Impiegato extends Dipendente{
 	}
 	
 	public void resetOre() {
-		giorni_lavorati=0;
 		giorni_lavoro_straordinario=0;
 	}
 	

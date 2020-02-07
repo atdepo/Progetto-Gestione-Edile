@@ -15,7 +15,7 @@ TODO:
 
 -implementare un modo per comprare dei mezzi da un fornitore--------------------------------------------------------fatto 
 
--implementare se possibile retribuzioni in base al mese
+-implementare se possibile retribuzioni in base al mese-------------------------------------------------------------fatto
 
 -implementare tester per ogni pacchetto
 
@@ -25,4 +25,4 @@ TODO:
 
 -implementare un metodo statico per controllare se un dipendente è di un certo tipo---------------------------------fatto
 
--(forse)implementare fattura
+-implementare un cambia contratto

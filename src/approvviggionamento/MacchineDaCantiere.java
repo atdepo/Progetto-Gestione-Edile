@@ -1,9 +1,12 @@
 package approvviggionamento;
+
+import java.io.Serializable;
+
 /**
  * Questa classe cattura il concetto delle Macchine che vengono usate all'interno dei cantieri ad esempio gli escavatori meccanici oppure le betoniere.
  * 
  */
-public class MacchineDaCantiere implements Cloneable{
+public class MacchineDaCantiere implements Cloneable,Serializable{
 
 	private String nome;
 	private String casaMadre;
@@ -39,6 +42,15 @@ public class MacchineDaCantiere implements Cloneable{
 		return prezzo;
 	}
 	
+	public String getCaratteristiche() {
+		String caratteristiche="Nome="+nome+
+								"\n Casa Madre="+casaMadre+
+								"\n Peso="+peso+
+								"\n Potenza="+potenza+
+								"\n Prezzo="+prezzo+"\n";
+		return caratteristiche;
+	}
+	
 	public boolean equalsCaratteristiche(MacchineDaCantiere macchina) {
 		if(macchina==null)
 			return false;
@@ -49,6 +61,7 @@ public class MacchineDaCantiere implements Cloneable{
 		try {
 			return (MacchineDaCantiere)super.clone();
 		} catch (CloneNotSupportedException e) {
-			return null;		}
+			return null;	
+		}
 	}
 }

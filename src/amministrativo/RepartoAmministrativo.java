@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import approvviggionamento.Fornitore;
+import approvviggionamento.MacchineDaCantiere;
 import approvviggionamento.Prodotto;
 import dipendenti.Dipendente;
 import dipendenti.Dirigente;
@@ -16,7 +17,9 @@ import dipendenti.Operaio.lavoro;
 
 /**
  * Questa classe cattura il concetto  di un RepartoAmministrativo di un cantiere.
- * un reparto amministrativo ha il compito di assumere i dipendenti e 
+ * un reparto amministrativo ha il compito di assumere i dipendenti, di pagarli
+ * e di gestire le risorse nel magazzino, comprando eventualmente mateliali necessari 
+ * dai fornitori
  *
  */
 public class RepartoAmministrativo implements Serializable {
@@ -25,7 +28,7 @@ public class RepartoAmministrativo implements Serializable {
 	private static final double STIPENDIO_OPERAIO_ORARIO=7.0D;
 	private static final double STIPENDIO_QUADRO=1780.0D;	
 	private static final double STIPENDIO_DIRIGENTE=2750.0D;
-	private static final double BONUS_QUADRO=2;
+	private static final double BONUS_QUADRO=6;
 	private static final double BONUS_DIRIGENTE_PER_OPERAIO=5.0D;
 	private static final double BONUS_STRAORDINARIO_IMPIEGATO=9.0D;
 	private static final double BONUS_STRAORDINARIO_OPERAIO=8.0D;
@@ -33,6 +36,7 @@ public class RepartoAmministrativo implements Serializable {
 	
 	private ArrayList<Dipendente> dipendenti;
 	private ArrayList<Fornitore> fornitori;
+	private Magazzino magazzino;
 	
 	private int numDirigenti;
 	private int numQuadri;
@@ -40,20 +44,7 @@ public class RepartoAmministrativo implements Serializable {
 	private int numImpiegati;
 	
 	private double capitale;
-	
-	private Magazzino magazzino;
-	
-	public RepartoAmministrativo() {
-		dipendenti=new ArrayList<Dipendente>();
-		fornitori= new ArrayList<Fornitore>();
-		numDirigenti=0;
-		numQuadri=0;
-		numOperai=0;
-		numImpiegati=0;
-		capitale=0;
-		magazzino=new Magazzino(0,0);
-	}
-	
+
 	public RepartoAmministrativo(int capacita,int posti,double capitale) {
 		dipendenti=new ArrayList<Dipendente>();
 		fornitori= new ArrayList<Fornitore>();
@@ -91,7 +82,7 @@ public class RepartoAmministrativo implements Serializable {
 		numOperai++;
 		Operaio toAdd=new Operaio(nome, cognome, eta, Integer.toString(numOperai), specializzazione);
 		toAdd.setContratto(STIPENDIO_OPERAIO_ORARIO,BONUS_STRAORDINARIO_OPERAIO);
-		dipendenti.add(new Operaio(nome, cognome, eta, Integer.toString(numOperai), specializzazione));
+		dipendenti.add(toAdd);
 	}
 	
 	public void assumiImpiegato(String nome, String cognome, int eta,int giorni) {
@@ -105,37 +96,41 @@ public class RepartoAmministrativo implements Serializable {
 		numImpiegati++;
 		Impiegato toAdd = new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati));
 		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_OPERAIO);
-		dipendenti.add(new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati)));
+		dipendenti.add(toAdd);
 	}
 	
-	public double pagaDirigente(Dipendente d) {
+	private double pagaDirigente(Dipendente d) {
 		Dirigente toPay=(Dirigente)d;
 		Contratto c=toPay.getContratto();
+		d.setPagato();
 		if(toPay.isImpegnato())
 			return c.getStipendio()+c.getBonus()*toPay.getNumeroOperai();
 		return c.getStipendio();
 	}
 	
-	public double pagaImpiegato(Impiegato i) {
-		Contratto c=i.getContratto();
-		double saldo=i.getGiorniLavorati()*c.getStipendio()+i.getGiorniStraordinario()*c.getBonus();
+	private double pagaImpiegato(Dipendente d) {
+		Contratto c=d.getContratto();
+		d.setPagato();
+		Impiegato i=(Impiegato)d;
+		double saldo=4*i.getGiorniLavorati()*c.getStipendio()+i.getGiorniStraordinario()*c.getBonus();
 		i.resetOre();
 		return saldo;
 	}
 	
-	public double pagaOperaio(Dipendente d) {
+	private double pagaOperaio(Dipendente d) {
 		Contratto c=d.getContratto();
 		Operaio i= (Operaio)d;
-		double saldo=i.getOre_lavorate()*c.getStipendio()+i.getOre_straordinario()*c.getBonus();
+		d.setPagato();
+		double saldo=4*i.getOre_lavorate()*c.getStipendio()+i.getOre_straordinario()*c.getBonus();
 		i.resetOre();
 		return saldo;
 		
 	}	
 	
-	public double pagaQuadro(Dipendente d) {
+	private double pagaQuadro(Dipendente d) {
 		Contratto c=d.getContratto();
 		Quadro i= (Quadro)d;
-		
+		d.setPagato();
 		double saldo=c.getStipendio();
 		if(i.isCaposquadra()||i.isResponsabile())
 			return saldo+((saldo/100)*c.getBonus());
@@ -149,29 +144,40 @@ public class RepartoAmministrativo implements Serializable {
 			
 			if(Dipendente.isDirigente(d)) {
 				speseDipendentiAzienda+=pagaDirigente(d);
+				System.out.println("Ho pagato un dirigente"+speseDipendentiAzienda);
 			}
 			
 			else if(Dipendente.isImpiegato(d)) {
-				//speseDipendentiAzienda+=pagaImpiegato(d);
+				speseDipendentiAzienda+=pagaImpiegato(d);
+				System.out.println("Ho pagato un impiegato"+speseDipendentiAzienda);
+
 			}
 			
 			else if(Dipendente.isOperaio(d)) {
 				speseDipendentiAzienda+=pagaOperaio(d);
+				System.out.println("Ho pagato un operaio"+speseDipendentiAzienda);
+
 			}
 			
 			else if(Dipendente.isQuadro(d)) {
 				speseDipendentiAzienda+=pagaQuadro(d);
+				System.out.println("Ho pagato un quadro"+speseDipendentiAzienda);
+
 			}		
 		}
 		capitale-=speseDipendentiAzienda;
 	}
 	
 	public ArrayList<Dipendente> getDipendenti(){
-		return (ArrayList<Dipendente>) dipendenti.clone();
+		return dipendenti;
 	}
 	
 	public ArrayList<Fornitore> getFornitori(){
-		return (ArrayList<Fornitore>) fornitori.clone();
+		return fornitori;
+	}
+	
+	public Magazzino getMagazzino() {
+		return magazzino;
 	}
 	
 	public int totale_Dipendenti() {
@@ -194,8 +200,24 @@ public class RepartoAmministrativo implements Serializable {
 		return numImpiegati;
 	}
 	
+	public double getCapitale() {
+		return capitale;
+	}
+	
 	public Dipendente licenziamentoDipendente(Dipendente daRimuovere) {
-		return dipendenti.remove(dipendenti.indexOf(daRimuovere));
+		if(!daRimuovere.isImpegnato()) {
+			if(Dipendente.isDirigente(daRimuovere))
+				numDirigenti--;
+			if(Dipendente.isImpiegato(daRimuovere))
+				numImpiegati--;
+			if(Dipendente.isOperaio(daRimuovere))
+				numOperai--;
+			if(Dipendente.isQuadro(daRimuovere))
+				numQuadri--;
+			return dipendenti.remove(dipendenti.indexOf(daRimuovere));
+		}
+		else
+			throw new IllegalArgumentException("Eliminare prima il dipendente dal suo incarico");
 	}
 	
 	public void aggiungiFornitore(Fornitore fornitore) {
@@ -247,11 +269,32 @@ public class RepartoAmministrativo implements Serializable {
 			return compraProdotto(prodotto);
 
 		} catch (ProdottoNonTrovatoException e) {
-			System.out.println("qua?");
 			return null;
 			}
-		
 	}
 	
+	
+	public void aggiungiMacchinaAlMagazzino(MacchineDaCantiere macchina) {
+		magazzino.aggiungiMacchina(macchina);
+	}
+	
+	public MacchineDaCantiere compraMacchina(MacchineDaCantiere m) {
+		for(Fornitore f: fornitori) {
+			MacchineDaCantiere daComprare= f.compraMacchina(m);
+			if(daComprare!=null) { //se sono riuscito a trovare il prodotto specificato in quantità necessaria
+				capitale-=daComprare.getPrezzo();
+				return daComprare; //ritorno il prodotto
+			}
+		}
+		throw new IllegalArgumentException();
+	}
+	
+	public MacchineDaCantiere getMacchina(MacchineDaCantiere m) {
+		MacchineDaCantiere daRestituire=magazzino.prendiMacchina(m);
+		if(daRestituire!=null)
+			return daRestituire;
+		else
+			return compraMacchina(m);
+	}
 }
 

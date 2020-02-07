@@ -64,7 +64,6 @@ public class Operaio extends Dipendente {
 	}
 	
 	public void resetOre() {
-		ore_lavorate=0;
 		ore_straordinario=0;
 	}
 	

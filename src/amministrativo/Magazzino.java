@@ -1,5 +1,6 @@
 package amministrativo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import approvviggionamento.MacchineDaCantiere;
@@ -12,7 +13,7 @@ import eccezioni.ProdottoNonTrovatoException;
  * 
  * 
  */
-public class Magazzino {
+public class Magazzino implements Serializable{
 	
 	private ArrayList<Prodotto> prodottiInMagazino;
 	private ArrayList<MacchineDaCantiere> macchineDaCantiere;
@@ -26,36 +27,51 @@ public class Magazzino {
 		postiMacchine=posti;
 	}
 	
+	public ArrayList<Prodotto> getProdottiInMagazzino() {
+		return prodottiInMagazino;
+	}
 	
-	public void addMacchina(MacchineDaCantiere macchina) {
+	public ArrayList<MacchineDaCantiere> getMacchineInMagazzino() {
+		return macchineDaCantiere;
+	}
+	
+	public double getCapacitaResidua() {
+		return capacitaMax;
+	}
+	
+	public int getPostiDisponibili() {
+		return postiMacchine;
+	}
+	
+	public void aggiungiMacchina(MacchineDaCantiere macchina) {
 		if(postiMacchine>0) {
 		macchineDaCantiere.add(macchina);
 		capacitaMax--;
-		
 		}
 		else
 			throw new CapacitaSuperataException();
 	}
 	
 
-	public MacchineDaCantiere rimuoviMacchina(MacchineDaCantiere macchina) {
-		
-		for(MacchineDaCantiere p:macchineDaCantiere) {
-			if(p.equalsCaratteristiche(macchina)) {
-				postiMacchine--;
-				return macchineDaCantiere.remove(macchineDaCantiere.indexOf(macchina));
-			}
+	public MacchineDaCantiere prendiMacchina(MacchineDaCantiere macchina) {
+		for(MacchineDaCantiere m:macchineDaCantiere) {
+			 if(m.equalsCaratteristiche(macchina)) {
+				 postiMacchine++;
+				 return macchineDaCantiere.remove(macchineDaCantiere.indexOf(m));
+			 }
 		}
-		throw new IllegalArgumentException();
+		return null;
 	}
-	
 	public void aggiungiProdotto(Prodotto prodotto) {
-		if(capacitaMax>prodotto.getSpazioOccupatoTotale()) {
+		if((capacitaMax-prodotto.getSpazioOccupatoTotale())>0) {
 			for(Prodotto p:prodottiInMagazino) {
-				if(p.equalsCaratteristiche(prodotto))
+				if(p.equalsCaratteristiche(prodotto)) {
 					p.sommaDisponibilita(prodotto);
+					capacitaMax+=prodotto.getSpazioOccupatoTotale();
 					return;
+				}
 			}
+			capacitaMax+=prodotto.getSpazioOccupatoTotale();
 			prodottiInMagazino.add(prodotto);
 		}
 		else
@@ -66,32 +82,35 @@ public class Magazzino {
 		for(Prodotto p:prodottiInMagazino) {
 			if(p.equalsCaratteristiche(prodotto)) 				//se il prodotto viene trovato nel magazzino
 				if(p.getNumeroPezziDisponibili()>=prodotto.getNumeroPezziDisponibili()) { // e ci sono quantità necessarie per soddisfare la richeista
-					capacitaMax+=(p.getSpazioOccupato()*p.getNumeroPezziDisponibili());
+					capacitaMax-=(p.getSpazioOccupato()*p.getNumeroPezziDisponibili());
 					p.scalaProdotto(prodotto.getNumeroPezziDisponibili());
 					return prodotto;   //ritorni tutta la richiesta
 				}	
 				else {
-					capacitaMax+=p.getSpazioOccupatoTotale();
+					capacitaMax-=p.getSpazioOccupatoTotale();
 					prodotto.setNumeroPezziDisponibili(p.getNumeroPezziDisponibili());
 					p.scalaProdotto(p.getNumeroPezziDisponibili());
 					return prodotto; //altrimenti restituisci solamente la quantità che hai disponibile nel magazzino 
 				}
 		}
-		//prodottononinvendita,prodottonondisponibile,quantitanondisponibile
 		return null;
 	}
 	
-	public Prodotto rimuoviProdotto(Prodotto prodotto) throws ProdottoNonTrovatoException {
-		
+	public void rimuoviProdotto(Prodotto prodotto) throws ProdottoNonTrovatoException {
 		for(Prodotto p:prodottiInMagazino) {
 			if(p.equalsCaratteristiche(prodotto)) {
-				capacitaMax+=p.getSpazioOccupatoTotale();
-				return prodottiInMagazino.remove(prodottiInMagazino.indexOf(prodotto));
+				int quantita= prodotto.getNumeroPezziDisponibili();
+				capacitaMax+=p.getSpazioOccupato()*quantita;
+				if(p.getNumeroPezziDisponibili()-quantita<0)
+					prodottiInMagazino.remove(prodottiInMagazino.indexOf(prodotto));
+				else
+					p.setNumeroPezziDisponibili(p.getNumeroPezziDisponibili()-quantita);
+				return;
 			}
 		}
 		throw new ProdottoNonTrovatoException();
 	}
 	
-
+	
 	 
 }

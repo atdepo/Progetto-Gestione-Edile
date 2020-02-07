@@ -3,6 +3,7 @@ package operativo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import approvviggionamento.MacchineDaCantiere;
 import approvviggionamento.Prodotto;
 import dipendenti.Dipendente;
 import dipendenti.Dirigente;
@@ -18,26 +19,12 @@ import dipendenti.Responsabile;
  */
 public class Cantiere implements Serializable   {
 	private Responsabile responsabile;
-	private ArrayList<Squadra> Squadre;
-	private ArrayList<Prodotto> listaMaterialiNecessari;
+	private ArrayList<Squadra> squadre;
+	private ArrayList<Prodotto> listaMaterialiDisponibili;
+	private ArrayList<MacchineDaCantiere> macchineImpiegate;
 	private Geolocalizzazione posizioneCantiere;
 	private double estensione;
 	private double valore;
-	
-	/**
-	 * Istanzia un cantiere
-	 * @param valore valore del cantiere
-	 * @param latitudine latitudine della posizione del cantiere
-	 * @param longitudine longitudine della posizione del cantiere
-	 * @param estensione estensione in m^2 del cantiere
-	 */
-	public Cantiere(double valore,double latitudine,double longitudine,double estensione) {
-		this.valore=valore;
-		this.posizioneCantiere=new Geolocalizzazione(latitudine, longitudine);
-		this.estensione=estensione;
-		Squadre=new ArrayList<Squadra>();
-		listaMaterialiNecessari= new ArrayList<Prodotto>();
-	}
 	
 	/**
 	 * Istanzia un cantiere assegnandogli un responsabile
@@ -52,35 +39,48 @@ public class Cantiere implements Serializable   {
 		this.valore=valore;
 		this.posizioneCantiere=new Geolocalizzazione(latitudine, longitudine);
 		this.estensione=estensione;
-		Squadre=new ArrayList<Squadra>();
-		listaMaterialiNecessari= new ArrayList<Prodotto>();
+		squadre=new ArrayList<Squadra>();
+		listaMaterialiDisponibili= new ArrayList<Prodotto>();
+		macchineImpiegate= new ArrayList<MacchineDaCantiere>();
 		assegnaResponsabile(responsabile);
 		}
 	
 	public Responsabile getResponsabile() {
 		return responsabile;
 	}
-
+	
 	public double getValore() {
 		return valore;
 	}
 
 	public ArrayList<Squadra> getSquadre() {
-		return Squadre;
+		return squadre;
+	}
+	
+	public ArrayList<Prodotto> getMaterialiDisponibili(){
+		return listaMaterialiDisponibili;
+	}
+
+	public void assegnaMateriali(ArrayList<Prodotto> materiali) {//uno solo
+		listaMaterialiDisponibili.addAll(materiali);
+	}
+
+	public ArrayList<MacchineDaCantiere> getMacchineImpiegate(){
+		return macchineImpiegate;
+	}
+
+	public void assegnaMacchina(MacchineDaCantiere macchina) {
+		macchineImpiegate.add(macchina);
 	}
 	
 	public int getNumeroOperaiCantiere() {
 		int totale=0;
-		for(Squadra s:Squadre) {
+		for(Squadra s:squadre) {
 			totale+=s.getNumeroOperai();
 		}
 		return totale;
 	}
 	
-	public void assegnaMateriali(ArrayList<Prodotto> materiali) {
-		materiali.addAll(materiali);
-	}
-
 	public Geolocalizzazione getPosizioneCantiere() {
 		return posizioneCantiere;
 	}
@@ -91,40 +91,34 @@ public class Cantiere implements Serializable   {
 
 	/**
 	 * Metodo per aggiungere un Responsabile alla gestione della squadra.
-	 * il responsabile inoltre non deve essere abilitato ad esserlo in base al valore del cantiere
 	 * @param responsabile il responsabile da assegnare
 	 */
 	public void assegnaResponsabile(Responsabile responsabile) {
 		
+		Dipendente d=(Dipendente)responsabile;
 		if(valore>500000) {
-			if(Dipendente.isDirigente((Dipendente)responsabile)) {
-				Dirigente d=(Dirigente)responsabile;
-				d.aggiungiOperai(getNumeroOperaiCantiere());
+			if(Dipendente.isDirigente(d)&&!d.isImpegnato()) {
+				Dirigente dir=(Dirigente)d;
+				dir.impegnaDipendente();
+				dir.aggiungiOperai(getNumeroOperaiCantiere());
 				this.responsabile=responsabile;
 				return;
 			}
 		}
 		else {
-			Quadro q=(Quadro)responsabile;
-			this.responsabile=responsabile;
-			
-			//q.setContratto(, bonus);
+			if(!d.isImpegnato()) {
+				d.impegnaDipendente();
+				this.responsabile=responsabile;
+				return;
+			}
 		}
-		
 		throw new IllegalArgumentException();
 	}
-	
-	/**
-	 * Metodo per aggiungere squadre alla lista delle squadre impegnate nel cantiere.
-	 * @param squadra la squadra da aggiungere
-	 */
-	public void assegnaSquadra(Squadra squadra) {
-		if(squadra.getOperai().size()>0) {
-			Squadre.add(squadra);
-			squadra.assegnaSquadra();
-		}
-		else
-			throw new IllegalArgumentException();
+
+	public void licenziaResponsabile() {
+		Dipendente d=(Dipendente)responsabile;
+		d.liberaDipendente();
+		responsabile=null;
 	}
 	/**
 	 * 
@@ -132,7 +126,7 @@ public class Cantiere implements Serializable   {
 	 *@param latitudine la latitudine del punto
 	 *@param longitudine la longitudine del punto
 	 */
-	public class Geolocalizzazione{
+	public class Geolocalizzazione implements Serializable{
 		private double longitudine;
 		private double latitudine;
 		

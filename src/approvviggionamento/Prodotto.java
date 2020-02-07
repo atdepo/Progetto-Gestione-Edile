@@ -1,10 +1,13 @@
 package approvviggionamento;
+
+import java.io.Serializable;
+
 /**
  * classe che implementa la funzione di un prodotto descrivendo tutte le caratteristiche di un prodotto
  * questo prodotto è destinato alla vendita di fornitori che riforniscono delle aziende edili
  *
  */
-public class Prodotto implements Cloneable{
+public class Prodotto implements Cloneable,Serializable{
 	
 	private String nomeProdotto;
 	private String casaProduttrice;
@@ -30,6 +33,10 @@ public class Prodotto implements Cloneable{
 		this.anniGaranzia=anniGaranzia;
 		this.prezzo=prezzoProdottoIniziale;
 		this.numeroPezziDisponibili=disponibilita;
+	}
+	
+	public String getNome() {
+		return nomeProdotto;
 	}
 	
 	public String getCasaProduttrice() {

@@ -2,13 +2,15 @@ package approvviggionamento;
 
 import amministrativo.RepartoAmministrativo;
 import eccezioni.ProdottoNonTrovatoException;
+import gui.PopolamentoAzienda;
+import utilities.Azienda;
 
 public class Tester {
 
 
 	public static void main(String[] args) throws ProdottoNonTrovatoException {
 		
-		Fornitore f1= new Fornitore("Ciccio");
+	/*	Fornitore f1= new Fornitore("Ciccio");
 		f1.aggiungiProdotto(new Prodotto("ciccio", "boh", "tua madre", 12, 1, 2, 1, 12, 12, 12, 12));
 		Fornitore f2= new Fornitore("Pasticcio");
 		f2.aggiungiProdotto(new Prodotto("ciccio", "boh", "tua madre", 12, 1, 2, 2, 12, 12, 12, 12));
@@ -32,7 +34,8 @@ public class Tester {
 		//System.out.println(p1.getSpazioOccupatoTotale());
 		System.out.println("Ho trovato\n"+p1.getCaratteristicheProdotto());
 		r.assumiDirigente("Geppetto","Petrelli", 18);
-		
+		*/
+	
 	
 	}
 }

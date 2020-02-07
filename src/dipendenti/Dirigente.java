@@ -23,6 +23,11 @@ public class Dirigente extends Dipendente implements Responsabile{
 	public void aggiungiOperai(int numero) {
 		numero_operai+=numero;
 	}
+	
+	public void rimuoviOperai(int numero) {
+		if(numero_operai>=numero)
+			numero_operai-=numero;
+	}
 	public String generateCodice(String matricola) {
 		return "04"+matricola;
 	}
