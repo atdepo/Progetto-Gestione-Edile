@@ -75,6 +75,8 @@ public class Prodotto implements Cloneable,Serializable{
 		numeroPezziDisponibili=numero;
 	}
 	
+	
+	
 	public String getCaratteristicheProdotto() {
 		String toReturn="nome prodotto="+nomeProdotto+"\n";
 		

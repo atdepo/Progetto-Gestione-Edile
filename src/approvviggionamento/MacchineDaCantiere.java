@@ -42,6 +42,10 @@ public class MacchineDaCantiere implements Cloneable,Serializable{
 		return prezzo;
 	}
 	
+	public String toString() {
+		return getClass().getSimpleName()+"[Nome="+nome+",Casa Madre="+casaMadre+",Peso="+peso+",Potenza="+potenza+",Prezzo="+prezzo+"]";
+	}
+	
 	public String getCaratteristiche() {
 		String caratteristiche="Nome="+nome+
 								"\n Casa Madre="+casaMadre+

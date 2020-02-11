@@ -65,6 +65,16 @@ public class Cantiere implements Serializable   {
 		listaMaterialiDisponibili.addAll(materiali);
 	}
 
+	public void assegnaMateriale(Prodotto toAdd) {
+		for(Prodotto p:listaMaterialiDisponibili) {
+			if(p.equalsCaratteristiche(toAdd)) {
+				p.sommaDisponibilita(toAdd);
+				return;
+			}
+		}
+		listaMaterialiDisponibili.add(toAdd);
+	}
+	
 	public ArrayList<MacchineDaCantiere> getMacchineImpiegate(){
 		return macchineImpiegate;
 	}
