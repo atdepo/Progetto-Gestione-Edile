@@ -62,16 +62,16 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 	ArrayList<MacchineDaCantiere> ma;
 
 	int opt;
-	
+
 	JPanel root;
 
-	public AssegnazioneMaterialiMacchinePanel(RepartoOperativo ro, RepartoAmministrativo ra,int o) {
+	public AssegnazioneMaterialiMacchinePanel(RepartoOperativo ro, RepartoAmministrativo ra, int o) {
 		repartoAmministrativo = ra;
 		repartoOperativo = ro;
 		spec = new JTextArea();
-		if(o<0||o>2)
+		if (o < 0 || o > 2)
 			throw new IllegalArgumentException();
-		opt=o;
+		opt = o;
 		assegna = new JButton("Assegna");
 		fine = new JButton("Fine");
 		assegna.addActionListener(new Aggiunta());
@@ -84,7 +84,7 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 		mainPane.setLayout(cl);
 		mainPane.add(contentPane, "main");
 		contentPane.setLayout(new BorderLayout());
-		//contentPane.add(createListaMacchine(), BorderLayout.CENTER);
+		// contentPane.add(createListaMacchine(), BorderLayout.CENTER);
 		contentPane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1.0;
@@ -95,15 +95,15 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 		c.gridwidth = 7;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		contentPane.add(createListaMacchine(), c);
-		if(opt!=1) {
-		c.weightx = 1.0;
-		c.weighty = 1.0;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridheight = 7;
-		c.gridwidth = 7;
-		c.anchor = GridBagConstraints.LINE_START;
-		contentPane.add(createListaProdotti(), c);
+		if (opt != 1) {
+			c.weightx = 1.0;
+			c.weighty = 1.0;
+			c.gridx = 0;
+			c.gridy = 0;
+			c.gridheight = 7;
+			c.gridwidth = 7;
+			c.anchor = GridBagConstraints.LINE_START;
+			contentPane.add(createListaProdotti(), c);
 		}
 		c.weightx = 1.0;
 		c.weighty = 1.0;
@@ -131,7 +131,7 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 		macchine = new JList<MacchineDaCantiere>(mod2);
 		macchine.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		macchinePanel = new JScrollPane(macchine);
-		if(opt!=1)
+		if (opt != 1)
 			macchinePanel.setVisible(false);
 		macchinePanel.setPreferredSize(new Dimension(600, 400));
 		macchinePanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -177,7 +177,7 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 		view.setPreferredSize(preferredSize);
 		prodottiPanel.setBorder(BorderFactory.createTitledBorder("Prodotti"));
 		pane.add(prodottiPanel, BorderLayout.WEST);
-		if(opt==1)
+		if (opt == 1)
 			pane.setVisible(false);
 		return pane;
 
@@ -186,7 +186,7 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 	public class Aggiunta implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			if (opt!=1&&pane.isVisible()) {
+			if (opt != 1 && pane.isVisible() &&prodotti.getSelectedIndex()!=-1) {
 
 				int q = Integer.parseInt(JOptionPane.showInputDialog("Quantità disponibile in magazzino:"
 						+ prod.get(prodotti.getSelectedIndex()).getNumeroPezziDisponibili()));
@@ -215,10 +215,13 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 					}
 					System.out.println(buy.getCaratteristicheProdotto());
 				}
-			} else {
+			} else if(macchine.getSelectedIndex()!=-1){
+				System.out.println(ma.size());
 				MacchineDaCantiere m = ma.get(macchine.getSelectedIndex());
 				mod2.removeElement(m);
+				ma.remove(m);
 				repartoOperativo.getCantieri().get(repartoOperativo.getCantieri().size() - 1).assegnaMacchina(m);
+				repartoAmministrativo.getMagazzino().prendiMacchina(m);
 				revalidate();
 				repaint();
 			}
@@ -230,14 +233,13 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 	public class Fine implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-			
-			if(opt!=0) {
+
+			if (opt != 0) {
 				JFrame r = (JFrame) SwingUtilities.getRoot(root);
 				r.dispose();
 				Azienda a = new Azienda(repartoAmministrativo, repartoOperativo);
 				new RepartoOperativoFrame(a);
-			}
-			if (pane.isVisible()) {
+			} else if (pane.isVisible()) {
 				pane.setVisible(false);
 				macchinePanel.setVisible(true);
 				revalidate();
@@ -248,6 +250,7 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 				Azienda a = new Azienda(repartoAmministrativo, repartoOperativo);
 				new RepartoOperativoFrame(a);
 			}
+
 		}
 	}
 }

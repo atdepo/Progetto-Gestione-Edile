@@ -38,10 +38,11 @@ public class RepartoOperativo implements Serializable{
 			throw new IllegalArgumentException();
 		else {
 			Cantiere c=cantieri.get(index);
-			c.licenziaResponsabile();
-			for(Squadra s: c.getSquadre()) {
-				rimuoviSquadra(c, s);
+			int in=c.getSquadre().size();
+			for(int i=in-1;i>=0;i--) {
+				rimuoviSquadra(c, c.getSquadre().get(i));
 			}
+			c.licenziaResponsabile();
 			cantieri.remove(index);
 		}
 	}
@@ -76,15 +77,13 @@ public class RepartoOperativo implements Serializable{
 	}
 	
 	public void rimuoviSquadra(Cantiere cantiere,Squadra squadra) {
-		for(Cantiere c:cantieri) {
-			Dipendente d=(Dipendente)c.getResponsabile();
+			Dipendente d=(Dipendente)cantiere.getResponsabile();
 			if(Dipendente.isDirigente(d)) {
 				Dirigente dir=(Dirigente)d;
 				dir.rimuoviOperai(squadra.getNumeroOperai());
 			}
 			squadra.liberaSquadra();
-			c.getSquadre().remove(squadra);
-		}
+			cantiere.getSquadre().remove(squadra);
 	}
 	
 	
