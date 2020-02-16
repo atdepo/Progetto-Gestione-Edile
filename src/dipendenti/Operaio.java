@@ -40,7 +40,7 @@ public class Operaio extends Dipendente {
 		setCodiceDipendente(generateCodice(matricola));
 		this.specializzazione=specializzazione;
 		if(ore_lavorate>70||ore_lavorate<0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Impossibile superare le 70 ore");
 		ore_lavorate=ore;
 		ore_straordinario=0;
 	}

@@ -88,14 +88,14 @@ public class RepartoAmministrativo implements Serializable {
 	public void assumiImpiegato(String nome, String cognome, int eta,int giorni) {
 		numImpiegati++;
 		Impiegato toAdd = new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati),giorni);
-		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_OPERAIO);
+		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_IMPIEGATO);
 		dipendenti.add(toAdd);
 	}
 	
 	public void assumiImpiegato(String nome, String cognome, int eta) {
 		numImpiegati++;
 		Impiegato toAdd = new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati));
-		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_OPERAIO);
+		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_IMPIEGATO);
 		dipendenti.add(toAdd);
 	}
 	

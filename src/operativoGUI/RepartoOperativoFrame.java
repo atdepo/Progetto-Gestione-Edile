@@ -1,4 +1,4 @@
-package gui;
+package operativoGUI;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -115,7 +115,6 @@ public class RepartoOperativoFrame extends JFrame {
 		infoPanel.setLayout(cl);
 
 		root = this;
-		// lastSelection = 0;
 		GridBagConstraints c = new GridBagConstraints();
 
 		cl = new CardLayout();
@@ -337,6 +336,7 @@ public class RepartoOperativoFrame extends JFrame {
 				deleteButton.setText("Elimina Cantiere");
 				deleteButton.setVisible(true);
 				inputPane.setVisible(true);
+				infoPanel.setVisible(true);
 				int index = cantieri.getSelectedIndex();
 				if (cant.size() == index) {
 					root.dispose();

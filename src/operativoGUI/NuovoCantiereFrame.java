@@ -1,4 +1,4 @@
-package gui;
+package operativoGUI;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -143,11 +143,18 @@ public class NuovoCantiereFrame extends JFrame {
 					return;
 				}
 			}
+			if(!scelta.isEmpty()) {
 			if (lat.getText().isEmpty() || lon.getText().isEmpty() || est.getText().isEmpty()
 					|| Double.parseDouble(valore.getText()) <= 0 || Double.parseDouble(est.getText()) < 0) {
 				JOptionPane.showMessageDialog(mainPanel, "Inserisci dei dati corretti", "ERROR",
 						JOptionPane.ERROR_MESSAGE);
 				return;
+			}
+			}
+			else {
+				JOptionPane.showMessageDialog(mainPanel, "Inserisci un responsabile", "ERROR",
+						JOptionPane.ERROR_MESSAGE);
+			return;
 			}
 
 			repartoOperativo.apriCantiere(Double.parseDouble(valore.getText()), Double.parseDouble(lat.getText()),
