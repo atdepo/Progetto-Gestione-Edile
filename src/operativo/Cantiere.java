@@ -131,6 +131,8 @@ public class Cantiere implements Serializable {
 		} else {
 			if (!d.isImpegnato()) {
 				d.impegnaDipendente();
+				Quadro q=(Quadro)d;
+				q.setResponsabile(true);
 				this.responsabile = responsabile;
 				return;
 			}
@@ -140,6 +142,13 @@ public class Cantiere implements Serializable {
 
 	public void licenziaResponsabile() {
 		Dipendente d = (Dipendente) responsabile;
+		if(Dipendente.isDirigente(d)) {
+			Dirigente dir=(Dirigente)d;
+			dir.aggiungiOperai(-getNumeroOperaiCantiere());
+		}else{
+			Quadro q=(Quadro)d;
+			q.setResponsabile(false);
+		}
 		d.liberaDipendente();
 		responsabile = null;
 	}

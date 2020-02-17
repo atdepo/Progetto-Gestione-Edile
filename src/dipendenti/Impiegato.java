@@ -7,8 +7,8 @@ package dipendenti;
  *Il <b>codiceDipendente</b> di un Impiegato inizia con <b>01</b>
  */
 public class Impiegato extends Dipendente{
-	private int giorni_lavorati;
-	private int giorni_lavoro_straordinario;
+	private int giorniLavorati;
+	private int giorniLavoroStraordinario;
 	/**
 	 * Costruttore di un impiegato con un numero di giorni lavorativi default
 	 * 
@@ -20,8 +20,8 @@ public class Impiegato extends Dipendente{
 	public Impiegato(String nome, String cognome, int eta,String matricola) {
 		super(nome, cognome, eta);
 		setCodiceDipendente(generateCodice(matricola));
-		giorni_lavorati=5;
-		giorni_lavoro_straordinario=0;
+		giorniLavorati=5;
+		giorniLavoroStraordinario=0;
 		
 	}
 	/**
@@ -38,16 +38,16 @@ public class Impiegato extends Dipendente{
 		setCodiceDipendente(generateCodice(matricola));
 		if(giorni>7||giorni<=0)
 			throw new IllegalArgumentException("Impossibile eccedere i 7 giorni della settimana");
-		giorni_lavorati=giorni;
+		giorniLavorati=giorni;
 		
 	}
 	
 	public int getGiorniLavorati() {
-		return giorni_lavorati;
+		return giorniLavorati;
 	}
 
 	public int getGiorniStraordinario() {
-		return giorni_lavoro_straordinario;
+		return giorniLavoroStraordinario;
 	}
 	/**
 	 * Aggiunge dei giorni di lavoro straordinario all'impiegato. Se i giorni che lavora di base e i giorni di straordinario 
@@ -56,17 +56,17 @@ public class Impiegato extends Dipendente{
 	 * @param giorni
 	 */
 	public void setLavoroStraordinario(int giorni) {
-		if(giorni_lavorati+giorni>7||giorni_lavorati+giorni<=0)
+		if(giorniLavorati+giorni>7||giorniLavorati+giorni<=0)
 			throw new IllegalArgumentException("Impossibile eccedere i 7 giorni della settimana");
-		giorni_lavoro_straordinario=giorni;
+		giorniLavoroStraordinario+=giorni;
 	}
 	
 	public void resetOre() {
-		giorni_lavoro_straordinario=0;
+		giorniLavoroStraordinario=0;
 	}
 	
 	public String toString() {
-		return super.toString()+"[giorni_lavorati= "+giorni_lavorati+",giorni_lavoro_straordinario="+giorni_lavoro_straordinario+"]";
+		return super.toString()+"[giorni_lavorati= "+giorniLavorati+",giorni_lavoro_straordinario="+giorniLavoroStraordinario+"]";
 	}
 	
 	
@@ -74,7 +74,7 @@ public class Impiegato extends Dipendente{
 		if(!super.equals(o))
 			return false;
 		Impiegato imp=(Impiegato)o;
-		return imp.giorni_lavorati==giorni_lavorati && imp.giorni_lavoro_straordinario==giorni_lavoro_straordinario;
+		return imp.giorniLavorati==giorniLavorati && imp.giorniLavoroStraordinario==giorniLavoroStraordinario;
 	}
 	
 	public Impiegato clone() {

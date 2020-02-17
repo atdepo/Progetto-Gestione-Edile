@@ -29,8 +29,12 @@ public class Quadro extends Dipendente implements Responsabile{
 		return isCaposquadra;
 	}
 	
-	public boolean isImpegnato() {
-		return isResponsabile||isCaposquadra;
+	public void setResponsabile(boolean flag) {
+		isResponsabile=flag;
+	}
+	
+	public void setCaposquadra(boolean flag) {
+		isCaposquadra=flag;
 	}
 	
 	public String toString() {

@@ -134,6 +134,7 @@ public class NuovoCantiereFrame extends JFrame {
 	private class Create implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
+			try {
 			if (!valore.getText().isEmpty() && Double.parseDouble(valore.getText()) > 500000.0D) {
 				Responsabile r = scelta.get(resp.getSelectedIndex());
 				Dipendente d = (Dipendente) r;
@@ -160,12 +161,15 @@ public class NuovoCantiereFrame extends JFrame {
 			repartoOperativo.apriCantiere(Double.parseDouble(valore.getText()), Double.parseDouble(lat.getText()),
 					Double.parseDouble(lon.getText()), Double.parseDouble(est.getText()),
 					scelta.get(resp.getSelectedIndex()));
-			System.out.println("Qua ho finito");
+			repartoAmministrativo.aumentaCapitale(Double.parseDouble(valore.getText())/2);
 			root.setSize(new Dimension(700, 500));
 			root.setLocationRelativeTo(null);
 			content.add(new CreazioneSquadraPanel(repartoOperativo, repartoAmministrativo), "creazione");
 			cl.show(content, "creazione");
-
+			}catch(NumberFormatException e3) {
+				JOptionPane.showMessageDialog(mainPanel, "Inserisci dei numeri corretti", "ERROR",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 	}

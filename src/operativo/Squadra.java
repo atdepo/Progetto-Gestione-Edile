@@ -61,12 +61,14 @@ public class Squadra implements Serializable{
 	
 	public void rimuoviCapoSquadra() {
 		capoSquadra.liberaDipendente();
+		capoSquadra.setCaposquadra(false);
 		capoSquadra=null;
 	}
 	
 	public void assegnaCapoSquadra(Quadro d) {
 		if(capoSquadra==null) {
 			capoSquadra=d;
+			d.setCaposquadra(true);
 			d.impegnaDipendente();
 		}
 		else
@@ -74,6 +76,7 @@ public class Squadra implements Serializable{
 	}
 	public void assegnaSquadra(){
 		capoSquadra.impegnaDipendente();
+		capoSquadra.setCaposquadra(true);
 		for(Operaio o:operai) {
 			o.impegnaDipendente();
 		}
@@ -81,6 +84,7 @@ public class Squadra implements Serializable{
 	
 	public void liberaSquadra() {
 		capoSquadra.liberaDipendente();
+		capoSquadra.setCaposquadra(false);
 		for(Operaio o:operai) {
 			o.liberaDipendente();
 		}

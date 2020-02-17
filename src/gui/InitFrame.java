@@ -78,6 +78,21 @@ public class InitFrame extends JFrame {
 		azienda = p.getAzienda();
 
 	}
+	
+	public InitFrame(Azienda a) {
+		super("Gestione Edile");
+		this.setVisible(true);
+		this.setSize(450, 300);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(new BorderLayout());
+		this.add(scelta(), BorderLayout.CENTER);
+
+		this.revalidate();
+		this.repaint();
+		root = this;
+		azienda=a;
+	}
 
 	public JPanel scelta() {
 		JPanel panel = new JPanel();

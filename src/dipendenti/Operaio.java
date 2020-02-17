@@ -7,8 +7,8 @@ package dipendenti;
  * Il codiceDipendente di un operaio inizia con <b>02</b>
  */
 public class Operaio extends Dipendente {
-	private int ore_lavorate; 
-	private int ore_straordinario;
+	private int oreLavorate; 
+	private int oreStraordinario;
 	public enum lavoro {MURATORE,ELETTRICISTA,IDRAULICO,PIASTRELLISTA};
 	private lavoro specializzazione;
 	private boolean impegnato; 
@@ -23,8 +23,8 @@ public class Operaio extends Dipendente {
 		super(nome, cognome, eta);
 		setCodiceDipendente(generateCodice(matricola));
 		this.specializzazione=specializzazione;
-		ore_lavorate=40;
-		ore_straordinario=0;
+		oreLavorate=40;
+		oreStraordinario=0;
 	}
 	/**
 	 * Costruttore standard di Operaio in cui viene stabilito il numero di ore. Se il numero di ore è maggiore di 70 oppure negativo
@@ -39,21 +39,25 @@ public class Operaio extends Dipendente {
 		super(nome, cognome, eta);
 		setCodiceDipendente(generateCodice(matricola));
 		this.specializzazione=specializzazione;
-		if(ore_lavorate>70||ore_lavorate<0)
+		if(oreLavorate>70||oreLavorate<0)
 			throw new IllegalArgumentException("Impossibile superare le 70 ore");
-		ore_lavorate=ore;
-		ore_straordinario=0;
+		oreLavorate=ore;
+		oreStraordinario=0;
 	}
 
-	public int getOre_lavorate() {
-		return ore_lavorate;
+	public int getOreLavorate() {
+		return oreLavorate;
 	}
 	
-	public int getOre_straordinario() {
-		return ore_straordinario;
+	public int getOreStraordinario() {
+		return oreStraordinario;
 	}
-	public void incre_Ore_straordinario(int ore_straordinario) {
-		this.ore_straordinario += ore_straordinario;
+	public void setLavoroStraordinario(int ore) {
+		if(oreLavorate+ore<70&&oreLavorate+ore>0) {
+			oreStraordinario+=ore;
+		}
+		else
+			throw new IllegalArgumentException("Impossibile superare le 70 ore");
 	}
 	public String generateCodice(String matricola) {
 		return "02"+matricola;
@@ -64,18 +68,18 @@ public class Operaio extends Dipendente {
 	}
 	
 	public void resetOre() {
-		ore_straordinario=0;
+		oreStraordinario=0;
 	}
 	
 	public String toString() {
-		return super.toString()+"[ore_lavorate= "+ore_lavorate+",specializzazione="+specializzazione.name()+",ore_straordinario="+ore_straordinario+"]";
+		return super.toString()+"[ore_lavorate= "+oreLavorate+",specializzazione="+specializzazione.name()+",ore_straordinario="+oreStraordinario+"]";
 	}
 	
 	public boolean equals(Object o) {
 		if(!super.equals(o))
 			return false;
 		Operaio op=(Operaio)o;
-		return op.ore_lavorate==ore_lavorate&&op.ore_straordinario==ore_straordinario&&op.getSpecializzazione().equals(getSpecializzazione()); 
+		return op.oreLavorate==oreLavorate&&op.oreStraordinario==oreStraordinario&&op.getSpecializzazione().equals(getSpecializzazione()); 
 		}
 	
 	public Operaio clone() {

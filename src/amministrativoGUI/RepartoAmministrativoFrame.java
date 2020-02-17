@@ -1,30 +1,44 @@
 package amministrativoGUI;
 
 import java.awt.BorderLayout;
+import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import com.sun.javafx.geom.Ellipse2D;
 
 import amministrativo.RepartoAmministrativo;
 import approvviggionamento.Fornitore;
@@ -36,8 +50,12 @@ import dipendenti.Impiegato;
 import dipendenti.Operaio;
 import dipendenti.Quadro;
 import eccezioni.ProdottoNonTrovatoException;
+import gui.InitFrame;
 import operativo.RepartoOperativo;
+import operativoGUI.RepartoOperativoFrame;
 import utilities.Azienda;
+import utilities.Estraibile;
+import utilities.Estrattore;
 
 public class RepartoAmministrativoFrame extends JFrame {
 
@@ -69,8 +87,29 @@ public class RepartoAmministrativoFrame extends JFrame {
 	JTextArea spec;
 
 	JFrame root;
-
+	JPanel straordinarioPane;
 	JButton delete;
+	JButton paga;
+	JButton resetPaga;
+
+	JTextField straordinario;
+
+	JMenu menu;
+
+	JMenuBar bar;
+
+	JMenuItem item;
+	JMenuItem item2;
+
+	JComboBox<String> dirigentiLista;
+	JComboBox<String> operaiLista;
+	JComboBox<String> quadriLista;
+	JComboBox<String> impiegatiLista;
+	JComboBox<String> fornitoriLista;
+	JComboBox<String> prodottiLista;
+	JComboBox<String> macchineLista;
+
+	JComboBox<String> sceltaCriterioOrdinamento;
 
 	RepartoAmministrativo repartoAmministrativo;
 	RepartoOperativo repartoOperativo;
@@ -81,11 +120,33 @@ public class RepartoAmministrativoFrame extends JFrame {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocation(600, 350);
-		this.setSize(1100, 710);
+		this.setSize(1200, 730);
 		// this.setResizable(false);
 		root = this;
-		this.setLayout(new GridBagLayout());
 		azienda = a;
+		bar = new JMenuBar();
+		menu = new JMenu("Opzioni");
+		item = new JMenuItem("Vai al Reparto Operativo");
+		item.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				root.dispose();
+				new RepartoOperativoFrame(azienda);
+			}
+		});
+		item2 = new JMenuItem("Torna alla Home");
+		item2.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				root.dispose();
+				new InitFrame(azienda);
+			}
+		});
+		menu.add(item);
+		menu.add(item2);
+		bar.add(menu);
+		this.setJMenuBar(bar);
+		this.setLayout(new GridBagLayout());
 		repartoAmministrativo = a.getRepartoAmministrativo();
 		repartoOperativo = a.getRepartoOperativo();
 
@@ -113,20 +174,93 @@ public class RepartoAmministrativoFrame extends JFrame {
 
 	public JPanel creaOpzioni() {
 		JPanel p = new JPanel();
-		p.setPreferredSize(new Dimension(340, 260));
+		p.setPreferredSize(new Dimension(460, 260));
 		p.setBorder(BorderFactory.createTitledBorder("Opzioni"));
 		p.setLayout(new GridBagLayout());
 		delete = new JButton();
+		paga = new JButton("Paga Dipendenti");
+		paga.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					repartoAmministrativo.pagamentoAssunti();
+				} catch (IllegalArgumentException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		resetPaga = new JButton("Reset Pagamento");
+		resetPaga.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				repartoAmministrativo.resetStatoPagamento();
+			}
+		});
 		delete.addActionListener(new Eliminazione());
 		delete.setVisible(false);
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		p.add(paga, c);
+		c.gridx = 1;
+		c.gridy = 0;
+		c.insets = new Insets(0, 0, 0, 0);
+		p.add(resetPaga, c);
+		c.gridx = 0;
+		c.gridy = 1;
+		c.insets = new Insets(-50, 0, 0, 0);
+		p.add(straordinarioPanel(), c);
+		c.gridx = 1;
+		c.gridy = 2;
+		c.insets = new Insets(-90, 0, 0, 0);
 		p.add(delete, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.WEST;
+		p.add(creaPannelloReport(), c);
+
 		return p;
+	}
+
+	public JPanel straordinarioPanel() {
+		straordinarioPane = new JPanel();
+		straordinarioPane.setVisible(false);
+		straordinarioPane.setLayout(new FlowLayout());
+		straordinario = new JTextField(3);
+		JButton ok = new JButton("Assegna");
+		ok.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				if (!straordinario.getText().isEmpty()) {
+					if (operai.getSelectedIndex() != -1) {
+						try {
+							int index = operai.getSelectedIndex();
+							op.get(index).setLavoroStraordinario(Integer.parseInt(straordinario.getText()));
+						} catch (IllegalArgumentException e2) {
+							JOptionPane.showMessageDialog(null, e2.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+
+						}
+					} else if (impiegati.getSelectedIndex() != -1) {
+						try {
+							int index = impiegati.getSelectedIndex();
+							imp.get(index).setLavoroStraordinario(Integer.parseInt(straordinario.getText()));
+						} catch (IllegalArgumentException e2) {
+							JOptionPane.showMessageDialog(null, e2.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+
+						}
+					}
+				}
+			}
+		});
+		straordinarioPane.add(straordinario);
+		straordinarioPane.add(ok);
+		straordinarioPane.setBorder(BorderFactory.createTitledBorder("Ore Straordinario"));
+		return straordinarioPane;
 	}
 
 	public JPanel creaInfo() {
@@ -135,6 +269,195 @@ public class RepartoAmministrativoFrame extends JFrame {
 		p.setLayout(new GridLayout(1, 2));
 		p.add(creaMagazzino());
 		p.add(createListaFornitori());
+		return p;
+	}
+
+	public JPanel creaPannelloReport() {
+		JPanel p = new JPanel();
+		// p.setPreferredSize(new Dimension(100, 200));
+		JRadioButton perNome = new JRadioButton("Per Nome");
+		JRadioButton stipendioRange = new JRadioButton("Per Range di Stipendio");
+
+		JCheckBox d;
+		JCheckBox i;
+		JCheckBox o;
+		JCheckBox q;
+
+		JButton vai = new JButton("Genera Report");
+		vai.setVisible(false);
+
+		JTextField t1 = new JTextField(12);
+		t1.setVisible(false);
+		JTextField t2 = new JTextField(12);
+		t2.setVisible(false);
+
+		d = new JCheckBox("Dirigente");
+		i = new JCheckBox("Impiegato");
+		o = new JCheckBox("Operaio");
+		q = new JCheckBox("Quadro");
+
+		ButtonGroup g = new ButtonGroup();
+		g.add(stipendioRange);
+		g.add(perNome);
+
+		p.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		p.add(perNome, c);
+		c.gridx = 1;
+		c.gridy = 0;
+		p.add(stipendioRange, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		p.add(d, c);
+		c.gridx = 0;
+		c.gridy = 3;
+		p.add(i, c);
+		c.gridx = 1;
+		c.gridy = 2;
+		p.add(q, c);
+		c.gridx = 1;
+		c.gridy = 3;
+		p.add(o, c);
+		c.gridx = 0;
+		c.gridy = 4;
+		p.add(t1, c);
+		c.gridx = 1;
+		c.gridy = 4;
+		p.add(t2, c);
+		c.gridx = 2;
+		c.gridy = 4;
+		p.add(vai, c);
+
+		perNome.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				t1.setVisible(true);
+				t1.setBorder(BorderFactory.createTitledBorder("Nome Dipendente"));
+				t2.setVisible(false);
+				vai.setVisible(true);
+				root.revalidate();
+				root.repaint();
+			}
+		});
+
+		stipendioRange.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				t1.setVisible(true);
+				t1.setBorder(BorderFactory.createTitledBorder("Range Minimo"));
+				t2.setBorder(BorderFactory.createTitledBorder("Range Massimo"));
+				t2.setVisible(true);
+				vai.setVisible(true);
+
+				root.revalidate();
+				root.repaint();
+			}
+		});
+
+		vai.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				if (perNome.isSelected()) {
+					if (!t1.getText().isEmpty()) {
+						Estraibile<Dipendente> criterio = (a) -> {
+							return a.getNome().equals(t1.getText());
+						};
+						ArrayList<Dipendente> toEx = new ArrayList<Dipendente>();
+
+						for (Dipendente di : dipendenti) {
+							if (d.isSelected() && Dipendente.isDirigente(di))
+								toEx.add(di);
+							if (o.isSelected() && Dipendente.isOperaio(di))
+								toEx.add(di);
+							if (q.isSelected() && Dipendente.isQuadro(di))
+								toEx.add(di);
+							if (i.isSelected() && Dipendente.isImpiegato(di))
+								toEx.add(di);
+						}
+
+						Estrattore<Dipendente> r = new Estrattore<Dipendente>(toEx, criterio);
+						ArrayList<Dipendente> dip = r.estrai();
+						String s = "";
+						for (Dipendente d : dip) {
+							s += d;
+							s += "\n";
+						}
+						spec.setText(s);
+					}
+				} else if (stipendioRange.isSelected()) {
+					if (!t1.getText().isEmpty() && !t2.getText().isEmpty()) {
+						Estraibile<Dipendente> criterio = (a) -> {
+							double stipendio;
+							if (Dipendente.isDirigente(a)) {
+								Dirigente d = (Dirigente) a;
+								stipendio = d.getContratto().getStipendio()
+										+ d.getContratto().getBonus() * d.getNumeroOperai();
+								if (stipendio >= Integer.parseInt(t1.getText())
+										&& stipendio < Integer.parseInt(t2.getText()))
+									return true;
+								else
+									return false;
+							} else if (Dipendente.isQuadro(a)) {
+								Quadro q = (Quadro) a;
+								if (q.isResponsabile() || q.isCaposquadra()) {
+									double tmp = q.getContratto().getStipendio();
+									stipendio = tmp + ((tmp / 100) * q.getContratto().getBonus());
+									if (stipendio >= Integer.parseInt(t1.getText())
+											&& stipendio < Integer.parseInt(t2.getText()))
+										return true;
+									else
+										return false;
+
+								}
+							}
+							else if(Dipendente.isImpiegato(a)) {
+								Impiegato i=(Impiegato)a;
+								stipendio=4*i.getGiorniLavorati()*i.getContratto().getStipendio()+i.getGiorniStraordinario()*i.getContratto().getBonus();
+								if (stipendio >= Integer.parseInt(t1.getText())
+										&& stipendio < Integer.parseInt(t2.getText()))
+									return true;
+								else
+									return false;
+							}
+							else {
+								Operaio o=(Operaio)a;
+								stipendio=4*o.getOreLavorate()*o.getContratto().getStipendio()+o.getOreStraordinario()*o.getContratto().getBonus();
+								if (stipendio >= Integer.parseInt(t1.getText())
+										&& stipendio < Integer.parseInt(t2.getText()))
+									return true;
+								else
+									return false;
+							}
+							return false;
+						};
+						
+						ArrayList<Dipendente> toEx = new ArrayList<Dipendente>();
+
+						for (Dipendente di : dipendenti) {
+							if (d.isSelected() && Dipendente.isDirigente(di))
+								toEx.add(di);
+							if (o.isSelected() && Dipendente.isOperaio(di))
+								toEx.add(di);
+							if (q.isSelected() && Dipendente.isQuadro(di))
+								toEx.add(di);
+							if (i.isSelected() && Dipendente.isImpiegato(di))
+								toEx.add(di);
+						}
+
+						Estrattore<Dipendente> r = new Estrattore<Dipendente>(toEx, criterio);
+						ArrayList<Dipendente> dip = r.estrai();
+						String s = "";
+						for (Dipendente d : dip) {
+							s += d;
+							s += "\n";
+						}
+						spec.setText(s);
+					}
+				}
+			}
+		});
 		return p;
 	}
 
@@ -251,7 +574,7 @@ public class RepartoAmministrativoFrame extends JFrame {
 		spec.setEditable(false);
 		JScrollPane s = new JScrollPane(spec);
 		JViewport view = s.getViewport();
-		Dimension preferredSize = new Dimension(330, 357);
+		Dimension preferredSize = new Dimension(460, 357);
 		view.setPreferredSize(preferredSize);
 		s.setBorder(BorderFactory.createTitledBorder("Dettagli"));
 		return s;
@@ -271,6 +594,7 @@ public class RepartoAmministrativoFrame extends JFrame {
 		dirigenti.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				delete.setVisible(true);
+				straordinarioPane.setVisible(false);
 				delete.setText("Licenzia Dirigente");
 
 				int index = dirigenti.getSelectedIndex();
@@ -308,6 +632,8 @@ public class RepartoAmministrativoFrame extends JFrame {
 		operai.addListSelectionListener(new ListSelectionListener() {
 
 			public void valueChanged(ListSelectionEvent e) {
+				straordinarioPane.setVisible(true);
+				straordinarioPane.setBorder(BorderFactory.createTitledBorder("Ore Straordinario"));
 				delete.setVisible(true);
 				delete.setText("Licenzia Operaio");
 				int index = operai.getSelectedIndex();
@@ -344,6 +670,8 @@ public class RepartoAmministrativoFrame extends JFrame {
 		quadri.addListSelectionListener(new ListSelectionListener() {
 
 			public void valueChanged(ListSelectionEvent e) {
+				straordinarioPane.setVisible(false);
+
 				delete.setVisible(true);
 				delete.setText("Licenzia Quadro");
 				int index = quadri.getSelectedIndex();
@@ -380,6 +708,9 @@ public class RepartoAmministrativoFrame extends JFrame {
 		impiegati.addListSelectionListener(new ListSelectionListener() {
 
 			public void valueChanged(ListSelectionEvent e) {
+				straordinarioPane.setVisible(true);
+				straordinarioPane.setBorder(BorderFactory.createTitledBorder("Giorni Straordinario"));
+
 				delete.setVisible(true);
 				delete.setText("Licenzia Impiegato");
 				int index = impiegati.getSelectedIndex();
@@ -407,44 +738,60 @@ public class RepartoAmministrativoFrame extends JFrame {
 			if (t == "Licenzia Impiegato") {
 				index = impiegati.getSelectedIndex();
 				if (index >= 0) {
-					mod3.remove(index);
-					repartoAmministrativo.licenziamentoDipendente(imp.get(index));
-					imp.remove(index);
-					root.revalidate();
-					root.repaint();
+					try {
+						repartoAmministrativo.licenziamentoDipendente(imp.get(index));
+						mod3.remove(index);
+						imp.remove(index);
+						root.revalidate();
+						root.repaint();
+					} catch (IllegalArgumentException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			} else if (t == "Licenzia Operaio") {
-				index = operai.getSelectedIndex();
-				if (index >= 0) {
-					mod1.remove(index);
-					repartoAmministrativo.licenziamentoDipendente(op.get(index));
-					op.remove(index);
-					root.revalidate();
-					root.repaint();
+				try {
+					index = operai.getSelectedIndex();
+					if (index >= 0) {
+						repartoAmministrativo.licenziamentoDipendente(op.get(index));
+						mod1.remove(index);
+						op.remove(index);
+						root.revalidate();
+						root.repaint();
+					}
+				} catch (IllegalArgumentException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 			} else if (t == "Licenzia Quadro") {
-				index = quadri.getSelectedIndex();
-				if (index >= 0) {
-					mod2.remove(index);
-					repartoAmministrativo.licenziamentoDipendente(qua.get(index));
-					qua.remove(index);
-					root.revalidate();
-					root.repaint();
+				try {
+					index = quadri.getSelectedIndex();
+					if (index >= 0) {
+						repartoAmministrativo.licenziamentoDipendente(qua.get(index));
+						mod2.remove(index);
+						qua.remove(index);
+						root.revalidate();
+						root.repaint();
+					}
+				} catch (IllegalArgumentException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 			} else if (t == "Licenzia Dirigente") {
-				index = dirigenti.getSelectedIndex();
-				if (index >= 0) {
-					mod.remove(index);
-					repartoAmministrativo.licenziamentoDipendente(dir.get(index));
-					dir.remove(index);
-					root.revalidate();
-					root.repaint();
+				try {
+					index = dirigenti.getSelectedIndex();
+					if (index >= 0) {
+						repartoAmministrativo.licenziamentoDipendente(dir.get(index));
+						mod.remove(index);
+						dir.remove(index);
+						root.revalidate();
+						root.repaint();
+					}
+				} catch (IllegalArgumentException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 			} else if (t == "Elimina Fornitore") {
 				index = fornitori.getSelectedIndex();
 				if (index >= 0) {
-					mod6.remove(index);
 					repartoAmministrativo.removeFornitore(fo.get(index));
+					mod6.remove(index);
 					fo.remove(index);
 					root.revalidate();
 					root.repaint();
@@ -453,14 +800,15 @@ public class RepartoAmministrativoFrame extends JFrame {
 			} else if (t == "Elimina Prodotto") {
 				index = prodotti.getSelectedIndex();
 				if (index >= 0) {
-					mod4.remove(index);
 					try {
 						repartoAmministrativo.getMagazzino().rimuoviProdotto(prod.get(index));
+						mod4.remove(index);
+						prod.remove(index);
+						root.revalidate();
+						root.repaint();
 					} catch (ProdottoNonTrovatoException e) {
 					}
-					prod.remove(index);
-					root.revalidate();
-					root.repaint();
+
 				}
 			} else if (t == "Elimina Macchina") {
 				index = macchine.getSelectedIndex();

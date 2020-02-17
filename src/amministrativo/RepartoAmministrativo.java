@@ -24,13 +24,13 @@ import dipendenti.Operaio.lavoro;
  */
 public class RepartoAmministrativo implements Serializable {
 		
-	private static final double STIPENDIO_IMPIEGATO=7.0D;
+	private static final double STIPENDIO_IMPIEGATO=50.0D;
 	private static final double STIPENDIO_OPERAIO_ORARIO=7.0D;
 	private static final double STIPENDIO_QUADRO=1780.0D;	
 	private static final double STIPENDIO_DIRIGENTE=2750.0D;
 	private static final double BONUS_QUADRO=6;
 	private static final double BONUS_DIRIGENTE_PER_OPERAIO=5.0D;
-	private static final double BONUS_STRAORDINARIO_IMPIEGATO=9.0D;
+	private static final double BONUS_STRAORDINARIO_IMPIEGATO=80.0D;
 	private static final double BONUS_STRAORDINARIO_OPERAIO=8.0D;
 	
 	
@@ -89,6 +89,7 @@ public class RepartoAmministrativo implements Serializable {
 		numImpiegati++;
 		Impiegato toAdd = new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati),giorni);
 		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_IMPIEGATO);
+		toAdd.impegnaDipendente();
 		dipendenti.add(toAdd);
 	}
 	
@@ -96,6 +97,7 @@ public class RepartoAmministrativo implements Serializable {
 		numImpiegati++;
 		Impiegato toAdd = new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati));
 		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_IMPIEGATO);
+		toAdd.impegnaDipendente();
 		dipendenti.add(toAdd);
 	}
 	
@@ -121,7 +123,7 @@ public class RepartoAmministrativo implements Serializable {
 		Contratto c=d.getContratto();
 		Operaio i= (Operaio)d;
 		d.setPagato();
-		double saldo=4*i.getOre_lavorate()*c.getStipendio()+i.getOre_straordinario()*c.getBonus();
+		double saldo=4*i.getOreLavorate()*c.getStipendio()+i.getOreStraordinario()*c.getBonus();
 		i.resetOre();
 		return saldo;
 		
@@ -144,28 +146,32 @@ public class RepartoAmministrativo implements Serializable {
 			
 			if(Dipendente.isDirigente(d)) {
 				speseDipendentiAzienda+=pagaDirigente(d);
-				System.out.println("Ho pagato un dirigente"+speseDipendentiAzienda);
 			}
 			
 			else if(Dipendente.isImpiegato(d)) {
 				speseDipendentiAzienda+=pagaImpiegato(d);
-				System.out.println("Ho pagato un impiegato"+speseDipendentiAzienda);
 
 			}
 			
 			else if(Dipendente.isOperaio(d)) {
 				speseDipendentiAzienda+=pagaOperaio(d);
-				System.out.println("Ho pagato un operaio"+speseDipendentiAzienda);
 
 			}
 			
 			else if(Dipendente.isQuadro(d)) {
 				speseDipendentiAzienda+=pagaQuadro(d);
-				System.out.println("Ho pagato un quadro"+speseDipendentiAzienda);
 
 			}		
 		}
-		capitale-=speseDipendentiAzienda;
+		System.out.println("Spese Totali Pagamento:" +speseDipendentiAzienda);
+		effettuaSpesa(speseDipendentiAzienda);
+		System.out.println("Capitale attuale:"+capitale);
+	}
+	
+	public void resetStatoPagamento() {
+		for(Dipendente d:dipendenti) {
+			d.resetPagamento();
+		}
 	}
 	
 	public void effettuaSpesa(double spesa) {
@@ -174,6 +180,10 @@ public class RepartoAmministrativo implements Serializable {
 		}
 		else
 			capitale-=spesa;
+	}
+	
+	public void aumentaCapitale(double aumento) {
+		capitale+=aumento;
 	}
 	
 	public ArrayList<Dipendente> getDipendenti(){
@@ -212,17 +222,19 @@ public class RepartoAmministrativo implements Serializable {
 		return capitale;
 	}
 	
-	public Dipendente licenziamentoDipendente(Dipendente daRimuovere) {
+	public void licenziamentoDipendente(Dipendente daRimuovere) {
 		if(!daRimuovere.isImpegnato()) {
 			if(Dipendente.isDirigente(daRimuovere))
 				numDirigenti--;
-			if(Dipendente.isImpiegato(daRimuovere))
-				numImpiegati--;
 			if(Dipendente.isOperaio(daRimuovere))
 				numOperai--;
 			if(Dipendente.isQuadro(daRimuovere))
 				numQuadri--;
-			return dipendenti.remove(dipendenti.indexOf(daRimuovere));
+			int index=dipendenti.indexOf(daRimuovere);
+			dipendenti.remove(index);
+		}else if(Dipendente.isImpiegato(daRimuovere)) {
+			int index=dipendenti.indexOf(daRimuovere);
+			dipendenti.remove(index);
 		}
 		else
 			throw new IllegalArgumentException("Eliminare prima il dipendente dal suo incarico");
