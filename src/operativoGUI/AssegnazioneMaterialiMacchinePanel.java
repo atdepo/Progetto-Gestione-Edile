@@ -61,7 +61,7 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 	ArrayList<Prodotto> prod;
 	ArrayList<MacchineDaCantiere> ma;
 
-	int opt;
+	int opt; //0=Sceglie sia macchine che prodotti,1=Sceglie solo macchine,2=Sceglie solo prodotti
 
 	JPanel root;
 

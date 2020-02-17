@@ -142,6 +142,56 @@ public class CreazioneSquadraPanel extends JPanel {
 		contentPane.add(assegna, c);
 	}
 
+	public CreazioneSquadraPanel(Azienda a, Squadra s, int opt) {
+		this.setLayout(new GridBagLayout());
+		root = this;
+		GridBagConstraints c = new GridBagConstraints();
+		repartoAmministrativo = a.getRepartoAmministrativo();
+		assegna = new JButton("Assegna");
+		if (opt == 0) {// solo quadro
+			c.gridx = 0;
+			c.gridy = 0;
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			this.add(createListaQuadri(), c);
+			c.gridx = 1;
+			c.gridy = 1;
+			this.add(assegna, c);
+		} else if (opt == 1) {
+			c.gridx = 0;
+			c.gridy = 0;
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			this.add(createListaOperai(), c);
+			c.gridx = 1;
+			c.gridy = 1;
+			this.add(assegna, c);
+			operaiPanel.setVisible(true);
+		}
+		assegna.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (opt == 0) {
+					if (quadri.getSelectedIndex() >= 0) {
+						s.assegnaCapoSquadra(qua.get(quadri.getSelectedIndex()));
+						JFrame frame = (JFrame) SwingUtilities.getRoot(root);
+						frame.dispose();
+						new RepartoOperativoFrame(a);
+					}
+				} else {
+					List<Operaio> add = operai.getSelectedValuesList();
+					for (Operaio o : add) {
+						try {
+							s.aggiungiOperaio(o);
+						} catch (OperaioOccupatoException e1) {
+							return;
+						}
+					}
+					JFrame frame = (JFrame) SwingUtilities.getRoot(root);
+					frame.dispose();
+					new RepartoOperativoFrame(a);
+				}
+			}
+		});
+	}
+
 	public JScrollPane createListaOperai() {
 		mod1 = new DefaultListModel<Operaio>();
 		op = new ArrayList<Operaio>();
@@ -175,8 +225,9 @@ public class CreazioneSquadraPanel extends JPanel {
 		mod2 = new DefaultListModel<Quadro>();
 		qua = new ArrayList<Quadro>();
 		for (Dipendente d : repartoAmministrativo.getDipendenti()) {
-			if (Dipendente.isQuadro(d) && !d.isImpegnato()) {
-				qua.add((Quadro) d);
+			if (Dipendente.isQuadro(d)) {
+				Quadro q = (Quadro) d;
+					qua.add(q);
 			}
 		}
 
@@ -220,7 +271,7 @@ public class CreazioneSquadraPanel extends JPanel {
 				JFrame frame = (JFrame) SwingUtilities.getRoot(root);
 				if (!flag) {
 					frame.setSize(new Dimension(800, 500));
-					mainPane.add(new AssegnazioneMaterialiMacchinePanel(repartoOperativo, repartoAmministrativo,0),
+					mainPane.add(new AssegnazioneMaterialiMacchinePanel(repartoOperativo, repartoAmministrativo, 0),
 							"assegnazione");
 					cl.show(mainPane, "assegnazione");
 				} else {

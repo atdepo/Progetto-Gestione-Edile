@@ -59,6 +59,19 @@ public class Squadra implements Serializable{
 		operai.remove(operaio);
 	}
 	
+	public void rimuoviCapoSquadra() {
+		capoSquadra.liberaDipendente();
+		capoSquadra=null;
+	}
+	
+	public void assegnaCapoSquadra(Quadro d) {
+		if(capoSquadra==null) {
+			capoSquadra=d;
+			d.impegnaDipendente();
+		}
+		else
+			throw new IllegalArgumentException("Caposquadra già assegnato, rimuoverlo prima di assegnarne uno nuovo");
+	}
 	public void assegnaSquadra(){
 		capoSquadra.impegnaDipendente();
 		for(Operaio o:operai) {

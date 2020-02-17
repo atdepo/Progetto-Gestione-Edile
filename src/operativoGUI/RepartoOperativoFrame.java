@@ -34,6 +34,7 @@ import approvviggionamento.MacchineDaCantiere;
 import approvviggionamento.Prodotto;
 import dipendenti.Dipendente;
 import dipendenti.Operaio;
+import dipendenti.Responsabile;
 import operativo.Cantiere;
 import operativo.RepartoOperativo;
 import operativo.Squadra;
@@ -46,6 +47,7 @@ public class RepartoOperativoFrame extends JFrame {
 	private static final long serialVersionUID = 8219427827473530551L;
 	RepartoOperativo ro;
 	RepartoAmministrativo ra;
+	Azienda azienda;
 
 	JList<String> cantieri;
 	JList<String> squadre;
@@ -84,7 +86,7 @@ public class RepartoOperativoFrame extends JFrame {
 	JComboBox<String> sceltaSquadre;
 	JComboBox<String> sceltaProdotti;
 	JComboBox<String> sceltaMateriali;
-
+	JComboBox<String> dip;
 	Ordinatore<Squadra> ord1;
 	Ordinatore<MacchineDaCantiere> ord2;
 	Ordinatore<Prodotto> ord3;
@@ -94,20 +96,27 @@ public class RepartoOperativoFrame extends JFrame {
 	Comparatore<Prodotto> comp3;
 
 	JTextArea spec;
-
+	
+	
+	JButton libera;
+	JButton assumiButton;
 	JButton deleteButton;
-
+	JButton liberaResponsabile;
+	JButton assumiResponsabile;
+	
 	CardLayout cl;
 
 	JFrame root;
 
 	public RepartoOperativoFrame(Azienda a) {
+		super("Reparto Operativo");
 		this.setVisible(true);
 		this.setSize(950, 620);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ro = a.getRepartoOperativo();
 		ra = a.getRepartoAmministrativo();
+		azienda = a;
 		cant = ro.getCantieri();
 		this.setLayout(new GridBagLayout());
 		cl = new CardLayout();
@@ -166,11 +175,11 @@ public class RepartoOperativoFrame extends JFrame {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.NORTH;
-
+		c.insets = new Insets(0, -120, 0, 0);
 		inputPane.add(deleteButton, c);
 		c.gridx = 0;
 		c.gridy = 1;
-		c.insets = new Insets(130, 0, 30, 0);
+		c.insets = new Insets(130, -0, 30, 0);
 		inputPane.add(createSquadreBox(), c);
 
 		c.gridx = 0;
@@ -332,7 +341,7 @@ public class RepartoOperativoFrame extends JFrame {
 
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
-				
+
 				deleteButton.setText("Elimina Cantiere");
 				deleteButton.setVisible(true);
 				inputPane.setVisible(true);
@@ -342,6 +351,7 @@ public class RepartoOperativoFrame extends JFrame {
 					root.dispose();
 					new NuovoCantiereFrame(ro, ra);
 				} else if (index >= 0) {
+					
 					Cantiere c = ro.getCantieri().get(index);
 					prod = c.getMaterialiDisponibili();
 					ma = c.getMacchineImpiegate();
@@ -425,6 +435,11 @@ public class RepartoOperativoFrame extends JFrame {
 
 	public JScrollPane createInfoSquadre() {
 		JPanel pane = new JPanel();
+		dip = new JComboBox<String>();
+		libera = new JButton("Libera Dipendente");
+		assumiButton= new JButton("Assumi Operaio");
+		assumiButton.addActionListener(new Libera());
+		libera.addActionListener(new Libera());
 		mod1 = new DefaultListModel<String>();
 		for (Squadra s : sq) {
 			mod1.addElement("Squadra di " + s.getCapoSquadra().getNome() + " " + s.getCapoSquadra().getCognome());
@@ -437,6 +452,9 @@ public class RepartoOperativoFrame extends JFrame {
 			public void valueChanged(ListSelectionEvent e) {
 				deleteButton.setText("Elimina Squadra");
 				deleteButton.setVisible(true);
+				dip.setVisible(true);
+				libera.setVisible(true);
+				assumiButton.setVisible(true);
 
 				int index = squadre.getSelectedIndex();
 				if (index == sq.size()) {
@@ -449,12 +467,34 @@ public class RepartoOperativoFrame extends JFrame {
 					revalidate();
 					repaint();
 				} else if (index >= 0) {
+					dip.removeAllItems();
 					Squadra tmp = sq.get(index);
-					String text = tmp.getCapoSquadra().toString() + "\n";
+					String text = "";
+					if (tmp.getCapoSquadra() != null) {
+						dip.addItem(tmp.getCapoSquadra().getNome() + " " + tmp.getCapoSquadra().getCognome());
+						text = tmp.getCapoSquadra().toString() + "\n";
+					}
 					for (Operaio o : tmp.getOperai()) {
 						text += (o + "\n");
+						dip.addItem(o.getNome() + " " + o.getCognome());
+
 					}
+					GridBagConstraints c = new GridBagConstraints();
+					c.gridx = 1;
+					c.gridy = 0;
+					c.insets = new Insets(0, -110, 0, 0);
+					inputPane.add(dip, c);
+					c.gridx = 1;
+					c.gridy = 1;
+					c.insets = new Insets(-150, -120, 0, 0);
+					inputPane.add(libera, c);
+					c.gridx=0;
+					c.gridy=1;
+					c.insets= new Insets(-150, -120, 0, 0) ;
+					inputPane.add(assumiButton,c);
 					spec.setText(text);
+					root.revalidate();
+					root.repaint();
 				}
 			}
 
@@ -481,6 +521,9 @@ public class RepartoOperativoFrame extends JFrame {
 			public void valueChanged(ListSelectionEvent e) {
 				deleteButton.setText("Elimina Materiale");
 				deleteButton.setVisible(true);
+				libera.setVisible(false);
+				assumiButton.setVisible(false);
+				dip.setVisible(false);
 				int index = materiali.getSelectedIndex();
 				if (index == prod.size()) {
 					JFrame f = new JFrame();
@@ -518,8 +561,12 @@ public class RepartoOperativoFrame extends JFrame {
 		macchine.addListSelectionListener(new ListSelectionListener() {
 
 			public void valueChanged(ListSelectionEvent e) {
+				
 				deleteButton.setText("Elimina Macchina");
 				deleteButton.setVisible(true);
+				libera.setVisible(false);
+				assumiButton.setVisible(false);
+				dip.setVisible(false);
 				int index = macchine.getSelectedIndex();
 				if (index == ma.size()) {
 					JFrame f = new JFrame();
@@ -529,7 +576,7 @@ public class RepartoOperativoFrame extends JFrame {
 					f.add(new AssegnazioneMaterialiMacchinePanel(ro, ra, 1));
 					revalidate();
 					repaint();
-				} else if(index>=0){
+				} else if (index >= 0) {
 					MacchineDaCantiere m = ma.get(index);
 					spec.setText(m.getCaratteristiche());
 				}
@@ -543,9 +590,50 @@ public class RepartoOperativoFrame extends JFrame {
 
 	}
 
+	public class Libera implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			Squadra s = sq.get(squadre.getSelectedIndex());
+			if(e.getSource()==assumiButton) {
+				root.dispose();
+				JFrame f = new JFrame();
+				f.setVisible(true);
+				f.setSize(700, 500);
+				f.setLocationRelativeTo(null);
+				f.add(new CreazioneSquadraPanel(azienda, s, 1));
+			}else {
+			int index = dip.getSelectedIndex();
+			if (index == 0) {
+				s.rimuoviCapoSquadra();
+				root.dispose();
+				JFrame f = new JFrame();
+				f.setVisible(true);
+				f.setSize(700, 500);
+				f.setLocationRelativeTo(null);
+				f.add(new CreazioneSquadraPanel(azienda, s, 0));
+
+			} else{
+				s.rimuoviOperaio(s.getOperai().get(index - 1));
+				if(s.getOperai().size()==0) {
+					root.dispose();
+					JFrame f = new JFrame();
+					f.setVisible(true);
+					f.setSize(700, 500);
+					f.setLocationRelativeTo(null);
+					f.add(new CreazioneSquadraPanel(azienda, s, 1));
+				}
+			}
+			root.revalidate();
+			root.repaint();
+		}
+		}
+
+	}
+
 	public class Delete implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
+			
 			int index;
 			if (deleteButton.getText() == "Elimina Squadra") {
 				index = squadre.getSelectedIndex();
@@ -561,12 +649,12 @@ public class RepartoOperativoFrame extends JFrame {
 				index = cantieri.getSelectedIndex();
 				if (index >= 0) {
 					Cantiere c = cant.get(index);
-					for(int i=c.getMaterialiDisponibili().size()-1;i>=0;i--) {
+					for (int i = c.getMaterialiDisponibili().size() - 1; i >= 0; i--) {
 						ra.aggiungiProdottoAlMagazzino(c.getMaterialiDisponibili().get(i));
 						c.rimuoviMateriale(c.getMaterialiDisponibili().get(i));
 					}
-					
-					for(int j=c.getMacchineImpiegate().size()-1;j>=0;j--) {
+
+					for (int j = c.getMacchineImpiegate().size() - 1; j >= 0; j--) {
 						ra.aggiungiMacchinaAlMagazzino(c.getMacchineImpiegate().get(j));
 						c.rimuoviMacchina(c.getMacchineImpiegate().get(j));
 					}
@@ -591,7 +679,7 @@ public class RepartoOperativoFrame extends JFrame {
 			} else if (deleteButton.getText() == "Elimina Macchina") {
 				index = macchine.getSelectedIndex();
 				if (index >= 0) {
-					MacchineDaCantiere m=ma.get(index);
+					MacchineDaCantiere m = ma.get(index);
 					ra.aggiungiMacchinaAlMagazzino(m);
 					ma.remove(index);
 					mod3.remove(index);
@@ -602,6 +690,43 @@ public class RepartoOperativoFrame extends JFrame {
 
 		}
 
+	}
+	
+	public class DirigenteFrame extends JFrame{
+		
+		JList<Dipendente> resp;
+		DefaultListModel<Dipendente> mod;
+		Azienda azienda;
+		Cantiere cant;
+		public DirigenteFrame(Azienda a,Cantiere c){
+		this.setSize(1000,280);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		azienda=a;
+		cant=c;
+		mod= new DefaultListModel<Dipendente>();
+		for(Dipendente d:a.getRepartoAmministrativo().getDipendenti()) {
+			if(Dipendente.isDirigente(d)||Dipendente.isQuadro(d)) {
+				mod.addElement(d);
+			}
+		}
+		resp= new JList<Dipendente>(mod);
+		JScrollPane p= new JScrollPane(resp);
+		JButton aggiungi= new JButton("Aggiungi");
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints l= new GridBagConstraints();
+		l.gridx=0;
+		l.gridy=0;
+		l.anchor=GridBagConstraints.FIRST_LINE_START;
+		this.add(p,l);
+		l.gridx=1;
+		l.gridy=1;
+		l.anchor=GridBagConstraints.LAST_LINE_END;
+		this.add(aggiungi,l);
+		
+		
+			
+		}
 	}
 
 }

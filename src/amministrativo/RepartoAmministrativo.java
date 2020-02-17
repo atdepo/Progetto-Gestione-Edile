@@ -168,6 +168,14 @@ public class RepartoAmministrativo implements Serializable {
 		capitale-=speseDipendentiAzienda;
 	}
 	
+	public void effettuaSpesa(double spesa) {
+		if(capitale-spesa<0) {
+			throw new IllegalArgumentException("Non si può effettuare questa spesa");
+		}
+		else
+			capitale-=spesa;
+	}
+	
 	public ArrayList<Dipendente> getDipendenti(){
 		return dipendenti;
 	}

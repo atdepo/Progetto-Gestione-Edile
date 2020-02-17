@@ -180,11 +180,6 @@ public class PopolamentoAzienda {
 		ro.getCantieri().get(0).assegnaMacchina(new MacchineDaCantiere("Gru", "Alimak Keh", 4560, 650, 15000));
 		ro.getCantieri().get(0).assegnaMacchina(new MacchineDaCantiere("GENIE Z 40/23 N RJ", "CTE ", 225, 345, 32000));
 		ro.getCantieri().get(0).assegnaMacchina(new MacchineDaCantiere("Robot di piega", "SCHNELL", 340, 150, 15000));
-
-		
-		
-		System.out.println("Ho finito");
-
 	}
 
 }
