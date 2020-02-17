@@ -13,7 +13,7 @@ public class Operaio extends Dipendente {
 	private lavoro specializzazione;
 	private boolean impegnato; 
 	/**
-	 * Costruttore standard di Operaio in cui viene stabilito un numero di ore di default
+	 * Istanzia un Operaio al quale viene stabilito un numero di ore di default
 	 * @param nome il nome dell'operaio
 	 * @param cognome il cognome dell'operaio
 	 * @param eta l'età dell'operaio
@@ -27,13 +27,13 @@ public class Operaio extends Dipendente {
 		oreStraordinario=0;
 	}
 	/**
-	 * Costruttore standard di Operaio in cui viene stabilito il numero di ore. Se il numero di ore è maggiore di 70 oppure negativo
-	 * viene lanciata una IllegalArgumentException()
+	 * Istanzia un Operaio al quale viene stabilito il numero di ore.
 	 * @param nome il nome dell'operaio
 	 * @param cognome il cognome dell'operaio
 	 * @param eta l'età dell'operaio
 	 * @param matricola la matricola dell'operaio che comporrà parte del suo codiceDipendente
 	 * @param ore le ore settimanali da lavorare
+	 * @throws IllegalArgumentException  Se il numero di ore è maggiore di 70 oppure negativo
 	 */
 	public Operaio(String nome, String cognome, int eta,String matricola,lavoro specializzazione,int ore) {
 		super(nome, cognome, eta);
@@ -52,6 +52,13 @@ public class Operaio extends Dipendente {
 	public int getOreStraordinario() {
 		return oreStraordinario;
 	}
+	
+	/**
+	 * Aggiunge delle ore straordinarie all'operaio
+	 * @param ore
+	 * @throws IllegalArgumentException se il numero totale delle ore da lavorare e delle ore di straordinario supera le 70
+	 * @author Antonio Della Porta
+	 */
 	public void setLavoroStraordinario(int ore) {
 		if(oreLavorate+ore<70&&oreLavorate+ore>0) {
 			oreStraordinario+=ore;
@@ -66,7 +73,11 @@ public class Operaio extends Dipendente {
 	public String getSpecializzazione() {
 		return specializzazione.name();
 	}
-	
+	/**
+	 * 
+	 * Imposta il numero di ore di straordinario a 0
+	 * @author Antonio Della Porta
+	 */
 	public void resetOre() {
 		oreStraordinario=0;
 	}

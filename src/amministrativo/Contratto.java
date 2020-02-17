@@ -12,7 +12,12 @@ public final class Contratto implements Serializable {
 	
 	private double stipendio;
 	private double bonus;
-	
+	/**
+	 * Costruttore del Contratto 
+	 * @param stipendio lo stipendio base
+	 * @param bonus un bonus da ottenere in particolari condizioni
+	 * @author Antonio Della Porta
+	 */
 	public Contratto(double stipendio,double bonus) {
 		this.bonus=bonus;
 		this.stipendio=stipendio;

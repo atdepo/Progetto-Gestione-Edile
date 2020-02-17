@@ -30,7 +30,7 @@ public class RepartoOperativo implements Serializable{
 	}
 	/**
 	 * Chiude il cantiere passato in input
-	 * @param daChiudere
+	 * @param daChiudere il cantiere da chiudere
 	 */
 	public void chiudiCantiere(Cantiere daChiudere) {
 		int index=cantieri.indexOf(daChiudere);
@@ -75,7 +75,12 @@ public class RepartoOperativo implements Serializable{
 		}
 		
 	}
-	
+	/**
+	 * Metodo utilizzato per rimuovere una squadra dalla lista delle squadre di un cantiere
+	 * @param cantiere il cantiere contenente la squadra
+	 * @param squadra la squadra da rimuovere
+	 * @author Antonio Della Porta
+	 */
 	public void rimuoviSquadra(Cantiere cantiere,Squadra squadra) {
 			Dipendente d=(Dipendente)cantiere.getResponsabile();
 			if(Dipendente.isDirigente(d)) {

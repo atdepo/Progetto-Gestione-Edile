@@ -97,28 +97,48 @@ public abstract class Dipendente implements Cloneable,Serializable {
 		codiceDipendente= codice;
 	}
 	
-	
+	/**
+	 * metodo statico che controlla le prime due cifre della matricola per vedere se un dipendente è un Impiegato
+	 * @param d il dipendente da controllare
+	 * @return <b>true</b> se il dipendente è un impiegato,<b>false</b> altrimenti
+	 * @author Antonio Della Porta
+	 */
 	public static boolean isImpiegato(Dipendente d) {
 		if(d.codiceDipendente.substring(0, 2).equals("01"))
 			return true;
 		else
 			return false;
 	}
-	
+	/**
+	 * Metodo statico che controlla le prime due cifre della matricola per vedere se un dipendente è un Operaio
+	 * @param d il dipendente da controllare
+	 * @return <b>true</b> se il dipendente è un operaio,<b>false</b> altrimenti
+	 * @author Antonio Della Porta
+	 */
 	public static boolean isOperaio(Dipendente d) {
 		if(d.codiceDipendente.substring(0, 2).equals("02"))
 			return true;
 		else
 			return false;
 	}
-	
+	/**
+	 * Metodo statico che controlla le prime due cifre della matricola per vedere se un dipendente è un Quadro
+	 * @param d il dipendente da controllare
+	 * @return <b>true</b> se il dipendente è un quadro,<b>false</b> altrimenti
+	 * @author Antonio Della Porta
+	 */
 	public static boolean isQuadro(Dipendente d) {
 		if(d.codiceDipendente.substring(0, 2).equals("03"))
 			return true;
 		else
 			return false;
 	}
-	
+	/**
+	 * Metodo statico che controlla le prime due cifre della matricola per vedere se un dipendente è un Dirigente
+	 * @param d il dipendente da controllare
+	 * @return <b>true</b> se il dipendente è un dirigente,<b>false</b> altrimenti
+	 * @author Antonio Della Porta
+	 */
 	public static boolean isDirigente(Dipendente d) {
 		if(d.codiceDipendente.substring(0, 2).equals("04"))
 			return true;

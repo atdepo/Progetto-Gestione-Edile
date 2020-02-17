@@ -50,17 +50,22 @@ public class Impiegato extends Dipendente{
 		return giorniLavoroStraordinario;
 	}
 	/**
-	 * Aggiunge dei giorni di lavoro straordinario all'impiegato. Se i giorni che lavora di base e i giorni di straordinario 
-	 * sono più di 7 o minori/uguali di 0,viene lanciata una <b>IllegalArgumentException().</b>
+	 * Aggiunge dei giorni di lavoro straordinario all'impiegato.
 	 * 
-	 * @param giorni
+	 * @param giorni i giorni di straordinario
+	 * @throws IllegalArgumentException Se i giorni che lavora di base e i giorni di straordinario 
+	 * sono più di 7 o minori/uguali di 0
 	 */
 	public void setLavoroStraordinario(int giorni) {
 		if(giorniLavorati+giorni>7||giorniLavorati+giorni<=0)
 			throw new IllegalArgumentException("Impossibile eccedere i 7 giorni della settimana");
 		giorniLavoroStraordinario+=giorni;
 	}
-	
+	/**
+	 * Imposta il numero di ore di straordinario a 0;
+	 * 
+	 * @author Antonio Della Porta
+	 */
 	public void resetOre() {
 		giorniLavoroStraordinario=0;
 	}

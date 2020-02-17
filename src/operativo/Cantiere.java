@@ -63,10 +63,22 @@ public class Cantiere implements Serializable {
 		return listaMaterialiDisponibili;
 	}
 
+	/**
+	 * Metodo utilizzato per assegnare una lista di prodotti al cantiere
+	 * 
+	 * @param materiali la lista di materiali
+	 * @author Antonio Della Porta
+	 */
 	public void assegnaMateriali(ArrayList<Prodotto> materiali) {// uno solo
 		listaMaterialiDisponibili.addAll(materiali);
 	}
 
+	/**
+	 * Metodo utilizzato per assegnare un singolo prodotto ad cantiere
+	 * 
+	 * @param toAdd il prodotto da aggiungere
+	 * @author Antonio Della Porta
+	 */
 	public void assegnaMateriale(Prodotto toAdd) {
 		for (Prodotto p : listaMaterialiDisponibili) {
 			if (p.equalsCaratteristiche(toAdd)) {
@@ -77,25 +89,47 @@ public class Cantiere implements Serializable {
 		listaMaterialiDisponibili.add(toAdd);
 	}
 
+	/**
+	 * Metodo utilizzato per assegnare una macchina ad un cantiere
+	 * 
+	 * @param macchina la macchina da aggiungere
+	 * @author Antonio Della Porta
+	 */
+	public void assegnaMacchina(MacchineDaCantiere macchina) {
+		macchineImpiegate.add(macchina);
+	}
+
+	/**
+	 * Metodo utilizzato per rimuovere un prodotto dal cantiere
+	 * 
+	 * @param toRemove
+	 * @author Antonio Della Porta
+	 */
 	public void rimuoviMateriale(Prodotto toRemove) {
 
 		listaMaterialiDisponibili.remove(toRemove);
 	}
 
+	/**
+	 * Metodo utilizzato per rimuovere una macchina da un cantiere
+	 * 
+	 * @param toRemove macchina da rimuovere
+	 * @author Antonio Della Porta
+	 */
 	public void rimuoviMacchina(MacchineDaCantiere toRemove) {
-
 		macchineImpiegate.remove(toRemove);
-
 	}
 
 	public ArrayList<MacchineDaCantiere> getMacchineImpiegate() {
 		return macchineImpiegate;
 	}
 
-	public void assegnaMacchina(MacchineDaCantiere macchina) {
-		macchineImpiegate.add(macchina);
-	}
-
+	/**
+	 * Metodo utilizzato per ottenere il numero di operai occupati nel cantiere
+	 * 
+	 * @return
+	 * @author Antonio Della Porta
+	 */
 	public int getNumeroOperaiCantiere() {
 		int totale = 0;
 		for (Squadra s : squadre) {
@@ -131,7 +165,7 @@ public class Cantiere implements Serializable {
 		} else {
 			if (!d.isImpegnato()) {
 				d.impegnaDipendente();
-				Quadro q=(Quadro)d;
+				Quadro q = (Quadro) d;
 				q.setResponsabile(true);
 				this.responsabile = responsabile;
 				return;
@@ -140,13 +174,20 @@ public class Cantiere implements Serializable {
 		throw new IllegalArgumentException();
 	}
 
+	/**
+	 * Metodo utilizzato per licenziare un responsabile. Se il responsabile del
+	 * cantiere era un Dirigente, gli vengono sottratti tutti gli operai a carico,
+	 * nel caso fosse un Quadro, il flag isResponsabile viene settato a false
+	 * 
+	 * @author Antonio Della Porta
+	 */
 	public void licenziaResponsabile() {
 		Dipendente d = (Dipendente) responsabile;
-		if(Dipendente.isDirigente(d)) {
-			Dirigente dir=(Dirigente)d;
+		if (Dipendente.isDirigente(d)) {
+			Dirigente dir = (Dirigente) d;
 			dir.aggiungiOperai(-getNumeroOperaiCantiere());
-		}else{
-			Quadro q=(Quadro)d;
+		} else {
+			Quadro q = (Quadro) d;
 			q.setResponsabile(false);
 		}
 		d.liberaDipendente();

@@ -9,7 +9,14 @@ package dipendenti;
 public class Quadro extends Dipendente implements Responsabile{
 	boolean isResponsabile;
 	boolean isCaposquadra;
-	
+	/**
+	 * Istanzia un quadro
+	 * @param nome il nome del quadro
+	 * @param cognome il cognome del quadro
+	 * @param eta l'età del quadro
+	 * @param matricola la matricola del quadro
+	 * @author Antonio Della Porta
+	 */
 	public Quadro(String nome, String cognome, int eta,String matricola) {
 		super(nome, cognome, eta);
 		setCodiceDipendente(generateCodice(matricola));
