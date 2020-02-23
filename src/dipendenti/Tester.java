@@ -28,7 +28,9 @@ public class Tester {
 		System.out.println("\nIstanzio un Dirigente");
 		Dirigente d= new Dirigente("Mafalda", "Ingenito", 21, "041");
 		System.out.println(d);
-		
+		System.out.println("Aggiungiamo 10 operai a carico del dirigente");
+		d.aggiungiOperai(10);
+		System.out.println(d);
 		System.out.println("\nIstanzio un nuovo Dirigente");
 		Dirigente d1=new Dirigente("Pamela", "Casullo", 21, "021");
 		System.out.println(d1);
@@ -44,6 +46,13 @@ public class Tester {
 		
 		System.out.println("Controllo se "+d.getNome()+" "+d.getCognome()+" è un operaio\n");
 		System.out.println(d.getNome()+" "+d.getCognome()+" è un operaio? "+Dipendente.isOperaio(d));
+		
+		System.out.println("Controlliamo quanto ogniuno dei Dipendenti guadagna mensilmente");
+		System.out.println(o.getNome()+" "+o.getCognome()+" guadagna "+o.getPaga()+" euro");
+		System.out.println(q.getNome()+" "+q.getCognome()+" guadagna "+q.getPaga()+" euro");
+		System.out.println(i.getNome()+" "+i.getCognome()+" guadagna "+i.getPaga()+" euro");
+		System.out.println(d.getNome()+" "+d.getCognome()+" guadagna "+d.getPaga()+" euro");
+
 		
 	}
 	

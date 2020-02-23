@@ -182,7 +182,8 @@ public class RepartoAmministrativoFrame extends JFrame {
 		paga.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					repartoAmministrativo.pagamentoAssunti();
+					double spesa=repartoAmministrativo.pagaDipendenti();
+					System.out.println("Ho pagato tutti i dipendenti,spesda totale:"+spesa);
 				} catch (IllegalArgumentException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 				}

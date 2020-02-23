@@ -1,4 +1,7 @@
 package dipendenti;
+
+import amministrativo.Contratto;
+
 /**
  *Questa classe cattura il concetto di un <b>Impiegato</b>.
  *Un impiegato viene pagato mensilmente in base ai giorni lavorati ogni settimana.
@@ -22,7 +25,7 @@ public class Impiegato extends Dipendente{
 		setCodiceDipendente(generateCodice(matricola));
 		giorniLavorati=5;
 		giorniLavoroStraordinario=0;
-		
+		setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_IMPIEGATO);
 	}
 	/**
 	 * Costruttore di un impiegato con un numero di giorni lavorativi indicato.
@@ -39,7 +42,7 @@ public class Impiegato extends Dipendente{
 		if(giorni>7||giorni<=0)
 			throw new IllegalArgumentException("Impossibile eccedere i 7 giorni della settimana");
 		giorniLavorati=giorni;
-		
+		setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_IMPIEGATO);
 	}
 	
 	public int getGiorniLavorati() {
@@ -89,6 +92,14 @@ public class Impiegato extends Dipendente{
 	
 	public String generateCodice(String matricola) {
 		return "01"+matricola;
+	}
+	
+	
+	public double getPaga() {
+		this.setPagato();
+		Contratto c = this.getContratto();
+		this.resetOre();
+		return  4 * this.getGiorniLavorati() * c.getStipendio() + this.getGiorniStraordinario() * c.getBonus();
 	}
 	
 	

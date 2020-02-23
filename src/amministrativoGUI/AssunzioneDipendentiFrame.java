@@ -19,7 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import amministrativo.RepartoAmministrativo;
+import dipendenti.Dipendente;
+import dipendenti.Dirigente;
+import dipendenti.Impiegato;
 import dipendenti.Operaio;
+import dipendenti.Quadro;
 import eccezioni.DipendenteNonAssumibileException;
 import utilities.Azienda;
 
@@ -40,7 +44,7 @@ public class AssunzioneDipendentiFrame extends JFrame {
 	JButton assumi;
 
 	Azienda azienda;
-
+	RepartoAmministrativo ra;
 	JFrame root;
 	JLabel ore;
 	JTextField o;
@@ -51,6 +55,7 @@ public class AssunzioneDipendentiFrame extends JFrame {
 		super("Assunzione Dipendenti");
 		azienda = a;
 		root = this;
+		ra = a.getRepartoAmministrativo();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		t = type;
 		if (type < 1 || type > 4)
@@ -157,9 +162,9 @@ public class AssunzioneDipendentiFrame extends JFrame {
 		pane.add(pannelloEta(), cc);
 		return pane;
 	}
-	
+
 	private JPanel pannelloDirigente() {
-		
+
 		JPanel pane = new JPanel();
 		pane.setPreferredSize(new Dimension(300, 200));
 		pane.setBorder(BorderFactory.createTitledBorder("Dati del Dirigente"));
@@ -178,9 +183,9 @@ public class AssunzioneDipendentiFrame extends JFrame {
 		cc.anchor = GridBagConstraints.WEST;
 		pane.add(pannelloEta(), cc);
 		return pane;
-		
+
 	}
-	
+
 	private JPanel pannelloNome() {
 		JPanel pane = new JPanel();
 		this.setLayout(new GridBagLayout());
@@ -295,9 +300,11 @@ public class AssunzioneDipendentiFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent e1) {
 			String nome, cognome;
+
 			int eta;
 			if (n.getText().isEmpty() || c.getText().isEmpty() || e.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Inserire dati correttamente", "ERROR", JOptionPane.ERROR_MESSAGE);
+
 				return;
 			}
 			try {
@@ -309,17 +316,17 @@ public class AssunzioneDipendentiFrame extends JFrame {
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-
 			switch (t) {
 			case 1: {
 				try {
 					if (g.getText().isEmpty()) {
-						azienda.getRepartoAmministrativo().assumiImpiegato(nome, cognome, eta);
+						ra.assumiDipendente(
+								new Impiegato(nome, cognome, eta, String.valueOf(ra.getNumImpiegati() + 1)));
 						JOptionPane.showMessageDialog(null,
 								"Non è stato inserito il numero di giorni, ne verrà assegnato un numero standard");
 					} else {
-						azienda.getRepartoAmministrativo().assumiImpiegato(nome, cognome, eta,
-								Integer.parseInt(g.getText()));
+						ra.assumiDipendente(new Impiegato(nome, cognome, eta, String.valueOf(ra.getNumImpiegati() + 1),
+								Integer.parseInt(g.getText())));
 					}
 					root.dispose();
 					new RepartoAmministrativoFrame(azienda);
@@ -340,13 +347,14 @@ public class AssunzioneDipendentiFrame extends JFrame {
 				try {
 					if (o.getText().isEmpty()) {
 
-						azienda.getRepartoAmministrativo().assumiOperaio(nome, cognome, eta,
-								(Operaio.lavoro) lavori.getSelectedItem());
+						ra.assumiDipendente(new Operaio(nome, cognome, eta, String.valueOf(ra.getNumOperai() + 1),
+								(Operaio.lavoro) lavori.getSelectedItem()));
 						JOptionPane.showMessageDialog(null,
 								"Non è stato inserito il numero di ore, ne verrà assegnato un numero standard");
 					} else {
-						azienda.getRepartoAmministrativo().assumiOperaio(nome, cognome, eta,
-								(Operaio.lavoro) lavori.getSelectedItem(), Integer.parseInt(o.getText()));
+
+						ra.assumiDipendente(new Operaio(nome, cognome, eta, String.valueOf(ra.getNumOperai() + 1),
+								(Operaio.lavoro) lavori.getSelectedItem(), Integer.parseInt(o.getText())));
 					}
 					root.dispose();
 					new RepartoAmministrativoFrame(azienda);
@@ -356,7 +364,7 @@ public class AssunzioneDipendentiFrame extends JFrame {
 				break;
 			case 3:
 				try {
-					azienda.getRepartoAmministrativo().assumiQuadro(nome, cognome, eta);
+					ra.assumiDipendente(new Quadro(nome, cognome, eta, String.valueOf(ra.getNumQuadri() + 1)));
 					root.dispose();
 					new RepartoAmministrativoFrame(azienda);
 				} catch (DipendenteNonAssumibileException e) {
@@ -365,7 +373,7 @@ public class AssunzioneDipendentiFrame extends JFrame {
 				break;
 			case 4:
 				try {
-					azienda.getRepartoAmministrativo().assumiDirigente(nome, cognome, eta);
+					ra.assumiDipendente(new Dirigente(nome, cognome, eta, String.valueOf(ra.getNumDirigenti() + 1)));
 					root.dispose();
 					new RepartoAmministrativoFrame(azienda);
 				} catch (DipendenteNonAssumibileException e) {
@@ -373,6 +381,7 @@ public class AssunzioneDipendentiFrame extends JFrame {
 				}
 				break;
 			}
+
 		}
 
 	}

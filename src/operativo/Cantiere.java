@@ -165,8 +165,10 @@ public class Cantiere implements Serializable {
 		} else {
 			if (!d.isImpegnato()) {
 				d.impegnaDipendente();
-				Quadro q = (Quadro) d;
-				q.setResponsabile(true);
+				if (Dipendente.isQuadro(d)) {
+					Quadro q = (Quadro) d;
+					q.setResponsabile(true);
+				}
 				this.responsabile = responsabile;
 				return;
 			}

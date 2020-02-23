@@ -581,7 +581,7 @@ public class RepartoOperativoFrame extends JFrame {
 					JFrame f = new JFrame();
 					root.dispose();
 					f.setVisible(true);
-					f.setSize(new Dimension(800, 500));
+					f.setSize(new Dimension(850, 500));
 					f.setLocationRelativeTo(null);
 					f.add(new AssegnazioneMaterialiMacchinePanel(ro, ra, 2));
 					revalidate();

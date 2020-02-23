@@ -124,7 +124,7 @@ public class Prodotto implements Cloneable, Serializable {
 		if (lunghezza != 0.0D)
 			toReturn += "lunghezza=" + lunghezza + "cm\n";
 		if (larghezza != 0.0D)
-			toReturn += "larghezza" + larghezza + "cm\n";
+			toReturn += "larghezza=" + larghezza + "cm\n";
 		if (altezza != 0.0D)
 			toReturn += "altezza=" + altezza + "cm\n";
 		if (consumoEnergetico != 0)

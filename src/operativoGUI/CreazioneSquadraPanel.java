@@ -225,9 +225,9 @@ public class CreazioneSquadraPanel extends JPanel {
 		mod2 = new DefaultListModel<Quadro>();
 		qua = new ArrayList<Quadro>();
 		for (Dipendente d : repartoAmministrativo.getDipendenti()) {
-			if (Dipendente.isQuadro(d)) {
+			if (Dipendente.isQuadro(d)&&!d.isImpegnato()) {
 				Quadro q = (Quadro) d;
-					qua.add(q);
+				qua.add(q);
 			}
 		}
 
@@ -252,31 +252,36 @@ public class CreazioneSquadraPanel extends JPanel {
 	public class Assegna implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (quadriPanel.isVisible()) {
-				Quadro toAdd = qua.get(quadri.getSelectedIndex());
-				squadra = new Squadra(toAdd);
-				quadriPanel.setVisible(false);
-				operaiPanel.setVisible(true);
-				revalidate();
-				repaint();
+				int index = quadri.getSelectedIndex();
+				if (index >= 0) {
+					Quadro toAdd = qua.get(index);
+					squadra = new Squadra(toAdd);
+					quadriPanel.setVisible(false);
+					operaiPanel.setVisible(true);
+					revalidate();
+					repaint();
+				}
 			} else {
 				List<Operaio> add = operai.getSelectedValuesList();
-				for (Operaio o : add) {
-					try {
-						squadra.aggiungiOperaio(o);
-					} catch (OperaioOccupatoException e1) {
-						e1.printStackTrace();
+				if (add.size() > 0) {
+					for (Operaio o : add) {
+						try {
+							squadra.aggiungiOperaio(o);
+						} catch (OperaioOccupatoException e1) {
+							e1.printStackTrace();
+						}
 					}
-				}
-				repartoOperativo.assegnaSquadra(cantiere, squadra);
-				JFrame frame = (JFrame) SwingUtilities.getRoot(root);
-				if (!flag) {
-					frame.setSize(new Dimension(800, 500));
-					mainPane.add(new AssegnazioneMaterialiMacchinePanel(repartoOperativo, repartoAmministrativo, 0),
-							"assegnazione");
-					cl.show(mainPane, "assegnazione");
-				} else {
-					frame.dispose();
-					new RepartoOperativoFrame(new Azienda(repartoAmministrativo, repartoOperativo));
+					repartoOperativo.assegnaSquadra(cantiere, squadra);
+					JFrame frame = (JFrame) SwingUtilities.getRoot(root);
+					if (!flag) {
+						frame.setSize(new Dimension(850, 500));
+						mainPane.add(new AssegnazioneMaterialiMacchinePanel(repartoOperativo, repartoAmministrativo, 0),
+								"assegnazione");
+						cl.show(mainPane, "assegnazione");
+					} else {
+						frame.dispose();
+						new RepartoOperativoFrame(new Azienda(repartoAmministrativo, repartoOperativo));
+					}
 				}
 			}
 

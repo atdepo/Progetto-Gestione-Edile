@@ -25,23 +25,9 @@ import dipendenti.Operaio.lavoro;
  */
 public class RepartoAmministrativo implements Serializable {
 
-	private static final double STIPENDIO_IMPIEGATO = 50.0D;
-	private static final double STIPENDIO_OPERAIO_ORARIO = 7.0D;
-	private static final double STIPENDIO_QUADRO = 1780.0D;
-	private static final double STIPENDIO_DIRIGENTE = 2750.0D;
-	private static final double BONUS_QUADRO = 6;
-	private static final double BONUS_DIRIGENTE_PER_OPERAIO = 5.0D;
-	private static final double BONUS_STRAORDINARIO_IMPIEGATO = 80.0D;
-	private static final double BONUS_STRAORDINARIO_OPERAIO = 8.0D;
-
 	private ArrayList<Dipendente> dipendenti;
 	private ArrayList<Fornitore> fornitori;
 	private Magazzino magazzino;
-
-	private int numDirigenti;
-	private int numQuadri;
-	private int numOperai;
-	private int numImpiegati;
 
 	private double capitale;
 
@@ -57,219 +43,65 @@ public class RepartoAmministrativo implements Serializable {
 	public RepartoAmministrativo(int capacita, int posti, double capitale) {
 		dipendenti = new ArrayList<Dipendente>();
 		fornitori = new ArrayList<Fornitore>();
-		numDirigenti = 0;
-		numQuadri = 0;
-		numOperai = 0;
-		numImpiegati = 0;
+
 		this.capitale = capitale;
 		magazzino = new Magazzino(capacita, posti);
 	}
 
 	/**
-	 * Si assume un dirigente e lo si inserisce nella lista dei dipendenti del
-	 * reparto amministrativo
+	 * Assumo un dipendnete e lo inserisco nella lista dei dipendenti dell'azienda
 	 * 
-	 * @param nome    Nome del Dirigente
-	 * @param cognome Cognome del Dirigente
-	 * @param eta     età del dirigente
+	 * @param toAdd il dipendente da aggiungere
 	 * @author Antonio Della Porta
 	 */
-	public void assumiDirigente(String nome, String cognome, int eta) {
-		numDirigenti++;
-		Dirigente toAdd = new Dirigente(nome, cognome, eta, Integer.toString(numDirigenti));
-		toAdd.setContratto(STIPENDIO_DIRIGENTE, BONUS_DIRIGENTE_PER_OPERAIO);
-		dipendenti.add(toAdd);
+	public void assumiDipendente(Dipendente toAdd) {
+		if (toAdd != null)
+			dipendenti.add(toAdd);
 	}
 
 	/**
-	 * Si assume un Quadro e lo si inserisce nella lista dei dipendenti del reparto
-	 * amministrativo
+	 * Licenzia il dipendente controllando prima se costui è impegnato
 	 * 
-	 * @param nome    nome del Quadro
-	 * @param cognome cognome del Quadro
-	 * @param eta     età del quadro
+	 * @param daRimuovere il dipendente da rimuovere
+	 * @throws IllegalArgumentException se il dipendente risulta impegnato
 	 * @author Antonio Della Porta
 	 */
-	public void assumiQuadro(String nome, String cognome, int eta) {
-		numQuadri++;
-		Quadro toAdd = new Quadro(nome, cognome, eta, Integer.toString(numQuadri));
-		toAdd.setContratto(STIPENDIO_QUADRO, BONUS_QUADRO);
-		dipendenti.add(toAdd);
+	public void licenziamentoDipendente(Dipendente daRimuovere) {
+		if (!daRimuovere.isImpegnato()) {
+			dipendenti.remove(dipendenti.indexOf(daRimuovere));
+		} else if (Dipendente.isImpiegato(daRimuovere)) {
+			dipendenti.remove(dipendenti.indexOf(daRimuovere));
+		} else
+			throw new IllegalArgumentException("Eliminare prima il dipendente dal suo incarico");
 	}
 
 	/**
-	 * Si assume un operaio con un numero di ore prestabilite da lavorare e lo si
-	 * assegna al reparto amministrativo
+	 * Metodo usato per pagare un dipendente
 	 * 
-	 * @param nome             nome dell'Operaio
-	 * @param cognome          cognome dell'Operaio
-	 * @param eta              eta dell'Operaio
-	 * @param specializzazione specializzazione dell'operaio che puo essere:
-	 *                         <b>MURATORE ELETTRICISTA IDRAULICO PIASTRELLISTA</b>
-	 * @param ore              ore da lavorare
-	 * @throws IllegalArgumentException se il numero di ore è maggiore di 70
-	 * @author Antonio Della Porta
-	 */
-	public void assumiOperaio(String nome, String cognome, int eta, lavoro specializzazione, int ore) {
-		numOperai++;
-		Operaio toAdd = new Operaio(nome, cognome, eta, Integer.toString(numOperai), specializzazione, ore);
-		toAdd.setContratto(STIPENDIO_OPERAIO_ORARIO, BONUS_STRAORDINARIO_OPERAIO);
-		dipendenti.add(toAdd);
-	}
-
-	/**
-	 * Si assume un operaio con un numero di ore di default da lavorare e lo si
-	 * assegna al reparto amministrativo
-	 * 
-	 * @param nome             nome dell'Operaio
-	 * @param cognome          cognome dell'Operaio
-	 * @param eta              eta dell'Operaio
-	 * @param specializzazione specializzazione dell'operaio che puo essere:
-	 *                         <b>MURATORE ELETTRICISTA IDRAULICO PIASTRELLISTA</b>
-	 * @author Antonio Della Porta
-	 */
-	public void assumiOperaio(String nome, String cognome, int eta, lavoro specializzazione) {
-		numOperai++;
-		Operaio toAdd = new Operaio(nome, cognome, eta, Integer.toString(numOperai), specializzazione);
-		toAdd.setContratto(STIPENDIO_OPERAIO_ORARIO, BONUS_STRAORDINARIO_OPERAIO);
-		dipendenti.add(toAdd);
-	}
-
-	/**
-	 * Si assume un impiegato con un numero di giorni da lavorare prestabilito e lo
-	 * si assegna al reparto amministrativo
-	 * 
-	 * @param nome    nome dell'Impiegato
-	 * @param cognome cognome dell'Impiegato
-	 * @param eta     età dell'Impiegato
-	 * @param giorni  giorni da lavorare
-	 * @throws IllegalArgumentException se il numero di giorni è maggiore di 7
-	 * @author Antonio Della Porta
-	 */
-	public void assumiImpiegato(String nome, String cognome, int eta, int giorni) {
-		numImpiegati++;
-		Impiegato toAdd = new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati), giorni);
-		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_IMPIEGATO);
-		toAdd.impegnaDipendente();
-		dipendenti.add(toAdd);
-	}
-
-	/**
-	 * Si assume un impiegato con un numero di giorni da lavorare di default e lo si
-	 * assegna al reparto amministrativo
-	 * 
-	 * @param nome    nome dell'Impiegato
-	 * @param cognome cognome dell'Impiegato
-	 * @param eta     età dell'Impiegato
-	 * @author Antonio Della Porta
-	 */
-	public void assumiImpiegato(String nome, String cognome, int eta) {
-		numImpiegati++;
-		Impiegato toAdd = new Impiegato(nome, cognome, eta, Integer.toString(numImpiegati));
-		toAdd.setContratto(STIPENDIO_IMPIEGATO, BONUS_STRAORDINARIO_IMPIEGATO);
-		toAdd.impegnaDipendente();
-		dipendenti.add(toAdd);
-	}
-
-	/**
-	 * Metodo di servizio privato usato per pagare un dirigente
-	 * 
-	 * @param d il Dirigente da pagare
-	 * @return lo stipendio da corrispondere al Dirigente
-	 * @author Antonio Della Porta
-	 */
-	private double pagaDirigente(Dipendente d) {
-		Dirigente toPay = (Dirigente) d;
-		Contratto c = toPay.getContratto();
-		d.setPagato();
-		if (toPay.isImpegnato())
-			return c.getStipendio() + c.getBonus() * toPay.getNumeroOperai();
-		return c.getStipendio();
-	}
-
-	/**
-	 * Metodo di servizio privato usato per pagare un impiegato
-	 * 
-	 * @param d l'impiegato da pagare
+	 * @param daPagare il dipendente da pagare
 	 * @return lo stipendio dovuto
 	 * @author Antonio Della Porta
 	 */
-	private double pagaImpiegato(Dipendente d) {
-		Contratto c = d.getContratto();
-		d.setPagato();
-		Impiegato i = (Impiegato) d;
-		double saldo = 4 * i.getGiorniLavorati() * c.getStipendio() + i.getGiorniStraordinario() * c.getBonus();
-		i.resetOre();
-		return saldo;
+	public double pagaDipendente(Dipendente daPagare) {
+		double stipendio = daPagare.getPaga();
+		effettuaSpesa(stipendio);
+		daPagare.setPagato();
+		return stipendio;
 	}
 
 	/**
-	 * Metodo di servizio privato usato per pagare un operaio
+	 * Metodo utilizzato per pagare tutti i dipendenti non pagati
 	 * 
-	 * @param d l'operaio da pagare
-	 * @return lo stipendio dovuto
+	 * @return il totale degli stipendi
 	 * @author Antonio Della Porta
 	 */
-	private double pagaOperaio(Dipendente d) {
-		Contratto c = d.getContratto();
-		Operaio i = (Operaio) d;
-		d.setPagato();
-		double saldo = 4 * i.getOreLavorate() * c.getStipendio() + i.getOreStraordinario() * c.getBonus();
-		i.resetOre();
-		return saldo;
-
-	}
-
-	/**
-	 * Metodo di servizio privato usato per pagare un quadro
-	 * 
-	 * @param d il quadro da pagare
-	 * @return lo stipendio dovuto
-	 * @author Antonio Della Porta
-	 */
-	private double pagaQuadro(Dipendente d) {
-		Contratto c = d.getContratto();
-		Quadro i = (Quadro) d;
-		d.setPagato();
-		double saldo = c.getStipendio();
-		if (i.isCaposquadra() || i.isResponsabile())
-			return saldo + ((saldo / 100) * c.getBonus());
-
-		return saldo;
-	}
-
-	/**
-	 * Metodo utilizzato per il pagamento di tutti dipendenti assunti utilizzando
-	 * gli appositi metodi di servizio
-	 * 
-	 * @author Antonio Della Porta
-	 */
-	public void pagamentoAssunti() {
-		double speseDipendentiAzienda = 0;
+	public double pagaDipendenti() {
+		double stipendi = 0.0D;
 		for (Dipendente d : dipendenti) {
-
-			if (Dipendente.isDirigente(d)) {
-				speseDipendentiAzienda += pagaDirigente(d);
-			}
-
-			else if (Dipendente.isImpiegato(d)) {
-				speseDipendentiAzienda += pagaImpiegato(d);
-
-			}
-
-			else if (Dipendente.isOperaio(d)) {
-				speseDipendentiAzienda += pagaOperaio(d);
-
-			}
-
-			else if (Dipendente.isQuadro(d)) {
-				speseDipendentiAzienda += pagaQuadro(d);
-
-			}
+			if (!d.isPagato())
+				stipendi += pagaDipendente(d);
 		}
-		System.out.println("Spese Totali Pagamento:" + speseDipendentiAzienda);
-		effettuaSpesa(speseDipendentiAzienda);
-		System.out.println("Capitale attuale:" + capitale);
+		return stipendi;
 	}
 
 	/**
@@ -325,47 +157,43 @@ public class RepartoAmministrativo implements Serializable {
 	}
 
 	public int getNumDirigenti() {
-		return numDirigenti;
+		int count = 0;
+		for (Dipendente d : dipendenti) {
+			if (Dipendente.isDirigente(d))
+				count++;
+		}
+		return count;
 	}
 
 	public int getNumQuadri() {
-		return numQuadri;
+		int count = 0;
+		for (Dipendente d : dipendenti) {
+			if (Dipendente.isQuadro(d))
+				count++;
+		}
+		return count;
 	}
 
 	public int getNumOperai() {
-		return numOperai;
+		int count = 0;
+		for (Dipendente d : dipendenti) {
+			if (Dipendente.isOperaio(d))
+				count++;
+		}
+		return count;
 	}
 
 	public int getNumImpiegati() {
-		return numImpiegati;
+		int count = 0;
+		for (Dipendente d : dipendenti) {
+			if (Dipendente.isImpiegato(d))
+				count++;
+		}
+		return count;
 	}
 
 	public double getCapitale() {
 		return capitale;
-	}
-
-	/**
-	 * Licenzia il dipendente controllando prima se costui è impegnato
-	 * 
-	 * @param daRimuovere il dipendente da rimuovere
-	 * @throws IllegalArgumentException se il dipendente risulta impegnato
-	 * @author Antonio Della Porta
-	 */
-	public void licenziamentoDipendente(Dipendente daRimuovere) {
-		if (!daRimuovere.isImpegnato()) {
-			if (Dipendente.isDirigente(daRimuovere))
-				numDirigenti--;
-			if (Dipendente.isOperaio(daRimuovere))
-				numOperai--;
-			if (Dipendente.isQuadro(daRimuovere))
-				numQuadri--;
-			int index = dipendenti.indexOf(daRimuovere);
-			dipendenti.remove(index);
-		} else if (Dipendente.isImpiegato(daRimuovere)) {
-			int index = dipendenti.indexOf(daRimuovere);
-			dipendenti.remove(index);
-		} else
-			throw new IllegalArgumentException("Eliminare prima il dipendente dal suo incarico");
 	}
 
 	/**

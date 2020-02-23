@@ -6,7 +6,11 @@ import approvviggionamento.Fornitore;
 import approvviggionamento.MacchineDaCantiere;
 import approvviggionamento.Prodotto;
 import dipendenti.Dipendente;
+import dipendenti.Dirigente;
+import dipendenti.Impiegato;
+import dipendenti.Operaio;
 import dipendenti.Operaio.lavoro;
+import dipendenti.Quadro;
 import eccezioni.ProdottoNonTrovatoException;
 
 public class TesterAmministrativo {
@@ -17,24 +21,24 @@ public class TesterAmministrativo {
 		RepartoAmministrativo ra= new RepartoAmministrativo(100000, 10000, 1548784);
 		
 		System.out.println("Assumo un operaio");
-		ra.assumiOperaio("Gerardo", "Pascale", 19, lavoro.IDRAULICO);
+		ra.assumiDipendente(new Operaio("Gerardo", "Pascale", 19,String.valueOf(ra.getNumOperai()), lavoro.IDRAULICO));
 		System.out.println(ra.getDipendenti().get(0));
 		
 		System.out.println("Assumo un dirigente");
-		ra.assumiDirigente("Giuseppe", "Fognaro", 56);
+		ra.assumiDipendente(new Dirigente("Giuseppe", "Fognaro", 56,String.valueOf(ra.getNumDirigenti())));
 		System.out.println(ra.getDipendenti().get(1));
 		
 		System.out.println("Assumo un Quadro");
-		ra.assumiQuadro("Filippo", "Massaro", 51);
+		ra.assumiDipendente(new Quadro("Filippo", "Massaro", 51,String.valueOf(ra.getNumQuadri())));
 		System.out.println(ra.getDipendenti().get(2));
 		
 		System.out.println("Assumo un impiegato");
-		ra.assumiImpiegato("Giovanni", "Della Casa", 52);
+		ra.assumiDipendente(new Impiegato("Giovanni", "Della Casa", 52,String.valueOf(ra.getNumImpiegati())));
 		System.out.println(ra.getDipendenti().get(3));
 		
 		System.out.println("Il capitale al momento è di: "+ra.getCapitale());
 		System.out.println("Pago tutti i dipendenti assunti");
-		ra.pagamentoAssunti();
+		ra.pagaDipendenti();
 		System.out.println("Il capitale ora è di: "+ra.getCapitale());
 		
 		System.out.println("I Dipendenti che abbiamo assunti attualmente sono:\n");
@@ -46,7 +50,7 @@ public class TesterAmministrativo {
 		System.out.println("I Dipendenti ora sono:\n");
 		for(Dipendente d:dip)
 			System.out.println(d);
-		
+		System.out.println("Paghiamo tutti i dipendenti");
 		System.out.println("Aggiungiamo un fornitore");
 		Fornitore f1=new Fornitore("Ferramenta D'Alessandro");
 		f1.aggiungiProdotto(new Prodotto("Viti", "metallo", "", 0.01, 0.5, 0.2,0.3,0,0,0.30, 100));

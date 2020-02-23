@@ -83,7 +83,7 @@ public class CompraBeniFrame extends JFrame {
 		infoPane.setLayout(cl);
 		repartoAmministrativo = a.getRepartoAmministrativo();
 		azienda = a;
-		soldi = new JLabel("Capitale:" + String.valueOf(repartoAmministrativo.getCapitale()));
+		soldi = new JLabel("Capitale:" + String.valueOf(Math.round(repartoAmministrativo.getCapitale())));
 		soldi.setVisible(false);
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1.0;

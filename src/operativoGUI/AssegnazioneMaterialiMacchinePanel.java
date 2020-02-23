@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
@@ -50,6 +52,8 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 
 	JTextArea spec;
 
+	JTextField quantita;
+	
 	JButton assegna;
 	JButton fine;
 	JList<String> prodotti;
@@ -74,6 +78,7 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 		opt = o;
 		assegna = new JButton("Assegna");
 		fine = new JButton("Fine");
+		quantita= new JTextField(8);
 		assegna.addActionListener(new Aggiunta());
 		fine.addActionListener(new Fine());
 		cl = new CardLayout();
@@ -84,7 +89,6 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 		mainPane.setLayout(cl);
 		mainPane.add(contentPane, "main");
 		contentPane.setLayout(new BorderLayout());
-		// contentPane.add(createListaMacchine(), BorderLayout.CENTER);
 		contentPane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1.0;
@@ -104,17 +108,27 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 			c.gridwidth = 7;
 			c.anchor = GridBagConstraints.LINE_START;
 			contentPane.add(createListaProdotti(), c);
+			c.gridx=9;
+			c.gridy=6;
+			c.gridwidth=1;
+			c.fill=GridBagConstraints.HORIZONTAL;
+			c.anchor=GridBagConstraints.EAST;
+			quantita.setBorder(BorderFactory.createTitledBorder("Quantità"));
+			contentPane.add(quantita,c);
 		}
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		c.gridx = 8;
 		c.gridy = 4;
+		c.gridwidth=1;
 		c.anchor = GridBagConstraints.WEST;
 		contentPane.add(assegna, c);
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		c.gridx = 8;
 		c.gridy = 8;
+		c.gridwidth=2;
+		c.fill=GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.WEST;
 		contentPane.add(fine, c);
 
@@ -186,10 +200,9 @@ public class AssegnazioneMaterialiMacchinePanel extends JPanel {
 	public class Aggiunta implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			if (opt != 1 && pane.isVisible() &&prodotti.getSelectedIndex()!=-1) {
-
-				int q = Integer.parseInt(JOptionPane.showInputDialog("Quantità disponibile in magazzino:"
-						+ prod.get(prodotti.getSelectedIndex()).getNumeroPezziDisponibili()));
+			if (opt != 1 && pane.isVisible() && prodotti.getSelectedIndex()!=-1 &&!quantita.getText().isEmpty()) {
+				
+				int q = Integer.parseInt(quantita.getText());
 				Prodotto buy = prod.get(prodotti.getSelectedIndex()).clone();
 				buy.setNumeroPezziDisponibili(q);
 				if (q > prod.get(prodotti.getSelectedIndex()).getNumeroPezziDisponibili()) {

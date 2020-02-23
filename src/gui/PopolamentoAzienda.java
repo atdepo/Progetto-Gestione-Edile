@@ -14,6 +14,7 @@ import approvviggionamento.Fornitore;
 import approvviggionamento.MacchineDaCantiere;
 import approvviggionamento.Prodotto;
 import dipendenti.Dirigente;
+import dipendenti.Impiegato;
 import dipendenti.Operaio;
 import dipendenti.Operaio.lavoro;
 import dipendenti.Quadro;
@@ -44,36 +45,37 @@ public class PopolamentoAzienda {
 	}
 
 	public void popola() {
-		ra.assumiOperaio("Gerardo", "Pascale", 19, lavoro.IDRAULICO);
-		ra.assumiOperaio("Michele", "Farina", 34, lavoro.MURATORE, 60);
-		ra.assumiOperaio("Ferdinando", "Della Mura", 31, lavoro.ELETTRICISTA);
-		ra.assumiOperaio("Giacomo", "Santaniello", 24, lavoro.PIASTRELLISTA);
-		ra.assumiOperaio("Francesco", "Bertolacci", 42, lavoro.IDRAULICO);
-		ra.assumiOperaio("Michele", "Sangiorgi", 21, lavoro.PIASTRELLISTA, 50);
-		ra.assumiOperaio("Giuseppe", "Tricarico", 36, lavoro.IDRAULICO);
-		ra.assumiOperaio("Gennaro", "Fusco", 39, lavoro.ELETTRICISTA, 30);
-		ra.assumiOperaio("PierGiorgio", "Favino", 35, lavoro.ELETTRICISTA);
-		ra.assumiOperaio("Giovanni", "Masculo", 27, lavoro.MURATORE);
-		ra.assumiOperaio("Salvatore", "Salierno", 48, lavoro.MURATORE);
-		ra.assumiOperaio("Gioacchino", "Massimini", 57, lavoro.MURATORE);
-		ra.assumiOperaio("Pierpaolo", "Panti", 41, lavoro.IDRAULICO);
-		ra.assumiOperaio("Giovanni", "Mastrocinque", 34, lavoro.ELETTRICISTA); // 14
+		
+		ra.assumiDipendente(new Operaio("Gerardo", "Pascale", 19, String.valueOf(ra.getNumOperai()) ,lavoro.IDRAULICO));
+		ra.assumiDipendente(new Operaio("Michele", "Farina", 34, String.valueOf(ra.getNumOperai()) , lavoro.MURATORE, 60));
+		ra.assumiDipendente(new Operaio("Ferdinando", "Della Mura", 31,String.valueOf(ra.getNumOperai()) , lavoro.ELETTRICISTA));
+		ra.assumiDipendente(new Operaio("Giacomo", "Santaniello", 24,String.valueOf(ra.getNumOperai()) , lavoro.PIASTRELLISTA));
+		ra.assumiDipendente(new Operaio("Francesco", "Bertolacci", 42,String.valueOf(ra.getNumOperai()) , lavoro.IDRAULICO));
+		ra.assumiDipendente(new Operaio("Michele", "Sangiorgi", 21, String.valueOf(ra.getNumOperai()) ,lavoro.PIASTRELLISTA, 50));
+		ra.assumiDipendente(new Operaio("Giuseppe", "Tricarico", 36,String.valueOf(ra.getNumOperai()) , lavoro.IDRAULICO));
+		ra.assumiDipendente(new Operaio("Gennaro", "Fusco", 39, String.valueOf(ra.getNumOperai()) ,lavoro.ELETTRICISTA, 30));
+		ra.assumiDipendente(new Operaio("PierGiorgio", "Favino", 35, String.valueOf(ra.getNumOperai()) ,lavoro.ELETTRICISTA));
+		ra.assumiDipendente(new Operaio("Giovanni", "Masculo", 27,String.valueOf(ra.getNumOperai()) , lavoro.MURATORE));
+		ra.assumiDipendente(new Operaio("Salvatore", "Salierno", 48,String.valueOf(ra.getNumOperai()) , lavoro.MURATORE));
+		ra.assumiDipendente(new Operaio("Gioacchino", "Massimini", 57,String.valueOf(ra.getNumOperai()) , lavoro.MURATORE));
+		ra.assumiDipendente(new Operaio("Pierpaolo", "Panti", 41,String.valueOf(ra.getNumOperai()) , lavoro.IDRAULICO));
+		ra.assumiDipendente(new Operaio("Giovanni", "Mastrocinque", 34, String.valueOf(ra.getNumOperai()) ,lavoro.ELETTRICISTA));
 
-		ra.assumiDirigente("Giuseppe", "Fognaro", 56);
-		ra.assumiDirigente("Mariasole", "Galasso", 20);
-		ra.assumiDirigente("Massimo", "D'Avino", 59);
-		ra.assumiDirigente("Ferdinando", "Gelsomini", 61);
-		ra.assumiDirigente("Fulvio", "Carotenuto", 22);
+		ra.assumiDipendente(new Dirigente("Giuseppe", "Fognaro", 56,String.valueOf(ra.getNumDirigenti())));
+		ra.assumiDipendente(new Dirigente("Mariasole", "Galasso", 20,String.valueOf(ra.getNumDirigenti())));
+		ra.assumiDipendente(new Dirigente("Massimo", "D'Avino", 59,String.valueOf(ra.getNumDirigenti())));
+		ra.assumiDipendente(new Dirigente("Ferdinando", "Gelsomini", 61,String.valueOf(ra.getNumDirigenti())));
+		ra.assumiDipendente(new Dirigente("Fulvio", "Carotenuto", 22,String.valueOf(ra.getNumDirigenti())));
 
-		ra.assumiQuadro("Filippo", "Massaro", 51);
-		ra.assumiQuadro("Raffaele", "Catena", 52);
-		ra.assumiQuadro("Domenico", "Ricca", 43);
-		ra.assumiQuadro("Federica", "Infantile", 23);
+		ra.assumiDipendente(new Quadro("Filippo", "Massaro", 51,String.valueOf(ra.getNumQuadri())));
+		ra.assumiDipendente(new Quadro("Raffaele", "Catena", 52,String.valueOf(ra.getNumQuadri())));
+		ra.assumiDipendente(new Quadro("Domenico", "Ricca", 43,String.valueOf(ra.getNumQuadri())));
+		ra.assumiDipendente(new Quadro("Federica", "Infantile", 23,String.valueOf(ra.getNumQuadri())));
 
-		ra.assumiImpiegato("Giovanni", "Della Casa", 52);
-		ra.assumiImpiegato("Gennaro", "Fortino", 32);
-		ra.assumiImpiegato("Gabriella", "Stanzione", 26);
-		ra.assumiImpiegato("Rocco", "Menichino", 22, 3);
+		ra.assumiDipendente(new Impiegato("Giovanni", "Della Casa", 52,String.valueOf(ra.getNumImpiegati())));
+		ra.assumiDipendente(new Impiegato("Gennaro", "Fortino", 32,String.valueOf(ra.getNumImpiegati())));
+		ra.assumiDipendente(new Impiegato("Gabriella", "Stanzione", 26,String.valueOf(ra.getNumImpiegati())));
+		ra.assumiDipendente(new Impiegato("Rocco", "Menichino", 22, String.valueOf(ra.getNumImpiegati()),3));
 
 		Fornitore f1 = new Fornitore("Edilizia Facile");
 		f1.aggiungiProdotto(new Prodotto("Vite", "Alluminio", "", 0.5, 0.2, 0.1, 0.05, 0, 0, 0.25, 700));
