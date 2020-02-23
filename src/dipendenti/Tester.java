@@ -1,6 +1,5 @@
 package dipendenti;
 
-import dipendenti.Operaio.lavoro;
 
 public class Tester {
 
@@ -9,7 +8,7 @@ public class Tester {
 	public static void main(String[] args) {
 		System.out.println("Tester del pacchetto 'dipendenti'\n");
 		System.out.println("Istanzio un operaio con una specializzazione di muratore");
-		Operaio o= new Operaio("Paolo", "Apostolico", 24, "012", lavoro.MURATORE);
+		Operaio o= new Operaio("Paolo", "Apostolico", 24, "012","MURATORE");
 		System.out.println(o);
 		
 		System.out.println("Controllo se l'operaio è impegnato="+o.isImpegnato());

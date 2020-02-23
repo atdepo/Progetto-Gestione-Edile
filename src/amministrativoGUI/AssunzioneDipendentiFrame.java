@@ -39,7 +39,7 @@ public class AssunzioneDipendentiFrame extends JFrame {
 	JTextField e;
 	JTextField g;
 
-	JComboBox<Operaio.lavoro> lavori;
+	JComboBox<String> lavori;
 
 	JButton assumi;
 
@@ -276,11 +276,10 @@ public class AssunzioneDipendentiFrame extends JFrame {
 
 	private JPanel pannelloLavoro() {
 		JPanel pane = new JPanel();
-		lavori = new JComboBox<Operaio.lavoro>();
-		lavori.addItem(Operaio.lavoro.ELETTRICISTA);
-		lavori.addItem(Operaio.lavoro.IDRAULICO);
-		lavori.addItem(Operaio.lavoro.MURATORE);
-		lavori.addItem(Operaio.lavoro.PIASTRELLISTA);
+		lavori = new JComboBox<String>();
+		for(String s:Operaio.getLavori()) {
+			lavori.addItem(s);
+		}
 		JLabel label = new JLabel("Lavoro         ");
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints cc = new GridBagConstraints();
@@ -348,13 +347,13 @@ public class AssunzioneDipendentiFrame extends JFrame {
 					if (o.getText().isEmpty()) {
 
 						ra.assumiDipendente(new Operaio(nome, cognome, eta, String.valueOf(ra.getNumOperai() + 1),
-								(Operaio.lavoro) lavori.getSelectedItem()));
+								(String) lavori.getSelectedItem()));
 						JOptionPane.showMessageDialog(null,
 								"Non è stato inserito il numero di ore, ne verrà assegnato un numero standard");
 					} else {
 
 						ra.assumiDipendente(new Operaio(nome, cognome, eta, String.valueOf(ra.getNumOperai() + 1),
-								(Operaio.lavoro) lavori.getSelectedItem(), Integer.parseInt(o.getText())));
+								(String) lavori.getSelectedItem(), Integer.parseInt(o.getText())));
 					}
 					root.dispose();
 					new RepartoAmministrativoFrame(azienda);

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import dipendenti.Dipendente;
 import dipendenti.Dirigente;
 import dipendenti.Operaio;
-import dipendenti.Operaio.lavoro;
 import dipendenti.Quadro;
 import dipendenti.Responsabile;
 import eccezioni.OperaioOccupatoException;
@@ -34,14 +33,14 @@ public class Tester {
 		System.out.println("Creiamo una squadra di operai");
 		Squadra s= new Squadra(q);
 		try {
-			s.aggiungiOperaio(new Operaio("Gerardo", "Pascale", 19, "012",lavoro.IDRAULICO));
-			s.aggiungiOperaio(new Operaio("Francesco", "Bertolacci", 42,"0123",lavoro.IDRAULICO));
-			s.aggiungiOperaio(new Operaio("Giovanni", "Masculo", 27,"0124",lavoro.MURATORE));
+			s.aggiungiOperaio(new Operaio("Gerardo", "Pascale", 19, "012","IDRAULICO"));
+			s.aggiungiOperaio(new Operaio("Francesco", "Bertolacci", 42,"0123","IDRAULICO"));
+			s.aggiungiOperaio(new Operaio("Giovanni", "Masculo", 27,"0124","MURATORE"));
 			System.out.println(s.getOperai().get(0));
 			System.out.println(s.getOperai().get(1));
 			System.out.println(s.getOperai().get(2));
 			System.out.println("Proviamo ad aggiungere un operaio già occupato");
-			Operaio o= new Operaio("Paolo", "Apostolico", 24, "012", lavoro.MURATORE);
+			Operaio o= new Operaio("Paolo", "Apostolico", 24, "012", "MURATORE");
 			o.impegnaDipendente();
 			System.out.println(o);
 			s.aggiungiOperaio(o);
@@ -53,7 +52,7 @@ public class Tester {
 		ro.assegnaSquadra(can,s);
 		System.out.println("Ora il dirigente ha "+d.getNumeroOperai()+ " Operai nel suo cantiere");
 		System.out.println("Rimuoviamo un operaio dalla squadra");
-		Operaio o=new Operaio("Giovanni", "Masculo", 27,"0124",lavoro.MURATORE);
+		Operaio o=new Operaio("Giovanni", "Masculo", 27,"0124","MURATORE");
 		s.rimuoviOperaio(o);
 		System.out.println(o);
 		System.out.println("Rimuoviamo la squadra dal cantiere");

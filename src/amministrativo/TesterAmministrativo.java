@@ -9,7 +9,6 @@ import dipendenti.Dipendente;
 import dipendenti.Dirigente;
 import dipendenti.Impiegato;
 import dipendenti.Operaio;
-import dipendenti.Operaio.lavoro;
 import dipendenti.Quadro;
 import eccezioni.ProdottoNonTrovatoException;
 
@@ -21,7 +20,7 @@ public class TesterAmministrativo {
 		RepartoAmministrativo ra= new RepartoAmministrativo(100000, 10000, 1548784);
 		
 		System.out.println("Assumo un operaio");
-		ra.assumiDipendente(new Operaio("Gerardo", "Pascale", 19,String.valueOf(ra.getNumOperai()), lavoro.IDRAULICO));
+		ra.assumiDipendente(new Operaio("Gerardo", "Pascale", 19,String.valueOf(ra.getNumOperai()),"IDRAULICO"));
 		System.out.println(ra.getDipendenti().get(0));
 		
 		System.out.println("Assumo un dirigente");

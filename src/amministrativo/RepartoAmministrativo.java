@@ -13,7 +13,6 @@ import dipendenti.Impiegato;
 import dipendenti.Operaio;
 import dipendenti.Quadro;
 import eccezioni.ProdottoNonTrovatoException;
-import dipendenti.Operaio.lavoro;
 
 /**
  * Questa classe cattura il concetto di un RepartoAmministrativo di un cantiere.
