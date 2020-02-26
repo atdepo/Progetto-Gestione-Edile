@@ -2,8 +2,6 @@ package dipendenti;
 
 import java.util.ArrayList;
 
-import amministrativo.Contratto;
-
 /**
  * Questa classe cattura il concetto di un <b>Operaio</b>. Un operaio possiede
  * una particolare specializzazione che individua il tipo di lavoro effettuato.

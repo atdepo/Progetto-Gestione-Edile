@@ -2,7 +2,6 @@ package dipendenti;
 
 import java.io.Serializable;
 
-import amministrativo.Contratto;
 import eccezioni.DipendenteNonAssumibileException;
 
 /**

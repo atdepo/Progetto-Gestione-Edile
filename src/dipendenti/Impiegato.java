@@ -1,7 +1,5 @@
 package dipendenti;
 
-import amministrativo.Contratto;
-
 /**
  *Questa classe cattura il concetto di un <b>Impiegato</b>.
  *Un impiegato viene pagato mensilmente in base ai giorni lavorati ogni settimana.

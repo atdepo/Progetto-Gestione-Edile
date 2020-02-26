@@ -1,7 +1,5 @@
 package dipendenti;
 
-import amministrativo.Contratto;
-
 /**
  * Questa classe cattura il concetto di un <b>Quadro</b>. Un Quadro può essere
  * responsabile di un cantiere quando il suo valore è al di sotto di 500.000

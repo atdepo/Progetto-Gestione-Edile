@@ -1,7 +1,5 @@
 package dipendenti;
 
-import amministrativo.Contratto;
-
 /**
  * Questa classe cattura il concetto di Dirigente. Un <b>Dirigente</b> è
  * incaricato di gestire tutti i cantieri con una valutazione superiore a

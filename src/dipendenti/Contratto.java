@@ -1,4 +1,4 @@
-package amministrativo;
+package dipendenti;
 
 import java.io.Serializable;
 
