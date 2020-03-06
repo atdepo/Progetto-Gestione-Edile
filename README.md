@@ -4,4 +4,6 @@ La traccia richiedeva lo sviluppo di un software per la gestione di un'azienda e
 Il progetto è fornito di opportuna documentazione javadoc e di un esempio di popolazione inserito nel file "saves.dat". Per eseguire il programma sarà necessario eseguire il file `GestioneEdile.jar` contenuta nel pacchetto `utilities`.
 ## Avvio del programma
 ![mainWindow](doc/img/mainWindow.png)
+
+
 Questa è la schermata che si presenta all'avvio del programma in cui è possibile scegliere se caricare un azienda da un file,salvare l'azienda corrente su un file o crearne una nuova.
