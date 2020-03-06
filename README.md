@@ -24,4 +24,3 @@ _**Reparto Amministrativo**_ e _**Reparto Operativo**_.
 Il Reparto Amministrativo svolge le funzioni di:
 * assumere e pagare i dipendenti
 
-![ra](doc/img/ra1.png)
