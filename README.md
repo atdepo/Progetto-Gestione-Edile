@@ -27,5 +27,20 @@ Il Reparto Amministrativo svolge le funzioni di:
 
 ![ra](doc/img/ra1.png)
 
+* assegnare ore/giorni bonus (ove previsto dal contratto) oppure licenziare uno specifico dipendente selezionandolo
+
+
+![ra](doc/img/ra3.png)
+
+
+* generare dei report per alcuni criteri
+
+
+![ra](doc/img/ra5.png)
+
+
+
+
+
 
 
