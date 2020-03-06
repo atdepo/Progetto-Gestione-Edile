@@ -72,11 +72,6 @@ public class InitFrame extends JFrame {
 		this.revalidate();
 		this.repaint();
 		root = this;
-		// TODO eliminare
-		PopolamentoAzienda p = new PopolamentoAzienda();
-		p.popola();
-		azienda = p.getAzienda();
-
 	}
 	
 	public InitFrame(Azienda a) {

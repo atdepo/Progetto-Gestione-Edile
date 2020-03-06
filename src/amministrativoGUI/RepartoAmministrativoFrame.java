@@ -84,6 +84,8 @@ public class RepartoAmministrativoFrame extends JFrame {
 	ArrayList<MacchineDaCantiere> ma;
 	ArrayList<Fornitore> fo;
 
+	
+	
 	JTextArea spec;
 
 	JFrame root;
