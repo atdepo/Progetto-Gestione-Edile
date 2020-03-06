@@ -73,7 +73,7 @@ public class InitFrame extends JFrame {
 		this.repaint();
 		root = this;
 	}
-	
+
 	public InitFrame(Azienda a) {
 		super("Gestione Edile");
 		this.setVisible(true);
@@ -86,7 +86,7 @@ public class InitFrame extends JFrame {
 		this.revalidate();
 		this.repaint();
 		root = this;
-		azienda=a;
+		azienda = a;
 	}
 
 	public JPanel scelta() {
@@ -209,15 +209,14 @@ public class InitFrame extends JFrame {
 				new RepartoOperativoFrame(azienda);
 			}
 		});
-		JPanel desc= new JPanel();
-		desc.setLayout(new GridLayout(3,1));
+		JPanel desc = new JPanel();
+		desc.setLayout(new GridLayout(3, 1));
 		JLabel l = new JLabel();
 		JLabel l1 = new JLabel();
-		JLabel l2= new JLabel();
-		l.setText("Questa Azienda ha: " + azienda.getRepartoAmministrativo().getDipendenti().size()
-				+ " Dipendenti ");
-		l1.setText("Un capitale di:" + String.valueOf(azienda.getRepartoAmministrativo().getCapitale())+" Euro");
-		l2.setText("E "+azienda.getRepartoOperativo().getCantieri().size()+" Cantieri Aperti");
+		JLabel l2 = new JLabel();
+		l.setText("Questa Azienda ha: " + azienda.getRepartoAmministrativo().getDipendenti().size() + " Dipendenti ");
+		l1.setText("Un capitale di:" + String.valueOf(azienda.getRepartoAmministrativo().getCapitale()) + " Euro");
+		l2.setText("E " + azienda.getRepartoOperativo().getCantieri().size() + " Cantieri Aperti");
 		desc.add(l);
 		desc.add(l1);
 		desc.add(l2);
@@ -295,7 +294,7 @@ public class InitFrame extends JFrame {
 					repartoOperativo = new RepartoOperativo();
 					azienda = new Azienda(repartoAmministrativo, repartoOperativo);
 					root.dispose();
-					new RepartoOperativoFrame(azienda);
+					new SceltaFrame();
 				} else {
 					JOptionPane.showMessageDialog(null, "Inserisci dei dati corretti", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
@@ -324,7 +323,7 @@ public class InitFrame extends JFrame {
 			super("Scelta Reparto");
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setVisible(true);
-			this.setLocation(600,350);
+			this.setLocation(600, 350);
 			this.setSize(450, 300);
 			this.setLayout(new BorderLayout());
 			this.add(creaSceltaReparto(), BorderLayout.CENTER);
