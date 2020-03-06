@@ -7,3 +7,6 @@ Il progetto è fornito di opportuna documentazione javadoc e di un esempio di po
 
 
 Questa è la schermata che si presenta all'avvio del programma in cui è possibile scegliere se caricare un azienda da un file,salvare l'azienda corrente su un file o crearne una nuova.
+
+
+![new](doc/img/newAzienda.png)
