@@ -39,6 +39,19 @@ Il Reparto Amministrativo svolge le funzioni di:
 ![ra](doc/img/ra5.png)
 
 
+* e comprare materiali e macchine da una lista di fornitori
+
+
+![ra](doc/img/ra2.png)
+
+Attraverso l'utilizzo del menù si può cambiare reparto oppure tornare alla schermata principale per poter salvare
+![ra](doc/img/menu.png)
+
+
+
+## Reparto Operativo
+
+Svolge le funzioni di:
 
 
 
