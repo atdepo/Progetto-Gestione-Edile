@@ -6,10 +6,10 @@ Il progetto è fornito di opportuna documentazione javadoc consultabile [qui](ht
 Questa è la schermata che si presenta all'avvio del programma in cui è possibile scegliere se caricare un azienda da un file,salvare l'azienda corrente su un file o crearne una nuova.
 
 
-![mainWindow](doc/img/mainWindow.png)
+ <!-- ![mainWindow](doc/img/mainWindow.png)
 
 
-![new](doc/img/newAzienda.png)
+![new](doc/img/newAzienda.png)-->
 
 ## Scelta del Reparto
 In questa schermata sarà possibile **visualizzare** alcune informazioni sull'azienda che stiamo andando ad utilizzare e **scegliere** il reparto da visualizzare. Un'azienda si compone di due macro-reparti:
