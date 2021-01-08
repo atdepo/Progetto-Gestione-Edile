@@ -9,7 +9,7 @@ Questa è la schermata che si presenta all'avvio del programma in cui è possibi
  <!-- ![mainWindow](doc/img/mainWindow.png)
 
 
-<!-- ![new](doc/img/newAzienda.png)
+<!-- ![new](doc/img/newAzienda.png)-->
 
 ## Scelta del Reparto
 In questa schermata sarà possibile **visualizzare** alcune informazioni sull'azienda che stiamo andando ad utilizzare e **scegliere** il reparto da visualizzare. Un'azienda si compone di due macro-reparti:
